@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:animateLayoutChanges="true"
+
+    tools:context=".Home"
+    tools:showIn="@layout/activity_home">
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginTop="71dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="matrix"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/backgr_bottom" />
+
+    <ListView
+        android:id="@+id/lv_Home"
+        android:layout_width="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="@dimen/margin_inline_components"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_cboBasicDetailsHome"-->
+<!--                style="@style/Widget.AppCompat.ImageButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="@dimen/margin_inline_components"-->
+<!--                android:layout_marginTop="@dimen/margin_inline_components_plus_2"-->
+<!--                android:elevation="@dimen/spinner_height"-->
+<!--                app:cardCornerRadius="@dimen/radius_list_item">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/rl_cboBasicDetailsHome"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/gradient_header_back">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_optionsCboBasicDetailsHome"-->
+<!--                        style="@style/Widget.AppCompat.ImageButton"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:backgroundTint="@android:color/transparent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_marginTop="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginRight="@dimen/margin_inline_components"-->
+<!--                        android:padding="@dimen/margin_inline_components"-->
+<!--                        android:rotation="90"-->
+<!--                        android:src="@drawable/ic_right"-->
+<!--                        android:tint="@color/colorPrimary" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginVertical="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginLeft="@dimen/margin_inline_components_plus_2"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:paddingVertical="@dimen/space_between_multi_selected_item">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginRight="@dimen/header_right_margin"-->
+<!--                            android:gravity="center"-->
+<!--                            android:minHeight="70dp"-->
+<!--                            android:text="@string/title_cbo_basic_details"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:textColor="@color/colorPrimaryDark"-->
+<!--                            android:textSize="@dimen/my_header_text_size" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/ll_optionsCBOBasicDetailsHome"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_revertOrDelCboBasicDetailsHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_revert" />-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_editCboBasicDetailsHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_edit" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_connectionHome"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="@dimen/margin_inline_components"-->
+<!--                android:layout_marginTop="@dimen/margin_inline_components_plus_2"-->
+<!--                android:elevation="@dimen/spinner_height"-->
+<!--                app:cardCornerRadius="@dimen/radius_list_item">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/rl_connectionHome"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/gradient_header_back">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_optionsConnectionHome"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_marginTop="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginRight="@dimen/margin_inline_components"-->
+<!--                        android:padding="@dimen/margin_inline_components"-->
+<!--                        android:rotation="90"-->
+<!--                        android:src="@drawable/ic_right"-->
+<!--                        android:tint="@color/colorPrimary" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginVertical="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginLeft="@dimen/margin_inline_components_plus_2"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:paddingVertical="@dimen/space_between_multi_selected_item">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginRight="@dimen/header_right_margin"-->
+<!--                            android:gravity="center"-->
+<!--                            android:minHeight="70dp"-->
+<!--                            android:text="@string/title_cbo_connection_details"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:textColor="@color/colorPrimaryDark"-->
+<!--                            android:textSize="@dimen/my_header_text_size" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/ll_optionsConnectionHome"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_revertOrDelConnectionHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_revert" />-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_editConnectionHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_edit" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_coverageHome"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="@dimen/margin_inline_components"-->
+<!--                android:layout_marginTop="@dimen/margin_inline_components_plus_2"-->
+<!--                android:elevation="@dimen/spinner_height"-->
+<!--                app:cardCornerRadius="@dimen/radius_list_item">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/rl_coverageHome"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/gradient_header_back">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_optionsCoverageHome"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_marginTop="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginRight="@dimen/margin_inline_components"-->
+<!--                        android:padding="@dimen/margin_inline_components"-->
+<!--                        android:rotation="90"-->
+<!--                        android:src="@drawable/ic_right"-->
+<!--                        android:tint="@color/colorPrimary" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginVertical="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginLeft="@dimen/margin_inline_components_plus_2"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:paddingVertical="@dimen/space_between_multi_selected_item">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginRight="@dimen/header_right_margin"-->
+<!--                            android:gravity="center"-->
+<!--                            android:minHeight="70dp"-->
+<!--                            android:text="@string/title_coverage_by_scheme"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:textColor="@color/colorPrimaryDark"-->
+<!--                            android:textSize="@dimen/my_header_text_size" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/ll_optionsCoverageHome"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_revertOrDelCoverageHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_revert" />-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_editCoverageHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_edit" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_popHome"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="@dimen/margin_inline_components_plus_2"-->
+<!--                android:layout_marginHorizontal="@dimen/margin_inline_components"-->
+<!--                android:layout_marginTop="@dimen/margin_inline_components_plus_2"-->
+<!--                android:elevation="@dimen/spinner_height"-->
+<!--                app:cardCornerRadius="@dimen/radius_list_item">-->
+
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/rl_popHome"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/gradient_header_back">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_optionsPopHome"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_marginTop="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginRight="@dimen/margin_inline_components"-->
+<!--                        android:padding="@dimen/margin_inline_components"-->
+<!--                        android:rotation="90"-->
+<!--                        android:src="@drawable/ic_right"-->
+<!--                        android:tint="@color/colorPrimary" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginVertical="@dimen/margin_inline_components"-->
+<!--                        android:layout_marginLeft="@dimen/margin_inline_components_plus_2"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:paddingVertical="@dimen/space_between_multi_selected_item">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginRight="@dimen/header_right_margin"-->
+<!--                            android:gravity="center"-->
+<!--                            android:minHeight="70dp"-->
+<!--                            android:text="@string/title_population_served"-->
+<!--                            android:textAlignment="center"-->
+<!--                            android:textColor="@color/colorPrimaryDark"-->
+<!--                            android:textSize="@dimen/my_header_text_size" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/ll_optionsPopHome"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_revertOrDelPopHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_revert" />-->
+
+<!--                            <ImageButton-->
+<!--                                android:id="@+id/imgB_editPopHome"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:backgroundTint="@android:color/transparent"-->
+<!--                                android:src="@drawable/ic_edit" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </RelativeLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &#45;&#45;&ndash;&gt;-->
+
+
+<!--        </LinearLayout>-->
+    </ListView>
+
+    <!--    <ImageView
+android:layout_marginTop="@dimen/margin_inline_components"
+                        android:layout_marginRight="@dimen/margin_inline_components"-->
+    <!--        android:id="@+id/imageView3"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        android:scaleType="matrix"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:srcCompat="@drawable/backgr_bottom" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_CBOBasic"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="@dimen/home_button_height"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:backgroundTint="@color/blue"-->
+    <!--        android:text="Basic Details"-->
+    <!--        android:textColor="@color/colorWhite"-->
+    <!--        android:textSize="20dp"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/guideline"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_connection"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="@dimen/home_button_height"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:backgroundTint="@color/blue"-->
+    <!--        android:text="Connection"-->
+    <!--        android:textColor="@color/colorWhite"-->
+    <!--        android:textSize="20dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/guideline"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_cover"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="@dimen/home_button_height"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:backgroundTint="@color/blue"-->
+    <!--        android:text="Covereage"-->
+    <!--        android:textColor="@color/colorWhite"-->
+    <!--        android:textSize="20dp"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/guideline"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btn_CBOBasic" />-->
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_popular"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="@dimen/home_button_height"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:backgroundTint="@color/blue"-->
+    <!--        android:text="Population Served"-->
+    <!--        android:textColor="@color/colorWhite"-->
+    <!--        android:textSize="20dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/guideline"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btn_connection" />-->
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_continue"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        android:backgroundTint="@color/btnSave"-->
+    <!--        android:drawableEnd="@drawable/ic_navigate_next"-->
+    <!--        android:drawablePadding="@dimen/space_between_components"-->
+    <!--        android:paddingHorizontal="@dimen/button_padding_h"-->
+    <!--        android:paddingVertical="@dimen/button_padding_v"-->
+    <!--        android:text="Continue"-->
+    <!--        android:textColor="@color/colorWhite"-->
+    <!--        android:textSize="36sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WaterSafetyAndClimate.WaterSafetyAndClimate">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:paddingVertical="@dimen/page_padding_v"
+        android:paddingHorizontal="@dimen/page_padding_v"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_exQA"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Existing QA"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/btn_catch"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Catchment"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_treat"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Treatment"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_exQA" />
+
+        <Button
+            android:id="@+id/btn_dist"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Distribution"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/btn_catch" />
+
+        <Button
+            android:id="@+id/btn_cli"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Climate and DRR"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="0.638"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_treat" />
+
+        <Button
+            android:id="@+id/btn_gov"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Governance and Conflict"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.047"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/btn_dist" />
+
+        <Button
+            android:id="@+id/btn_obs"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_button_height"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight=".5"
+            android:backgroundTint="@color/blue"
+            android:paddingHorizontal="@dimen/button_padding_h"
+
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Observation"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/label_text_size"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_cli" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+</ScrollView>

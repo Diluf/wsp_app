@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">wsp</string>
+    <string name="water_safety_survey">Water Safety Survey</string>
+    <string name="community_managed_water_supply_schemes">Community Managed Water Supply Schemes</string>
+
+    <!--Titles-->
+    <string name="title_end_user_ass">End-user assessment at household level</string>
+    <string name="title_water_safety">Water safety and climate resilience</string>
+    <!--    -->
+    <string name="title_activity_home">WSP</string>
+    <string name="title_available_cbo">Available CBO for data collection</string>
+    <string name="title_cbo_basic_details">CBO Basic Details</string>
+    <string name="title_cbo_connection_details">CBO Connection Details</string>
+    <string name="title_coverage_by_scheme">Coverage By the Scheme</string>
+    <string name="title_population_served">Population Served</string>
+    <string name="title_existing_qa">Existing Quality Assurance</string>
+    <string name="title_catchment">Catchment</string>
+    <string name="title_treatment_sys">Treatment System</string>
+    <string name="title_dist_sys">Distribution system</string>
+    <string name="title_climate">Climate resilience and Disaster Risk Reduction</string>
+    <string name="title_responsive_gover">Responsive and inclusive governance and conflict mitigation</string>
+    <string name="title_obs">Observation</string>
+    <!--    -->
+    <string name="title_basic_info">Basic information of the householder owner</string>
+    <string name="title_water_ad">Water Adequacy</string>
+    <string name="title_water_qual">Water Quality</string>
+    <string name="title_household_storage">Household Storage</string>
+    <string name="title_water_health">Water - Health</string>
+    <string name="title_water_saving">Water Saving</string>
+
+
+</resources>

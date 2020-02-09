@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PopulationServed">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:paddingHorizontal="@dimen/page_padding_h"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/page_padding_v"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Gender"
+            android:textStyle="bold"
+            android:textSize="@dimen/label_text_size"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:paddingVertical="@dimen/page_padding_h"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:background="@drawable/spinner_back"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Male"
+                    android:inputType="numberSigned"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/space_between_components"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
+                    android:hint="Female" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Age"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/space_between_components"
+            android:textSize="@dimen/label_text_size"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:paddingVertical="@dimen/page_padding_h"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:background="@drawable/spinner_back"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Less than 18 years old"
+                    android:inputType="numberSigned"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/space_between_components"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
+                    android:hint="18 - 25 years" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/space_between_components"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
+                    android:hint="Elder than 25 years" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="@dimen/space_between_components"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:hint="No of disability people served by" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:layout_marginTop="@dimen/space_between_components"
+            android:layout_width="@dimen/button_width"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:textColor="@color/colorWhite"
+            android:paddingVertical="@dimen/page_padding_v"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:textSize="@dimen/button_text_size"
+            android:text="Save"
+            android:backgroundTint="@color/btnSave"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EndUserAssessment.WaterQuality">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/page_padding_h"
+        android:paddingVertical="@dimen/page_padding_v">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="For what purposes water from community water supply is used at domestic
+level"
+            android:textSize="@dimen/label_text_size" />
+
+        <LinearLayout
+            android:id="@+id/ll_forWhat_WaterQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/spinner_back"
+            android:orientation="vertical"
+            android:padding="@dimen/page_padding_h" />
+
+        <Button
+            android:id="@+id/btn_rForWhat_WaterQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/colorDarkGray"
+            android:drawableLeft="@drawable/ic_resynch"
+            android:drawablePadding="@dimen/drawable_padding_with_text"
+            android:text="Resynchronize"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/space_between_components"
+            android:text="Do you satisfy about the quality of the community water supply"
+            android:textSize="@dimen/label_text_size" />
+
+        <Spinner
+            android:id="@+id/spinner_doYouSat_WaterQuality"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/textView8"
+            android:background="@drawable/spinner_back"></Spinner>
+
+        <Button
+            android:id="@+id/btn_rDoYouSat_WaterQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/colorDarkGray"
+            android:drawableLeft="@drawable/ic_resynch"
+            android:drawablePadding="@dimen/drawable_padding_with_text"
+            android:text="Resynchronize"
+            android:textColor="@color/colorWhite" />
+
+        <!--        Optional Area start-->
+
+        <LinearLayout
+            android:id="@+id/ll_optional_pleasePro_WaterQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect_back"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_v">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Please provide reasons"
+                android:textSize="@dimen/label_text_size" />
+
+            <LinearLayout
+                android:id="@+id/ll_pleasePro_WaterQuality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_back"
+                android:orientation="vertical"
+                android:padding="@dimen/page_padding_h" />
+
+            <Button
+                android:id="@+id/btn_rPleasePro_WaterQuality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <!--        Optional Area end-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/space_between_components"
+            android:text="Do you treat water before drinking?"
+            android:textSize="@dimen/label_text_size" />
+
+        <Spinner
+            android:id="@+id/spinner_doYouTreat_WaterQuality"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/textView8"
+            android:background="@drawable/spinner_back"></Spinner>
+
+        <Button
+            android:id="@+id/btn_rDoYouTreat_WaterQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/colorDarkGray"
+            android:drawableLeft="@drawable/ic_resynch"
+            android:drawablePadding="@dimen/drawable_padding_with_text"
+            android:text="Resynchronize"
+            android:textColor="@color/colorWhite" />
+
+        <!--        Optional Area start-->
+
+        <LinearLayout
+            android:id="@+id/ll_optional_whatAre_WaterQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect_back"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_v">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="What are the reasons"
+                android:textSize="@dimen/label_text_size" />
+
+            <LinearLayout
+                android:id="@+id/ll_whatAre_WaterQuality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_back"
+                android:orientation="vertical"
+                android:padding="@dimen/page_padding_h" />
+
+            <Button
+                android:id="@+id/btn_rWhatAre_WaterQuality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <!--        Optional Area end-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/space_between_components"
+            android:text="If water is treated, how do you treat your water before drinking (multiple
+options are possible)"
+            android:textSize="@dimen/label_text_size" />
+
+        <LinearLayout
+            android:id="@+id/ll_ifWater_WaterQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/spinner_back"
+            android:orientation="vertical"
+            android:padding="@dimen/page_padding_h" />
+
+        <Button
+            android:id="@+id/btn_rIfWater_WaterQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/colorDarkGray"
+            android:drawableLeft="@drawable/ic_resynch"
+            android:drawablePadding="@dimen/drawable_padding_with_text"
+            android:text="Resynchronize"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/space_between_components"
+            android:backgroundTint="@color/btnSave"
+            android:paddingHorizontal="@dimen/button_padding_h"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:text="Save"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/button_text_size" />
+
+    </LinearLayout>
+
+</ScrollView>

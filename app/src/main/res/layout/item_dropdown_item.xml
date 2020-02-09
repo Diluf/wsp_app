@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_rightItemDropDownItem"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_done_black_24dp"
+            android:tint="@color/greenDark"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_item_ItemDropdownItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingRight="55dp"
+            android:text="jhygh klkl lkjl lkl lklkj ljlkjl jklkjl jlkjllkl lkjl lkl lkl lkl lkjlj"
+            android:textColor="@color/black"
+            android:textSize="@dimen/universal_text_size" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_seperator_ItemDropdown"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="@dimen/spinner_height"
+        android:alpha=".1"
+        android:background="@color/colorAccent" />
+
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0960bd</color>
+    <color name="colorPrimaryDark">#011f3f</color>
+    <color name="colorAccent">#b21f66</color>
+
+
+    <!--////-->
+
+    <color name="colorWhite">#FFF</color>
+    <color name="colorGray">#70cccccc</color>
+    <color name="colorGray_half">#999</color>
+    <color name="colorDarkGray">#7d7d7d</color>
+    <color name="blue">#1089ff</color>
+    <color name="green">#15cda8</color>
+    <color name="black">#000</color>
+    <color name="greenDark">#0b8457</color>
+<!--    Buttons-->
+    <color name="btnSave">#011f3f</color>
+    <color name="btnRefresh">#0960bd</color>
+    <color name="btnAddNew">#b21f66</color>
+
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.debugsire.wsp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".EndUserAssessment.WaterSaving"
+            android:label="@string/title_water_saving"></activity>
+        <activity
+            android:name=".EndUserAssessment.WaterHealth"
+            android:label="@string/title_water_health" />
+        <activity
+            android:name=".EndUserAssessment.HouseholdStorage"
+            android:label="@string/title_household_storage" />
+        <activity
+            android:name=".EndUserAssessment.WaterQuality"
+            android:label="@string/title_water_qual" />
+        <activity
+            android:name=".EndUserAssessment.WaterAdequacy"
+            android:label="@string/title_water_ad" />
+        <activity
+            android:name=".EndUserAssessment.BasicInfoOfHousehold"
+            android:label="@string/title_basic_info" />
+        <activity
+            android:name=".EndUserAssessment.EndUserAssessment"
+            android:label="@string/title_end_user_ass" />
+        <activity
+            android:name=".WaterSafetyAndClimate.Observation"
+            android:label="@string/title_obs" />
+        <activity
+            android:name=".WaterSafetyAndClimate.Governance"
+            android:label="@string/title_responsive_gover" />
+        <activity
+            android:name=".WaterSafetyAndClimate.ClimateAndDdr"
+            android:label="@string/title_climate" />
+        <activity
+            android:name=".WaterSafetyAndClimate.Distribution"
+            android:label="@string/title_dist_sys" />
+        <activity
+            android:name=".WaterSafetyAndClimate.Treatment"
+            android:label="@string/title_treatment_sys" />
+        <activity
+            android:name=".WaterSafetyAndClimate.Catchment"
+            android:label="@string/title_catchment" />
+        <activity
+            android:name=".WaterSafetyAndClimate.ExistingQa"
+            android:label="@string/title_existing_qa" />
+        <activity
+            android:name=".WaterSafetyAndClimate.WaterSafetyAndClimate"
+            android:label="@string/title_water_safety" />
+        <activity
+            android:name=".PopulationServed"
+            android:label="@string/title_population_served" />
+        <activity
+            android:name=".CoverageByTheScheme"
+            android:label="@string/title_coverage_by_scheme" />
+        <activity
+            android:name=".CboConnectionDetails"
+            android:label="@string/title_cbo_connection_details" />
+        <activity
+            android:name=".CboBasicDetails"
+            android:label="@string/title_cbo_basic_details" />
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AvailableCBO"
+            android:label="@string/title_available_cbo"/>
+        <activity
+            android:name=".SignIn"
+            android:windowSoftInputMode="adjustPan|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
