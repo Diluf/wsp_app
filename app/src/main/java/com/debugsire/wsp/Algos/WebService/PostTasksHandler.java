@@ -28,11 +28,7 @@ import org.json.JSONObject;
 
 public class PostTasksHandler {
 
-    Methods methods;
-
-    public PostTasksHandler(Methods methods) {
-        this.methods = methods;
-    }
+    Methods methods = new Methods();
 
     public void checkLogin(Context context, String response, boolean saveOnDB) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);

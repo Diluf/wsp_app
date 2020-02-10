@@ -12,14 +12,15 @@ import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,13 +34,18 @@ import com.debugsire.wsp.Algos.DB.MyDB;
 import com.debugsire.wsp.Algos.WebService.Model.WebRefferences;
 import com.debugsire.wsp.R;
 import com.debugsire.wsp.Algos.WebService.*;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
 
+
 public class Methods {
+    private static final String TAG = "Methods+++ ";
+
+
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -52,9 +58,9 @@ public class Methods {
         return MyConstants.SIMPLE_DATETIME_FORMAT.format(new Date());
     }
 
-    public static String configNull(JSONObject jsonObject, String key) throws JSONException {
+    public static String configNull(JSONObject jsonObject, String key, String defaultValue) throws JSONException {
         if (jsonObject.isNull(key)) {
-            return "-";
+            return defaultValue;
         }
         return jsonObject.getString(key).trim();
     }
@@ -183,6 +189,60 @@ public class Methods {
         builder.create().show();
     }
 
+    public void setAlertDialogOnAddNew(final Context context, final String tableKey, final Spinner spinner) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.dialog_add_new_dropdown, null);
+
+        final AlertDialog builder = new AlertDialog.Builder(context).setView(view).setCancelable(false).create();
+        builder.setCancelable(false);
+
+        final TextInputLayout name = view.findViewById(R.id.til_nameDialogAddNewDropdown);
+        final TextView errorMessage = view.findViewById(R.id.tv_errorDialogAddNewDropdown);
+        Button cancel = view.findViewById(R.id.btn_cancelDialogAddNewDropdown);
+        Button save = view.findViewById(R.id.btn_SaveDialogAddNewDropdown);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spinner.setSelection(0);
+                builder.dismiss();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer negativeId = getMaxNegativeId("wsp_droplist");
+                String s = name.getEditText().getText().toString().trim();
+
+                if (!isAvailOnTwoConditionsDB("wsp_droplist", "ref_section", tableKey, "display_label", s)) {
+                    MyDB.setData("INSERT INTO wsp_droplist VALUES (" +
+                            " '" + negativeId + "', " +
+                            " '" + tableKey + "', " +
+                            " '" + negativeId + "', " +
+                            " '" + s + "', " +
+                            " '1', " +
+                            " '" + Methods.getNowDateTime() + "' " +
+                            ")");
+                    showToast("Successfully saved!", context, MyConstants.MESSAGE_SUCCESS);
+                    new PostTasksHandler().checkAndWorkOnSpinner(context, tableKey);
+//                    if () {
+//
+//                    }
+                    spinner.setSelection(spinner.getCount() - 2, true);
+                    builder.dismiss();
+                } else {
+                    errorMessage.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+
+                }
+
+
+            }
+        });
+
+        builder.show();
+    }
+
     public JSONObject getLoggedUserName() {
         Cursor data = MyDB.getData("SELECT * FROM user");
         JSONObject object = new JSONObject();
@@ -202,6 +262,12 @@ public class Methods {
 
     public boolean isAvailOnDB(String from, String where, String value) {
         return MyDB.getData("SELECT * FROM " + from + " WHERE " + where + " = '" + value + "' ").getCount() != 0;
+
+    }
+
+    public boolean isAvailOnTwoConditionsDB(String from, String where1, String value1, String where2, String value2) {
+        return MyDB.getData("SELECT * FROM " + from + " WHERE " + where1 + " = '" + value1 + "' AND " +
+                " " + where2 + " = '" + value2 + "' ").getCount() != 0;
 
     }
 
@@ -249,11 +315,39 @@ public class Methods {
                     color, PorterDuff.Mode.SRC_ATOP);
         }
 
-//Gets the TextView from the Toast so it can be editted
+//Gets the TextView from the Toast so it can be edited
         ((TextView) v.findViewById(android.R.id.message)).setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
 
         toast.show();
     }
+
+
+    public Cursor getCursorBySelectedCBONum(Context context, String tableName) {
+        return MyDB.getData("SELECT * FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "'");
+    }
+
+    public Integer getMaxNegativeId(String tableName) {
+        Cursor data = MyDB.getData("SELECT MIN(id) FROM " + tableName);
+        while (data.moveToNext()) {
+            int i = Integer.parseInt(data.getString(data.getColumnIndex("MIN(id)")));
+            if (i == 0 || i == 1) {
+                return -10;
+            }
+            return i - 1;
+        }
+        return -10;
+    }
+
+
+    //////
+    //////
+    //////
+    //////
+    //////
+    //////
+    //////
+    //////
+    //////
 
 
     public static String getCBONum(Context context) {
@@ -272,7 +366,58 @@ public class Methods {
         editor.apply();
     }
 
-    public Cursor getCursorBySelectedCBONum(Context context, String tableName) {
-        return MyDB.getData("SELECT * FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "'");
+
+    public void loadAnim(Button button, ImageView animation, Context context, boolean isShowAnim) {
+        if (isShowAnim) {
+            button.setEnabled(false);
+            button.setAlpha(.5f);
+            animation.setVisibility(View.VISIBLE);
+            animation.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_infinite));
+
+        } else {
+            button.setEnabled(true);
+            button.setAlpha(1f);
+            if (animation.getAnimation() != null) {
+                animation.getAnimation().cancel();
+                animation.getAnimation().reset();
+            }
+//            animation.startAnimation();
+            animation.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isTILFieldsNull(Context context, TextInputLayout... textInputLayouts) {
+        boolean b = false;
+        for (TextInputLayout textInputLayout :
+                textInputLayouts) {
+            if (textInputLayout.getEditText().getText() == null
+                    || textInputLayout.getEditText().getText().toString().trim().isEmpty()) {
+                if (!b) {
+                    b = true;
+                }
+                textInputLayout.setErrorTextAppearance(R.style.error_appearance);
+                textInputLayout.setError(context.getString(R.string.error_cannot_be_empty));
+            }
+        }
+
+        return b;
+    }
+
+    public boolean isSpinnerNull(Context context, Spinner... spinners) {
+        boolean b = false;
+        for (Spinner spinner :
+                spinners) {
+            if (spinner.getSelectedItem().toString().trim().equalsIgnoreCase("-")) {
+                if (!b) {
+                    b = true;
+                }
+                TextView errorText = (TextView) spinner.getSelectedView();
+                errorText.setError("");
+                errorText.setTextColor(context.getColor(R.color.colorAccent));//just to highlight that this is an error
+                errorText.setText(context.getString(R.string.error_cannot_be_empty));
+            }
+
+        }
+        return b;
     }
 }

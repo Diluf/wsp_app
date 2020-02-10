@@ -3,6 +3,10 @@
     <string name="water_safety_survey">Water Safety Survey</string>
     <string name="community_managed_water_supply_schemes">Community Managed Water Supply Schemes</string>
 
+
+    <string name="LOCATION_PERMISSION_TITLE">WSP need to access your current location</string>
+    <string name="LOCATION_PERMISSION_BODY">Allow wsp to access current location to retrieve location details from your device.</string>
+
     <!--Titles-->
     <string name="title_end_user_ass">End-user assessment at household level</string>
     <string name="title_water_safety">Water safety and climate resilience</string>
@@ -27,6 +31,10 @@
     <string name="title_household_storage">Household Storage</string>
     <string name="title_water_health">Water - Health</string>
     <string name="title_water_saving">Water Saving</string>
+
+
+<!--    Error Messages-->
+    <string name="error_cannot_be_empty">Cannot be empty</string>
 
 
 </resources>

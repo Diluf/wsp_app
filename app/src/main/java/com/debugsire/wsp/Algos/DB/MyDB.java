@@ -52,7 +52,7 @@ public class MyDB {
 
 
         database.execSQL("CREATE TABLE IF NOT EXISTS wsp_droplist (" +
-                " id VARCHAR, " +
+                " id INTEGER, " +
                 " ref_section VARCHAR, " +
                 " value INTEGER, " +
                 " display_label VARCHAR, " +
@@ -156,6 +156,30 @@ public class MyDB {
         ///////////////////
         ///////////////////
         ///////////////////
+
+
+
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS cboBasicDetails (" +
+                " CBONum VARCHAR," +
+                " name VARCHAR, " +
+                " assNum VARCHAR, " +
+                " street VARCHAR, " +
+                " road VARCHAR," +
+                " village VARCHAR," +
+                " town VARCHAR," +
+                " manWss INTEGER," +
+                " lon VARCHAR," +
+                " lat VARCHAR," +
+                " height VARCHAR," +
+                " acc VARCHAR," +
+                " userName VARCHAR, " +
+                " dateTime_ DATETIME " +
+                " )");
+
+
+
+
 //        database.execSQL("CREATE TABLE IF NOT EXISTS braPump (" +
 //                " name VARCHAR, " +
 //                " status VARCHAR, " +

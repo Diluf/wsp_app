@@ -32,7 +32,7 @@ public class PostTasks {
         }
 
         if (face == MyConstants.ACTION_RESYNCH_DROP_LIST) {
-            new PostTasksHandler(methods).checkAndWorkOnSpinner(context, tableKey);
+            new PostTasksHandler().checkAndWorkOnSpinner(context, tableKey);
             methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
             progressDialog.dismiss();
 
@@ -74,7 +74,7 @@ public class PostTasks {
     //Without Dialog Things
     public PostTasks(Context context, int face, String response) throws JSONException {
         if (face == MyConstants.SIGN_IN) {
-            new PostTasksHandler(methods).checkLogin(context, response, true);
+            new PostTasksHandler().checkLogin(context, response, true);
             SignIn signIn = (SignIn) context;
             signIn.showProgress(false);
         }
