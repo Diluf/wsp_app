@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.debugsire.wsp.Algos.DB.MyDB;
+import com.debugsire.wsp.AvailableCBO;
+import com.debugsire.wsp.CoverageByTheScheme;
 import com.debugsire.wsp.R;
 
 import java.util.ArrayList;
@@ -18,10 +20,18 @@ public class DropdownAdapter extends BaseAdapter {
     ArrayList arrayList;
     Context context;
     LayoutInflater layoutInflater;
+    String idGnd;
 
     public DropdownAdapter(Context context, ArrayList arrayList) {
         this.arrayList = arrayList;
         this.context = context;
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public DropdownAdapter(Context context, ArrayList arrayList, String idGnd) {
+        this.arrayList = arrayList;
+        this.context = context;
+        this.idGnd = idGnd;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -46,9 +56,16 @@ public class DropdownAdapter extends BaseAdapter {
         TextView textView = view.findViewById(R.id.tv_item_ItemDropdownItem);
         textView.setText(arrayList.get(i).toString());
 
-        if (MyDB.getData("SELECT * FROM cboBasicDetails WHERE name = '" + arrayList.get(i).toString() + "'").getCount() != 0) {
-            ((ImageView) view.findViewById(R.id.image_rightItemDropDownItem)).setVisibility(View.VISIBLE);
+        if (context instanceof AvailableCBO) {
+            if (MyDB.getData("SELECT * FROM cboBasicDetails WHERE name = '" + arrayList.get(i).toString() + "'").getCount() != 0) {
+                ((ImageView) view.findViewById(R.id.image_rightItemDropDownItem)).setVisibility(View.VISIBLE);
 
+            }
+        } else if (context instanceof CoverageByTheScheme) {
+            if (MyDB.getData("SELECT * FROM coverageInfoFilled WHERE idGnd = '" + idGnd + "'").getCount() != 0) {
+                ((ImageView) view.findViewById(R.id.image_rightItemDropDownItem)).setVisibility(View.VISIBLE);
+
+            }
         }
 
         if (i == arrayList.size() - 1) {

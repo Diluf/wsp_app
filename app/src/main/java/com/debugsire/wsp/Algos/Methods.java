@@ -26,20 +26,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
 import com.debugsire.wsp.Algos.DB.MyDB;
+import com.debugsire.wsp.Algos.WebService.AsyncWebService;
 import com.debugsire.wsp.Algos.WebService.Model.WebRefferences;
+import com.debugsire.wsp.Algos.WebService.PostTasksHandler;
 import com.debugsire.wsp.R;
-import com.debugsire.wsp.Algos.WebService.*;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 
 public class Methods {
@@ -63,6 +64,13 @@ public class Methods {
             return defaultValue;
         }
         return jsonObject.getString(key).trim();
+    }
+
+    public static String configNull(String value, String defaultValue) {
+        if (value == null || value.trim().isEmpty()) {
+            return defaultValue;
+        }
+        return value.trim();
     }
 
 
@@ -215,7 +223,7 @@ public class Methods {
                 Integer negativeId = getMaxNegativeId("wsp_droplist");
                 String s = name.getEditText().getText().toString().trim();
 
-                if (!isAvailOnTwoConditionsDB("wsp_droplist", "ref_section", tableKey, "display_label", s)) {
+                if (!isAvailOnDB("wsp_droplist", "ref_section", tableKey, "display_label", s)) {
                     MyDB.setData("INSERT INTO wsp_droplist VALUES (" +
                             " '" + negativeId + "', " +
                             " '" + tableKey + "', " +
@@ -260,12 +268,25 @@ public class Methods {
         return object;
     }
 
+    public String getLoggedUserNameAsString() {
+        Cursor data = MyDB.getData("SELECT * FROM user");
+        while (data.moveToNext()) {
+            return data.getString(data.getColumnIndex("userName"));
+        }
+        return "";
+    }
+
     public boolean isAvailOnDB(String from, String where, String value) {
         return MyDB.getData("SELECT * FROM " + from + " WHERE " + where + " = '" + value + "' ").getCount() != 0;
 
     }
 
-    public boolean isAvailOnTwoConditionsDB(String from, String where1, String value1, String where2, String value2) {
+    public boolean isAvailOnDB(String tableName) {
+        return MyDB.getData("SELECT * FROM " + tableName + "").getCount() != 0;
+
+    }
+
+    public boolean isAvailOnDB(String from, String where1, String value1, String where2, String value2) {
         return MyDB.getData("SELECT * FROM " + from + " WHERE " + where1 + " = '" + value1 + "' AND " +
                 " " + where2 + " = '" + value2 + "' ").getCount() != 0;
 
@@ -324,6 +345,14 @@ public class Methods {
 
     public Cursor getCursorBySelectedCBONum(Context context, String tableName) {
         return MyDB.getData("SELECT * FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "'");
+    }
+
+    public Cursor getCursor(String tableName) {
+        return MyDB.getData("SELECT * FROM " + tableName);
+    }
+
+    public Cursor getCursor(String from, String where, String value) {
+        return MyDB.getData("SELECT * FROM " + from + " WHERE " + where + " = '" + value + "' ");
     }
 
     public Integer getMaxNegativeId(String tableName) {
@@ -419,5 +448,27 @@ public class Methods {
 
         }
         return b;
+    }
+
+    public void setSelctedItemForSpinner(int value, Integer[] values, Spinner spinner) {
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] == value) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
+    }
+
+    public AlertDialog getSaveConfirmationDialog(Context context, boolean isUpdate) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        if (isUpdate) {
+            builder.setMessage("Data will be update. Wish to continue?");
+
+        } else {
+            builder.setMessage("Data will be save. Wish to continue?");
+
+        }
+        return builder.create();
+
     }
 }

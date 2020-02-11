@@ -158,13 +158,10 @@ public class MyDB {
         ///////////////////
 
 
-
-
-        database.execSQL("CREATE TABLE IF NOT EXISTS cboBasicDetails (" +
+        database.execSQL("CREATE TABLE IF NOT EXISTS cboBasicDetailsFilled (" +
                 " CBONum VARCHAR," +
                 " name VARCHAR, " +
                 " assNum VARCHAR, " +
-                " street VARCHAR, " +
                 " road VARCHAR," +
                 " village VARCHAR," +
                 " town VARCHAR," +
@@ -177,7 +174,25 @@ public class MyDB {
                 " dateTime_ DATETIME " +
                 " )");
 
+        database.execSQL("CREATE TABLE IF NOT EXISTS connectionDFilled (" +
+                " CBONum VARCHAR, " +
+                " dom VARCHAR, " +
+                " rel VARCHAR, " +
+                " com VARCHAR, " +
+                " sch VARCHAR, " +
+                " health VARCHAR, " +
+                " gov VARCHAR, " +
+                " other VARCHAR, " +
+                " dateTime_ DATETIME " +
+                " )");
 
+        database.execSQL("CREATE TABLE IF NOT EXISTS coverageInfoFilled (" +
+                " CBONum VARCHAR, " +
+                " village VARCHAR, " +
+                " idGnd VARCHAR, " +
+                " noOfHHold VARCHAR, " +
+                " dateTime_ DATETIME " +
+                " )");
 
 
 //        database.execSQL("CREATE TABLE IF NOT EXISTS braPump (" +

@@ -1,16 +1,11 @@
 package com.debugsire.wsp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.debugsire.wsp.Algos.DB.MyDB;
 import com.debugsire.wsp.Algos.Methods;
@@ -31,6 +25,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
 public class CboBasicDetails extends AppCompatActivity {
@@ -71,7 +69,13 @@ public class CboBasicDetails extends AppCompatActivity {
 
 
     private void loadFields() {
-        Cursor data = methods.getCursorBySelectedCBONum(context, "cboBasicDetails");
+        Cursor data;
+        if (methods.isAvailOnDB("cboBasicDetailsFilled")) {
+            data = methods.getCursor("cboBasicDetailsFilled");
+        } else {
+            data = methods.getCursorBySelectedCBONum(context, "cboBasicDetails");
+        }
+
         while (data.moveToNext()) {
             cboName.getEditText().setText(data.getString(data.getColumnIndex("name")));
             road.getEditText().setText(data.getString(data.getColumnIndex("road")));
@@ -81,6 +85,11 @@ public class CboBasicDetails extends AppCompatActivity {
             lat.setText(data.getString(data.getColumnIndex("lat")));
             alt.setText(data.getString(data.getColumnIndex("height")));
             acc.setText(data.getString(data.getColumnIndex("acc")));
+
+            if (methods.isAvailOnDB("cboBasicDetailsFilled")) {
+                methods.setSelctedItemForSpinner(data.getInt(data.getColumnIndex("manWss")), values, managementOfWSS);
+            }
+
         }
     }
 
@@ -88,11 +97,47 @@ public class CboBasicDetails extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean tilFieldsNull = methods.isTILFieldsNull(context,
-                        cboName, village, town);
-                boolean spinnerNull = methods.isSpinnerNull(context, managementOfWSS);
+                final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialog.dismiss();
+                    }
+                });
 
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
+                                cboName, town);
+                        boolean spinnerNull = methods.isSpinnerNull(context, managementOfWSS);
 
+                        if (!tilFieldsNull && !spinnerNull) {
+                            MyDB.setData("DELETE FROM cboBasicDetailsFilled");
+                            MyDB.setData("INSERT INTO cboBasicDetailsFilled VALUES (" +
+                                    " '" + Methods.getCBONum(context) + "', " +
+                                    " '" + Methods.configNull(cboName.getEditText().getText().toString(), "") + "', " +
+                                    " '" + Methods.configNull(ass.getEditText().getText().toString(), "") + "', " +
+                                    " '" + Methods.configNull(road.getEditText().getText().toString(), "") + "', " +
+                                    " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+                                    " '" + Methods.configNull(town.getEditText().getText().toString(), "") + "', " +
+                                    " '" + values[managementOfWSS.getSelectedItemPosition()] + "', " +
+                                    " '" + lon.getText().toString().trim() + "', " +
+                                    " '" + lat.getText().toString().trim() + "', " +
+                                    " '" + alt.getText().toString().trim() + "', " +
+                                    " '" + acc.getText().toString().trim() + "', " +
+                                    " '" + methods.getLoggedUserNameAsString() + "', " +
+                                    " '" + methods.getNowDateTime() + "' " +
+                                    ")");
+                            methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+                            onBackPressed();
+
+                        } else {
+                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
 

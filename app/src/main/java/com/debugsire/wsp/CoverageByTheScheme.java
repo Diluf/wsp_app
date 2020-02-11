@@ -1,7 +1,5 @@
 package com.debugsire.wsp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +21,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class CoverageByTheScheme extends AppCompatActivity {
 
     Context context;
@@ -30,6 +30,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
 
     ArrayList<String> dsdList;
     ArrayList<String> gndList;
+    ArrayList<String> gndIds;
     String idGnd;
 
     Spinner dsd, gnd;
@@ -37,7 +38,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
     Button res, save;
 
     private static final String TAG = "-----";
-    boolean firstTime = true;
+    boolean firstTime, isUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
 
         context = this;
         methods = new Methods();
+        firstTime = true;
         idGnd = getIntent().getExtras().getString("idGnd");
 
         initCompos();
@@ -56,13 +58,20 @@ public class CoverageByTheScheme extends AppCompatActivity {
     }
 
     private void loadFields() {
-        Cursor data = MyDB.getData("SELECT * FROM coverageInfo WHERE idGnd = '" + idGnd + "'");
+        Cursor data;
+        if (methods.isAvailOnDB("coverageInfoFilled", "idGnd", idGnd)) {
+            data = methods.getCursor("coverageInfoFilled", "idGnd", idGnd);
+            isUpdate = true;
+        } else {
+            data = MyDB.getData("SELECT * FROM coverageInfo WHERE idGnd = '" + idGnd + "'");
+        }
+
         while (data.moveToNext()) {
             village.getEditText().setText(data.getString(data.getColumnIndex("village")));
             num.getEditText().setText(data.getString(data.getColumnIndex("noOfHHold")));
         }
+        //
         data = MyDB.getData("SELECT * FROM locations WHERE idGnd = '" + idGnd + "'");
-        Log.d(TAG, "loadFields: " + idGnd);
         while (data.moveToNext()) {
             for (int i = 0; i < dsdList.size(); i++) {
                 String dsd = data.getString(data.getColumnIndex("dsd"));
@@ -88,6 +97,73 @@ public class CoverageByTheScheme extends AppCompatActivity {
     }
 
     private void addEventListeners() {
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog dialog;
+                if (isUpdate) {
+                    dialog = methods.getSaveConfirmationDialog(context, true);
+
+                } else {
+                    dialog = methods.getSaveConfirmationDialog(context, false);
+
+                }
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
+                                village, num);
+                        boolean spinnerNull = methods.isSpinnerNull(context, dsd, gnd);
+
+                        if (!tilFieldsNull && !spinnerNull) {
+                            if (!isUpdate) {
+                                MyDB.setData("INSERT INTO coverageInfo VALUES (" +
+                                        " '" + Methods.getCBONum(context) + "', " +
+                                        " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+                                        " '" + gndList.get(gnd.getSelectedItemPosition()) + "', " +
+                                        " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
+                                        " '" + Methods.getNowDateTime() + "' " +
+                                        ")");
+
+                                methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+                                onBackPressed();
+                            } else {
+                                MyDB.setData("UPDATE coverageInfo SET " +
+                                        " village = '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+                                        " idGnd = '" + gndIds.get(gnd.getSelectedItemPosition()) + "', " +
+                                        " noOfHHold = '" + num.getEditText().getText().toString().trim() + "', " +
+                                        " WHERE CBONum = '" + Methods.getCBONum(context) + "'" +
+                                        " ");
+                                methods.showToast(getString(R.string.updated), context, MyConstants.MESSAGE_SUCCESS);
+                                onBackPressed();
+                            }
+
+                        } else {
+                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                        }
+                    }
+                });
+                dialog.show();
+
+
+                MyDB.setData("INSERT INTO coverageInfo VALUES (" +
+                        " '" + Methods.getCBONum(context) + "', " +
+                        " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+                        " '" + gndList.get(gnd.getSelectedItemPosition()) + "', " +
+                        " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
+                        " '" + Methods.getNowDateTime() + "' " +
+                        ")");
+            }
+        });
+
+
         dsd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -139,13 +215,15 @@ public class CoverageByTheScheme extends AppCompatActivity {
 
     private void loadGndSpinner(String dsd) {
         gndList = new ArrayList<>();
+        gndIds = new ArrayList<>();
         Cursor cursor = MyDB.getData("SELECT gnd FROM locations WHERE dsd" +
                 " = '" + dsd + "' ORDER BY gnd ASC");
         while (cursor.moveToNext()) {
             gndList.add(cursor.getString(cursor.getColumnIndex("gnd")));
+            gndIds.add(cursor.getString(cursor.getColumnIndex("idGnd")));
         }
         gnd.setAdapter(null);
-        DropdownAdapter adapter = new DropdownAdapter(context, gndList);
+        DropdownAdapter adapter = new DropdownAdapter(context, gndList, idGnd);
         gnd.setAdapter(adapter);
     }
 
