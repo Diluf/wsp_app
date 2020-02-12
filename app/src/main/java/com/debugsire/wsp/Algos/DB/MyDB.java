@@ -193,6 +193,19 @@ public class MyDB {
                 " noOfHHold VARCHAR, " +
                 " dateTime_ DATETIME " +
                 " )");
+//
+//
+//
+        database.execSQL("CREATE TABLE IF NOT EXISTS pop (" +
+                " CBONum VARCHAR, " +
+                " male VARCHAR, " +
+                " female VARCHAR, " +
+                " less VARCHAR, " +
+                " eighteen VARCHAR, " +
+                " elder VARCHAR, " +
+                " noOfDis VARCHAR, " +
+                " dateTime_ DATETIME " +
+                " )");
 
 
 //        database.execSQL("CREATE TABLE IF NOT EXISTS braPump (" +

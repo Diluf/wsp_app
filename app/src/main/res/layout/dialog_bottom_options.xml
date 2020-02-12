@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_back_three_colors"
+        android:padding="@dimen/button_padding_v">
+
+        <TextView
+            android:id="@+id/tv_headerDialogBottomOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="iuasid kjhk jhk hkjhkh kjhk hkh khk jhk jhkh"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/my_header_text_size" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_backOptionsEditDeleteDialogBottomOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/bg_tooltip_padding_right"
+        android:paddingVertical="@dimen/button_padding_v">
+
+        <Button
+            android:layout_width="match_parent"
+            android:id="@+id/btn_editDialogBottomOptions"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorWhite"
+            android:paddingVertical="@dimen/button_padding_v"
+            android:drawableLeft="@drawable/ic_edit"
+            android:drawablePadding="15dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:gravity="left|center_vertical"
+            android:text="Edit" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGray"/>
+
+        <Button
+            android:paddingVertical="@dimen/button_padding_v"
+            android:id="@+id/btn_delOrRevDialogBottomOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorWhite"
+            android:drawableLeft="@drawable/ic_delete"
+            style="?android:attr/borderlessButtonStyle"
+            android:drawablePadding="15dp"
+            android:gravity="left|center_vertical"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_moreThanOneDialogBottomOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+<!--            <include layout="@layout/item_bottom_dialog" />-->
+<!--            <include layout="@layout/item_bottom_dialog" />-->
+<!--            <include layout="@layout/item_bottom_dialog" />-->
+<!--            <include layout="@layout/item_bottom_dialog" />-->
+<!--            <include layout="@layout/item_bottom_dialog" />-->
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,27 +7,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:paddingHorizontal="@dimen/page_padding_h"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/page_padding_v"
-        android:layout_height="wrap_content">
+        android:paddingHorizontal="@dimen/page_padding_h"
+        android:paddingVertical="@dimen/page_padding_v">
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Gender"
-            android:textStyle="bold"
             android:textSize="@dimen/label_text_size"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:paddingVertical="@dimen/page_padding_h"
-            android:paddingHorizontal="@dimen/page_padding_h"
+            android:layout_height="wrap_content"
             android:background="@drawable/spinner_back"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_h">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_maleActivityPopulationServed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -36,22 +36,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Male"
-                    android:inputType="numberSigned"
-                    />
+                    android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="@dimen/space_between_components"
+                android:id="@+id/til_femaleActivityPopulationServed"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_between_components">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:hint="Female" />
+                    android:hint="Female"
+                    android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,21 +59,22 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="Age"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_between_components"
+            android:text="Age"
             android:textSize="@dimen/label_text_size"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:paddingVertical="@dimen/page_padding_h"
-            android:paddingHorizontal="@dimen/page_padding_h"
+            android:layout_height="wrap_content"
             android:background="@drawable/spinner_back"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_h">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_lessActivityPopulationServed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -81,35 +82,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Less than 18 years old"
-                    android:inputType="numberSigned"
-                    />
+                    android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="@dimen/space_between_components"
+                android:id="@+id/til_18-25ActivityPopulationServed"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_between_components">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:hint="18 - 25 years" />
+                    android:hint="18 - 25 years"
+                    android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="@dimen/space_between_components"
+                android:id="@+id/til_elderActivityPopulationServed"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_between_components">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:hint="Elder than 25 years" />
+                    android:hint="Elder than 25 years"
+                    android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,31 +119,33 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_marginTop="@dimen/space_between_components"
+            android:id="@+id/til_noOfActivityPopulationServed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_between_components">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:hint="No of disability people served by" />
+                android:hint="No of disability people served by"
+                android:inputType="numberSigned" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
-            android:layout_marginTop="@dimen/space_between_components"
+            android:id="@+id/btn_saveActivityPopulationServed"
             android:layout_width="@dimen/button_width"
-            android:paddingHorizontal="@dimen/page_padding_h"
-            android:textColor="@color/colorWhite"
-            android:paddingVertical="@dimen/page_padding_v"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textSize="@dimen/button_text_size"
-            android:text="Save"
+            android:layout_marginTop="@dimen/space_between_components"
             android:backgroundTint="@color/btnSave"
-            android:layout_height="wrap_content" />
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_v"
+            android:text="Save"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

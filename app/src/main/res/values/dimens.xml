@@ -19,6 +19,7 @@
     <dimen name="space_between_components">24dp</dimen>
     <dimen name="space_between_multi_selected_item">14dp</dimen>
     <dimen name="page_padding_h">16dp</dimen>
+    <dimen name="bottom_icon_width">44dp</dimen>
     <dimen name="page_padding_v">20dp</dimen>
     <dimen name="checkbox_padding">3dp</dimen>
 

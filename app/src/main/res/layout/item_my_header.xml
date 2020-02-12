@@ -32,6 +32,15 @@
                 android:src="@drawable/ic_more_"
                 android:tint="@color/colorPrimary" />
 
+            <ImageView
+                android:id="@+id/image_compulsoryItemHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/margin_inline_components"
+                android:layout_marginRight="@dimen/bg_tooltip_padding_right"
+                android:src="@drawable/ic_circle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,8 +63,22 @@
                     android:textSize="@dimen/my_header_text_size" />
 
 
-
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_badgeItemHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textStyle="bold"
+
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/gradient_back"
+                android:text="10"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:visibility="visible" />
 
         </RelativeLayout>
 

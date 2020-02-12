@@ -21,6 +21,7 @@ import androidx.cardview.widget.CardView;
 
 import com.debugsire.wsp.Algos.POJOs.HomePojos;
 import com.debugsire.wsp.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,11 @@ public class HomeAdapter extends ArrayAdapter {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, homePojos.getTitle(), Toast.LENGTH_SHORT).show();
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+                View v = inflater.inflate(R.layout.dialog_bottom_options, null);
+                bottomSheetDialog.setContentView(v);
+                bottomSheetDialog.show();
+
             }
         });
     }

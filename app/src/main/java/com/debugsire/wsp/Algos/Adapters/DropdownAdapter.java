@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.debugsire.wsp.Algos.DB.MyDB;
+import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.AvailableCBO;
 import com.debugsire.wsp.CoverageByTheScheme;
 import com.debugsire.wsp.R;
@@ -62,7 +63,7 @@ public class DropdownAdapter extends BaseAdapter {
 
             }
         } else if (context instanceof CoverageByTheScheme) {
-            if (MyDB.getData("SELECT * FROM coverageInfoFilled WHERE idGnd = '" + idGnd + "'").getCount() != 0) {
+            if (MyDB.getData("SELECT * FROM coverageInfoFilled WHERE idGnd = '" + idGnd + "' AND CBONum = '" + Methods.getCBONum(context) + "'").getCount() != 0) {
                 ((ImageView) view.findViewById(R.id.image_rightItemDropDownItem)).setVisibility(View.VISIBLE);
 
             }

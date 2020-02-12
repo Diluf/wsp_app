@@ -6,6 +6,7 @@
 
     <string name="LOCATION_PERMISSION_TITLE">WSP need to access your current location</string>
     <string name="LOCATION_PERMISSION_BODY">Allow wsp to access current location to retrieve location details from your device.</string>
+    <string name="PLEASE_ENABLE_GPS">Please enable your location service</string>
 
     <!--Titles-->
     <string name="title_end_user_ass">End-user assessment at household level</string>

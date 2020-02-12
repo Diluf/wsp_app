@@ -146,17 +146,12 @@ public class CboBasicDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean b = checkLocationPermission();
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-                }
-
-
                 if (b) {
                     if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                     } else {
-                        methods.showToast("Please enable your location service", context, MyConstants.MESSAGE_INFO);
+                        methods.showToast(getString(R.string.PLEASE_ENABLE_GPS), context, MyConstants.MESSAGE_INFO);
                     }
                 }
             }
@@ -283,7 +278,7 @@ public class CboBasicDetails extends AppCompatActivity {
                             locationManager.requestLocationUpdates(
                                     LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                         } else {
-                            methods.showToast("Please enable your location service", context, MyConstants.MESSAGE_INFO);
+                            methods.showToast(getString(R.string.PLEASE_ENABLE_GPS), context, MyConstants.MESSAGE_INFO);
                         }
                     }
 

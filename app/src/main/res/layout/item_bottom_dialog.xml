@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="?android:attr/selectableItemBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/bg_tooltip_pointer_padding_bottom">
+
+        <TextView
+            android:id="@+id/tv_dateTimeItemBottomDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="88dp"
+            android:paddingHorizontal="@dimen/my_sub_header_text_size"
+            android:text="2010"
+            android:textSize="@dimen/my_sub_header_text_size" />
+
+        <TextView
+            android:id="@+id/tv_subItemBottomDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dateTimeItemBottomDialog"
+            android:layout_marginRight="88dp"
+            android:paddingHorizontal="@dimen/my_sub_header_text_size"
+            android:text="@string/app_name"
+            android:textSize="@dimen/text_size_sub_text" />
+
+        <LinearLayout
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <Button
+                android:id="@+id/imgB_editItemBottomDialog"
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                style="?android:attr/borderlessButtonStyle"
+                android:backgroundTint="@android:color/transparent"
+                android:drawableStart="@drawable/ic_edit" />
+
+            <RelativeLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGray" />
+
+            <ImageButton
+                android:id="@+id/imgBrevOrDelItemBottomDialog"
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="@android:color/white"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/ic_delete" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

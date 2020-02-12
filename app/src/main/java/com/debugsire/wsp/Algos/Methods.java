@@ -355,6 +355,11 @@ public class Methods {
         return MyDB.getData("SELECT * FROM " + from + " WHERE " + where + " = '" + value + "' ");
     }
 
+    public Cursor getCursor(String from, String where1, String value1, String where2, String value2) {
+        return MyDB.getData("SELECT * FROM " + from + " WHERE " + where1 + " = '" + value1 + "' AND " +
+                " " + where2 + " = '" + value2 + "' ");
+    }
+
     public Integer getMaxNegativeId(String tableName) {
         Cursor data = MyDB.getData("SELECT MIN(id) FROM " + tableName);
         while (data.moveToNext()) {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.debugsire.wsp.Algos.Adapters.DropdownAdapter;
 import com.debugsire.wsp.Algos.DB.MyDB;
@@ -59,11 +60,12 @@ public class CoverageByTheScheme extends AppCompatActivity {
 
     private void loadFields() {
         Cursor data;
-        if (methods.isAvailOnDB("coverageInfoFilled", "idGnd", idGnd)) {
-            data = methods.getCursor("coverageInfoFilled", "idGnd", idGnd);
+        if (methods.isAvailOnDB("coverageInfoFilled", "idGnd", idGnd, "CBONum", Methods.getCBONum(context))) {
+            data = methods.getCursor("coverageInfoFilled", "idGnd", idGnd, "CBONum", Methods.getCBONum(context));
+            Toast.makeText(context, data.getCount() + "===", Toast.LENGTH_SHORT).show();
             isUpdate = true;
         } else {
-            data = MyDB.getData("SELECT * FROM coverageInfo WHERE idGnd = '" + idGnd + "'");
+            data = MyDB.getData("SELECT * FROM coverageInfo WHERE idGnd = '" + idGnd + "' AND CBONum = '" + Methods.getCBONum(context) + "'");
         }
 
         while (data.moveToNext()) {
@@ -100,66 +102,58 @@ public class CoverageByTheScheme extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog dialog;
-                if (isUpdate) {
-                    dialog = methods.getSaveConfirmationDialog(context, true);
+//                final AlertDialog dialog;
+//                if (isUpdate) {
+//                    dialog = methods.getSaveConfirmationDialog(context, true);
+//
+//                } else {
+//                    dialog = methods.getSaveConfirmationDialog(context, false);
+//
+//                }
+//                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
+//                                village, num);
+//                        boolean spinnerNull = methods.isSpinnerNull(context, dsd, gnd);
+//
+//                        if (!tilFieldsNull && !spinnerNull) {
+//                            if (!isUpdate) {
+//                                MyDB.setData("INSERT INTO coverageInfoFilled VALUES (" +
+//                                        " '" + Methods.getCBONum(context) + "', " +
+//                                        " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+//                                        " '" + gndList.get(gnd.getSelectedItemPosition()) + "', " +
+//                                        " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
+//                                        " '" + Methods.getNowDateTime() + "' " +
+//                                        ")");
+//
+//                                methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+//                                onBackPressed();
+//                            } else {
+//                                MyDB.setData("UPDATE coverageInfoFilled SET " +
+//                                        " village = '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+//                                        " idGnd = '" + gndIds.get(gnd.getSelectedItemPosition()) + "', " +
+//                                        " noOfHHold = '" + num.getEditText().getText().toString().trim() + "', " +
+//                                        " WHERE CBONum = '" + Methods.getCBONum(context) + "'" +
+//                                        " ");
+//                                methods.showToast(getString(R.string.updated), context, MyConstants.MESSAGE_SUCCESS);
+//                                onBackPressed();
+//                            }
+//
+//                        } else {
+//                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+//                        }
+//                    }
+//                });
+//                dialog.show();
 
-                } else {
-                    dialog = methods.getSaveConfirmationDialog(context, false);
-
-                }
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
-                                village, num);
-                        boolean spinnerNull = methods.isSpinnerNull(context, dsd, gnd);
-
-                        if (!tilFieldsNull && !spinnerNull) {
-                            if (!isUpdate) {
-                                MyDB.setData("INSERT INTO coverageInfo VALUES (" +
-                                        " '" + Methods.getCBONum(context) + "', " +
-                                        " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
-                                        " '" + gndList.get(gnd.getSelectedItemPosition()) + "', " +
-                                        " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
-                                        " '" + Methods.getNowDateTime() + "' " +
-                                        ")");
-
-                                methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
-                                onBackPressed();
-                            } else {
-                                MyDB.setData("UPDATE coverageInfo SET " +
-                                        " village = '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
-                                        " idGnd = '" + gndIds.get(gnd.getSelectedItemPosition()) + "', " +
-                                        " noOfHHold = '" + num.getEditText().getText().toString().trim() + "', " +
-                                        " WHERE CBONum = '" + Methods.getCBONum(context) + "'" +
-                                        " ");
-                                methods.showToast(getString(R.string.updated), context, MyConstants.MESSAGE_SUCCESS);
-                                onBackPressed();
-                            }
-
-                        } else {
-                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
-                        }
-                    }
-                });
-                dialog.show();
-
-
-                MyDB.setData("INSERT INTO coverageInfo VALUES (" +
-                        " '" + Methods.getCBONum(context) + "', " +
-                        " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
-                        " '" + gndList.get(gnd.getSelectedItemPosition()) + "', " +
-                        " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
-                        " '" + Methods.getNowDateTime() + "' " +
-                        ")");
             }
         });
 
@@ -216,7 +210,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
     private void loadGndSpinner(String dsd) {
         gndList = new ArrayList<>();
         gndIds = new ArrayList<>();
-        Cursor cursor = MyDB.getData("SELECT gnd FROM locations WHERE dsd" +
+        Cursor cursor = MyDB.getData("SELECT * FROM locations WHERE dsd" +
                 " = '" + dsd + "' ORDER BY gnd ASC");
         while (cursor.moveToNext()) {
             gndList.add(cursor.getString(cursor.getColumnIndex("gnd")));
@@ -233,7 +227,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
         village = findViewById(R.id.til_villageCoverageByS);
         num = findViewById(R.id.til_numberCoverageByS);
         res = findViewById(R.id.btn_resynchDsdCoverageByS);
-        save = findViewById(R.id.btn_saveCboConnectionDetails);
+        save = findViewById(R.id.btn_saveCoverageByS);
     }
 
     public void loadDSDSpinner() {

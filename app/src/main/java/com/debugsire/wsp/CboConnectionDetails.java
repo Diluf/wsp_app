@@ -107,5 +107,7 @@ public class CboConnectionDetails extends AppCompatActivity {
         health = findViewById(R.id.til_healthCboConnectionDetails);
         gov = findViewById(R.id.til_govCboConnectionDetails);
         other = findViewById(R.id.til_otherCboConnectionDetails);
+        save = findViewById(R.id.btn_saveCboConnectionDetails);
+
     }
 }

@@ -5,38 +5,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.debugsire.wsp.Algos.Adapters.HomeAdapter;
-import com.debugsire.wsp.Algos.CustomDrawable;
-import com.debugsire.wsp.Algos.DB.MyDB;
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.POJOs.HomePojos;
 import com.debugsire.wsp.EndUserAssessment.EndUserAssessment;
 import com.debugsire.wsp.WaterSafetyAndClimate.WaterSafetyAndClimate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
+
+import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-
-import android.text.TextPaint;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
 
@@ -59,7 +48,6 @@ public class Home extends AppCompatActivity {
         initCompos();
         loadListView();
         addEventListeners();
-
 
     }
 
