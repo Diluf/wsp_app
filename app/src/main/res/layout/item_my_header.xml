@@ -22,15 +22,16 @@
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_header_back">
 
-            <ImageView
-                android:id="@+id/image_optionsItemHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/margin_inline_components_plus_2"
-                android:padding="@dimen/margin_inline_components"
-                android:src="@drawable/ic_more_"
-                android:tint="@color/colorPrimary" />
+<!--            <ImageView-->
+<!--                android:id="@+id/image_optionsItemHeader"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_marginTop="@dimen/margin_inline_components_plus_2"-->
+<!--                android:visibility="gone"-->
+<!--                android:padding="@dimen/margin_inline_components"-->
+<!--                android:src="@drawable/ic_more_"-->
+<!--                android:tint="@color/colorPrimary" />-->
 
             <ImageView
                 android:id="@+id/image_compulsoryItemHeader"

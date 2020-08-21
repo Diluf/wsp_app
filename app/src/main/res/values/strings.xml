@@ -39,6 +39,26 @@
     <string name="compulsory_cant_empty">Compulsory fields cannot be empty!</string>
     <string name="saved">Saved!</string>
     <string name="updated">Updated!</string>
+    <string name="removed">Removed!</string>
+
+
+<!--    WaterSafetyAndClimate-->
+    <string name="ExistingQA">Existing Quality Assurance</string>
+    <string name="Catchment">Catchment</string>
+    <string name="Treatment">Treatment</string>
+    <string name="Distribution">Distribution</string>
+    <string name="Climate">Climate and DRR</string>
+    <string name="Govern">Governance and Conflict</string>
+    <string name="Observation">Observation</string>
+
+
+<!--    End user asses-->
+    <string name="basic_information_of_the_householder_owner">Basic information of the householder owner</string>
+    <string name="water_adequacy">Water Adequacy</string>
+    <string name="water_quality">Water Quality</string>
+    <string name="household_storage">Household Storage</string>
+    <string name="water_health">Water – Health</string>
+    <string name="water_saving">Water Saving</string>
 
 
 </resources>

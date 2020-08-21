@@ -16,6 +16,7 @@
     <color name="black">#000</color>
     <color name="greenDark">#0b8457</color>
     <color name="red">#851d41</color>
+    <color name="redHalfTransparent">#50851d41</color>
 <!--    Buttons-->
     <color name="btnSave">#011f3f</color>
     <color name="btnRefresh">#0960bd</color>

@@ -22,45 +22,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_backOptionsEditDeleteDialogBottomOptions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/bg_tooltip_padding_right"
-        android:paddingVertical="@dimen/button_padding_v">
-
-        <Button
-            android:layout_width="match_parent"
-            android:id="@+id/btn_editDialogBottomOptions"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorWhite"
-            android:paddingVertical="@dimen/button_padding_v"
-            android:drawableLeft="@drawable/ic_edit"
-            android:drawablePadding="15dp"
-            style="?android:attr/borderlessButtonStyle"
-            android:gravity="left|center_vertical"
-            android:text="Edit" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorGray"/>
-
-        <Button
-            android:paddingVertical="@dimen/button_padding_v"
-            android:id="@+id/btn_delOrRevDialogBottomOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorWhite"
-            android:drawableLeft="@drawable/ic_delete"
-            style="?android:attr/borderlessButtonStyle"
-            android:drawablePadding="15dp"
-            android:gravity="left|center_vertical"
-            android:text="Delete" />
-
-    </LinearLayout>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -80,5 +41,11 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_back_three_colors"
+        android:padding="2dp"/>
 
 </LinearLayout>

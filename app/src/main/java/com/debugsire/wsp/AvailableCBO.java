@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -200,8 +201,9 @@ public class AvailableCBO extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_signOut_OnAvailable:
-                MyDB.setData("DROP DATABASE _WSP_");
-                onBackPressed();
+                ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+                startActivity(new Intent(AvailableCBO.this, SignIn.class));
+                finish();
                 return true;
             case R.id.menu_about_OnAvailable:
                 return true;

@@ -27,8 +27,7 @@
             android:layout_margin="8dp"
             android:paddingRight="55dp"
             android:text="jhygh klkl lkjl lkl lklkj ljlkjl jklkjl jlkjllkl lkjl lkl lkl lkl lkjlj"
-            android:textColor="@color/black"
-            android:textSize="@dimen/universal_text_size" />
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 

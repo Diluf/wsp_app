@@ -46,6 +46,7 @@
             android:name=".WaterSafetyAndClimate.ClimateAndDdr"
             android:label="@string/title_climate" />
         <activity
+            android:windowSoftInputMode="stateHidden"
             android:name=".WaterSafetyAndClimate.Distribution"
             android:label="@string/title_dist_sys" />
         <activity

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.debugsire.wsp.Algos.DB.MyDB;
@@ -18,17 +17,22 @@ import com.debugsire.wsp.R;
 
 import java.util.ArrayList;
 
-public class DropdownAdapter extends BaseAdapter {
+public class DropdownAdapterForGND extends BaseAdapter {
 
     private static final String TAG = "DropdownAdapter--- ";
     ArrayList arrayList;
     Context context;
     LayoutInflater layoutInflater;
     String idGnd;
+    Methods methods;
+    ArrayList<String> filledGndsStrings;
 
-    public DropdownAdapter(Context context, ArrayList arrayList) {
+    public DropdownAdapterForGND(Context context, ArrayList arrayList, String idGnd, ArrayList<String> filledGndsStrings, Methods methods) {
         this.arrayList = arrayList;
         this.context = context;
+        this.idGnd = idGnd;
+        this.filledGndsStrings = filledGndsStrings;
+        this.methods = methods;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -53,12 +57,13 @@ public class DropdownAdapter extends BaseAdapter {
         TextView textView = view.findViewById(R.id.tv_item_ItemDropdownItem);
         textView.setText(arrayList.get(i).toString());
 
-        if (context instanceof AvailableCBO) {
-            if (MyDB.getData("SELECT * FROM cboBasicDetails WHERE name = '" + arrayList.get(i).toString() + "'").getCount() != 0) {
+        Log.d(TAG, "getView: " + (methods != null));
+        if (methods != null) {
+            if (filledGndsStrings.contains(arrayList.get(i).toString())) {
                 view.findViewById(R.id.image_rightItemDropDownItem).setVisibility(View.VISIBLE);
-
             }
         }
+
 
         if (i == arrayList.size() - 1) {
             view.findViewById(R.id.rl_seperator_ItemDropdown).setVisibility(View.GONE);

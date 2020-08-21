@@ -25,11 +25,12 @@ public class MyDB {
 
 
     public static void setData(String query) {
-        Log.d("-=-=-=--", "getData: " + query);
+        Log.d("-=-=-=--", "setData: " + query);
         database.execSQL(query);
     }
 
     public static Cursor getData(String query) {
+        Log.d("-=-=-=--", "getData: " + query);
         Cursor cursor = database.rawQuery(query, null);
         return cursor;
     }
@@ -51,6 +52,7 @@ public class MyDB {
 //                " )");
 
 
+        //From server
         database.execSQL("CREATE TABLE IF NOT EXISTS wsp_droplist (" +
                 " id INTEGER, " +
                 " ref_section VARCHAR, " +
@@ -208,177 +210,201 @@ public class MyDB {
                 " )");
 
 
-//        database.execSQL("CREATE TABLE IF NOT EXISTS braPump (" +
-//                " name VARCHAR, " +
-//                " status VARCHAR, " +
-//                " dateTime_ DATETIME" +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS remPump (" +
-//                " name VARCHAR, " +
-//                " status VARCHAR, " +
-//                " dateTime_ DATETIME" +
-//                " )");
 //
 ////-------------------------------------------
 ////-------------------------------------------
-////        Management Data
+////        WaterSafetyAndClimate Data
 ////-------------------------------------------
 ////-------------------------------------------
 ////-------------------------------------------
 //
 //
 //
-//        database.execSQL("CREATE TABLE IF NOT EXISTS regDetailsOfCBO (" +
-//                " CBONum VARCHAR, " +
-//                " date_ VARCHAR, " +
-//                " inst VARCHAR, " +
-//                " num VARCHAR, " +
-//                " type VARCHAR," +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS coverageInfo (" +
-//                " CBONum VARCHAR, " +
-//                " village VARCHAR, " +
-//                " idGND VARCHAR, " +
-//                " noOfHHold VARCHAR, " +
-//                " noOfHHoldCovered VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS pointSource (" +
-//                " CBONum VARCHAR, " +
-//                " pDugWell DOUBLE, " +
-//                " pDugWellUsers DOUBLE, " +
-//                " uDugWell DOUBLE, " +
-//                " uDugWellUsers DOUBLE, " +
-//                " hPump DOUBLE, " +
-//                " hPumpUsers DOUBLE, " +
-//                " sHPump DOUBLE, " +
-//                " sHPumpUsers DOUBLE, " +
-//                " harv DOUBLE, " +
-//                " harvUsers DOUBLE, " +
-//                " wScheme DOUBLE, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS cboStaffDetails (" +
-//                " CBONum VARCHAR, " +
-//                " desig VARCHAR, " +
-//                " name VARCHAR, " +
-//                " status VARCHAR, " +
-//                " mobile VARCHAR, " +
-//                " resident VARCHAR," +
-//                " prefLang VARCHAR," +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS str (" +
-//                " CBONum VARCHAR, " +
-//                " noOf VARCHAR, " +
-//                " lastAGM VARCHAR, " +
-//                " theTime VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS contactDetails (" +
-//                " CBONum VARCHAR, " +
-//                " name VARCHAR, " +
-//                " calling VARCHAR, " +
-//                " desig VARCHAR, " +
-//                " mob1 VARCHAR, " +
-//                " mob2 VARCHAR, " +
-//                " gender VARCHAR, " +
-//                " lang VARCHAR," +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS meetingRecord (" +
-//                " CBONum VARCHAR, " +
-//                " date_ VARCHAR, " +
-//                " type VARCHAR, " +
-//                " noOfPart VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS commWelfare (" +
-//                " CBONum VARCHAR, " +
-//                " death DOUBLE, " +
-//                " medical DOUBLE, " +
-//                " sharing DOUBLE, " +
-//                " rel DOUBLE, " +
-//                " cul DOUBLE, " +
-//                " other VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS bankDetails (" +
-//                " CBONum VARCHAR, " +
-//                " nameOfBank VARCHAR, " +
-//                " nameOfAcc VARCHAR, " +
-//                " accNum VARCHAR, " +
-//                " accType VARCHAR, " +
-//                " accBal VARCHAR, " +
-//                " asAt VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS auditingR (" +
-//                " CBONum VARCHAR, " +
-//                " cboHas VARCHAR, " +
-//                " name VARCHAR, " +
-//                " phone VARCHAR, " +
-//                " lastDate VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS assetMan (" +
-//                " CBONum VARCHAR, " +
-//                " cboHaving VARCHAR, " +
-//                " lastDay VARCHAR, " +
-//                " remarks VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
-//
-//        database.execSQL("CREATE TABLE IF NOT EXISTS datColl (" +
-//                " CBONum VARCHAR, " +
-//                " gis VARCHAR, " +
-//                " gisPre VARCHAR, " +
-//                " mNe VARCHAR, " +
-//                " mNePre VARCHAR, " +
-//                " DN VARCHAR, " +
-//                " DNPre VARCHAR, " +
-//                " NW VARCHAR, " +
-//                " NWPre VARCHAR, " +
-//                " dateTime_ DATETIME, " +
-//                " userName VARCHAR, " +
-//                " application VARCHAR " +
-//                " )");
+        database.execSQL("CREATE TABLE IF NOT EXISTS existingQA (" +
+                " CBONum VARCHAR, " +
+                " wsp VARCHAR, " +
+                " wqp VARCHAR, " +
+                " wqt VARCHAR, " +
+                " aow VARCHAR, " +
+                " moc VARCHAR," +
+                " foa VARCHAR," +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS catchment (" +
+                " CBONum VARCHAR, " +
+                " catchName VARCHAR, " +
+                " area VARCHAR, " +
+                " loca VARCHAR, " +
+                " nature VARCHAR, " +
+                " riskOf VARCHAR, " +
+                " riskFor VARCHAR, " +
+                " issues VARCHAR, " +
+                " riskMit VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS treatment (" +
+                " CBONum VARCHAR, " +
+                " sType VARCHAR, " +
+                " sProt VARCHAR, " +
+                " intake VARCHAR, " +
+                " avail VARCHAR, " +
+                " indi VARCHAR, " +
+                " spec VARCHAR, " +
+                " other VARCHAR, " +
+                " wq VARCHAR, " +
+                " currentR VARCHAR, " +
+                " riskMit VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+//        dist start
+        database.execSQL("CREATE TABLE IF NOT EXISTS dist (" +
+                " CBONum VARCHAR, " +
+                " distName VARCHAR, " +
+                " meter VARCHAR, " +
+                " numCon VARCHAR, " +
+                " exp VARCHAR, " +
+                " inter VARCHAR," +
+                " serv VARCHAR," +
+                " ident VARCHAR," +
+                " riskMit VARCHAR," +
+                " overAll VARCHAR," +
+                " uniqueId VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+        database.execSQL("CREATE TABLE IF NOT EXISTS distTypes (" +
+                " uniqueId VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " mat VARCHAR, " +
+                " diam VARCHAR, " +
+                " un VARCHAR, " +
+                " len VARCHAR " +
+                " )");
+//        dist end
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS clim (" +
+                " CBONum VARCHAR, " +
+                " isTheW VARCHAR, " +
+                " how VARCHAR, " +
+                " they VARCHAR, " +
+                " effe VARCHAR, " +
+                " waterIsA VARCHAR, " +
+                " reas VARCHAR, " +
+                " whatAreS VARCHAR, " +
+                " whatAreT VARCHAR, " +
+                " water VARCHAR, " +
+                " drought VARCHAR, " +
+                " flood VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS gov (" +
+                " CBONum VARCHAR, " +
+                " fair VARCHAR, " +
+                " inc VARCHAR, " +
+                " tra VARCHAR, " +
+                " con VARCHAR, " +
+                " theReas VARCHAR, " +
+                " isThere VARCHAR, " +
+                " pot VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS obsWS (" +
+                " CBONum VARCHAR, " +
+                " obs TEXT, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+
+
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS commWelfare (" +
+                " CBONum VARCHAR, " +
+                " death DOUBLE, " +
+                " medical DOUBLE, " +
+                " sharing DOUBLE, " +
+                " rel DOUBLE, " +
+                " cul DOUBLE, " +
+                " other VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS bankDetails (" +
+                " CBONum VARCHAR, " +
+                " nameOfBank VARCHAR, " +
+                " nameOfAcc VARCHAR, " +
+                " accNum VARCHAR, " +
+                " accType VARCHAR, " +
+                " accBal VARCHAR, " +
+                " asAt VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS auditingR (" +
+                " CBONum VARCHAR, " +
+                " cboHas VARCHAR, " +
+                " name VARCHAR, " +
+                " phone VARCHAR, " +
+                " lastDate VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS assetMan (" +
+                " CBONum VARCHAR, " +
+                " cboHaving VARCHAR, " +
+                " lastDay VARCHAR, " +
+                " remarks VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS datColl (" +
+                " CBONum VARCHAR, " +
+                " gis VARCHAR, " +
+                " gisPre VARCHAR, " +
+                " mNe VARCHAR, " +
+                " mNePre VARCHAR, " +
+                " DN VARCHAR, " +
+                " DNPre VARCHAR, " +
+                " NW VARCHAR, " +
+                " NWPre VARCHAR, " +
+                " dateTime_ DATETIME, " +
+                " userName VARCHAR, " +
+                " application VARCHAR " +
+                " )");
 //
 //
 ////        -------------------------------------------------------------------------

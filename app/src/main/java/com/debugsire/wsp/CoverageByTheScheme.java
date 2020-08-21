@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.debugsire.wsp.Algos.Adapters.DropdownAdapter;
+import com.debugsire.wsp.Algos.Adapters.DropdownAdapterForGND;
 import com.debugsire.wsp.Algos.DB.MyDB;
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
@@ -34,8 +37,10 @@ public class CoverageByTheScheme extends AppCompatActivity {
     ArrayList<String> gndIds;
     String idGnd;
 
+    RelativeLayout topBack;
     Spinner dsd, gnd;
     TextInputLayout village, num;
+    TextView dsdTop, gndTop;
     Button res, save;
 
     private static final String TAG = "-----";
@@ -59,13 +64,27 @@ public class CoverageByTheScheme extends AppCompatActivity {
     }
 
     private void loadFields() {
+
+        if (idGnd.trim().equalsIgnoreCase("-")) {
+            if (dsdList.size() != 0) {
+                firstTime = false;
+                dsd.setSelection(0);
+            }
+            gndTop.setVisibility(View.GONE);
+            dsdTop.setText("New Entry");
+            topBack.setBackgroundColor(getResources().getColor(R.color.greenDark, null));
+            return;
+        }
         Cursor data;
         if (methods.isAvailOnDB("coverageInfoFilled", "idGnd", idGnd, "CBONum", Methods.getCBONum(context))) {
             data = methods.getCursor("coverageInfoFilled", "idGnd", idGnd, "CBONum", Methods.getCBONum(context));
-            Toast.makeText(context, data.getCount() + "===", Toast.LENGTH_SHORT).show();
-            isUpdate = true;
+            if (methods.getCursor("coverageInfo", "idGnd", idGnd, "CBONum", Methods.getCBONum(context)).getCount() != 0) {
+                disableSpinner();
+            }
+
         } else {
-            data = MyDB.getData("SELECT * FROM coverageInfo WHERE idGnd = '" + idGnd + "' AND CBONum = '" + Methods.getCBONum(context) + "'");
+            data = methods.getCursor("coverageInfo", "idGnd", idGnd, "CBONum", Methods.getCBONum(context));
+            disableSpinner();
         }
 
         while (data.moveToNext()) {
@@ -73,86 +92,89 @@ public class CoverageByTheScheme extends AppCompatActivity {
             num.getEditText().setText(data.getString(data.getColumnIndex("noOfHHold")));
         }
         //
-        data = MyDB.getData("SELECT * FROM locations WHERE idGnd = '" + idGnd + "'");
+        data = methods.getCursor("locations", "idGnd", idGnd);
         while (data.moveToNext()) {
+            String selectedDsd = data.getString(data.getColumnIndex("dsd"));
+            String selectedGnd = data.getString(data.getColumnIndex("gnd"));
+            dsdTop.setText(selectedDsd);
+            gndTop.setText(selectedGnd);
             for (int i = 0; i < dsdList.size(); i++) {
-                String dsd = data.getString(data.getColumnIndex("dsd"));
-                Log.d(TAG, "loadFields: " + dsd);
-                if (dsdList.get(i).equalsIgnoreCase(dsd)) {
+                if (dsdList.get(i).equalsIgnoreCase(selectedDsd)) {
                     this.dsd.setSelection(i);
-                    loadGndSpinner(dsd);
+                    loadGndSpinner(selectedDsd);
 
                     break;
                 }
             }
 
             for (int i = 0; i < gndList.size(); i++) {
-                String gnd = data.getString(data.getColumnIndex("gnd"));
-                Log.d(TAG, "loadFields: " + gnd);
-                if (gndList.get(i).equalsIgnoreCase(gnd)) {
+                Log.d(TAG, "loadFields: " + selectedGnd);
+                if (gndList.get(i).equalsIgnoreCase(selectedGnd)) {
                     Log.d(TAG, "loadFields: " + i);
                     this.gnd.setSelection(i);
                     break;
                 }
             }
         }
+        isUpdate = true;
+
+    }
+
+    private void disableSpinner() {
+        dsd.setEnabled(false);
+        gnd.setEnabled(false);
+        dsd.setAlpha(.5f);
+        gnd.setAlpha(.5f);
+        res.setEnabled(false);
+        res.setAlpha(.5f);
     }
 
     private void addEventListeners() {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                final AlertDialog dialog;
-//                if (isUpdate) {
-//                    dialog = methods.getSaveConfirmationDialog(context, true);
-//
-//                } else {
-//                    dialog = methods.getSaveConfirmationDialog(context, false);
-//
-//                }
-//                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
-//                                village, num);
-//                        boolean spinnerNull = methods.isSpinnerNull(context, dsd, gnd);
-//
-//                        if (!tilFieldsNull && !spinnerNull) {
-//                            if (!isUpdate) {
-//                                MyDB.setData("INSERT INTO coverageInfoFilled VALUES (" +
-//                                        " '" + Methods.getCBONum(context) + "', " +
-//                                        " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
-//                                        " '" + gndList.get(gnd.getSelectedItemPosition()) + "', " +
-//                                        " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
-//                                        " '" + Methods.getNowDateTime() + "' " +
-//                                        ")");
-//
-//                                methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
-//                                onBackPressed();
-//                            } else {
-//                                MyDB.setData("UPDATE coverageInfoFilled SET " +
-//                                        " village = '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
-//                                        " idGnd = '" + gndIds.get(gnd.getSelectedItemPosition()) + "', " +
-//                                        " noOfHHold = '" + num.getEditText().getText().toString().trim() + "', " +
-//                                        " WHERE CBONum = '" + Methods.getCBONum(context) + "'" +
-//                                        " ");
-//                                methods.showToast(getString(R.string.updated), context, MyConstants.MESSAGE_SUCCESS);
-//                                onBackPressed();
-//                            }
-//
-//                        } else {
-//                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
-//                        }
-//                    }
-//                });
-//                dialog.show();
+                final AlertDialog dialog = methods.getSaveConfirmationDialog(context, isUpdate);
+
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
+                                village, num);
+                        boolean dsdSpinnerNull = methods.isSpinnerNull(context, dsd, dsdList);
+                        boolean gndSpinnerNull = methods.isSpinnerNull(context, gnd, gndList);
+
+                        if (!tilFieldsNull && !dsdSpinnerNull && !gndSpinnerNull) {
+                            String selectedGndId = gndIds.get(gnd.getSelectedItemPosition());
+                            if (dsd.isEnabled()) {
+                                if (methods.getCursor("coverageInfo", "idGnd", selectedGndId, "CBONum", Methods.getCBONum(context)).getCount() != 0) {
+                                    methods.showToast("'" + gndList.get(gnd.getSelectedItemPosition()) + "' is already downloaded. You can't add a entry for already added earlier.", context, MyConstants.MESSAGE_ERROR);
+                                    return;
+                                }
+                            }
+                            MyDB.setData("DELETE FROM coverageInfoFilled WHERE CBONum = '" + Methods.getCBONum(context) + "' AND idGnd = '" + idGnd + "'");
+                            MyDB.setData("INSERT INTO coverageInfoFilled VALUES (" +
+                                    " '" + Methods.getCBONum(context) + "', " +
+                                    " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
+                                    " '" + selectedGndId + "', " +
+                                    " '" + Methods.configNull(num.getEditText().getText().toString(), "") + "', " +
+                                    " '" + Methods.getNowDateTime() + "' " +
+                                    ")");
+                            methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+                            onBackPressed();
+
+                        } else {
+                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                        }
+                    }
+                });
+                dialog.show();
 
             }
         });
@@ -178,52 +200,87 @@ public class CoverageByTheScheme extends AppCompatActivity {
         res.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure you want to resynchronize values from server?");
-                builder.setCancelable(true);
-
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setIcon(R.drawable.ic_info_outline);
+                dialog.setTitle("WSP Information");
+                dialog.setMessage("Resynchronize this may change 'DS Division' and 'GN Division values'");
+                dialog.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        new AsyncWebService(context, MyConstants.ACTION_GET_LOCATION_DSD_GND)
-                                .execute(WebRefferences.getLocation.methodName,
-                                        new Methods().getLoggedUserName().toString());
-                    }
-                });
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("Are you sure you want to resynchronize values from server?");
+                        builder.setCancelable(true);
 
-                builder.setNegativeButton(
-                        "Cancel",
-                        new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
+                                new AsyncWebService(context, MyConstants.ACTION_GET_LOCATION_DSD_GND)
+                                        .execute(WebRefferences.getLocation.methodName,
+                                                new Methods().getLoggedUserName().toString());
                             }
                         });
 
-                builder.create().show();
+                        builder.setNegativeButton(
+                                "Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                        builder.create().show();
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                dialog.create().show();
 
 
             }
         });
     }
 
+
     private void loadGndSpinner(String dsd) {
         gndList = new ArrayList<>();
         gndIds = new ArrayList<>();
-        Cursor cursor = MyDB.getData("SELECT * FROM locations WHERE dsd" +
-                " = '" + dsd + "' ORDER BY gnd ASC");
+        Cursor cursor = MyDB.getData("SELECT * FROM locations WHERE dsd = '" + dsd + "' ORDER BY gnd ASC");
         while (cursor.moveToNext()) {
             gndList.add(cursor.getString(cursor.getColumnIndex("gnd")));
             gndIds.add(cursor.getString(cursor.getColumnIndex("idGnd")));
         }
         gnd.setAdapter(null);
-        DropdownAdapter adapter = new DropdownAdapter(context, gndList, idGnd);
+        DropdownAdapterForGND adapter = new DropdownAdapterForGND(context, gndList, idGnd, getFilledGnds(), methods);
         gnd.setAdapter(adapter);
+    }
+
+    private ArrayList<String> getFilledGnds() {
+        ArrayList<String> strings = new ArrayList<>();
+
+
+        Cursor cursor = methods.getCursorBySelectedCBONum(context, "coverageInfo");
+        ;
+        while (cursor.moveToNext()) {
+            strings.add(methods.getSingleStringFromDB("gnd", "locations", "idGnd", cursor.getString(cursor.getColumnIndex("idGnd"))));
+        }
+        cursor = methods.getCursorBySelectedCBONum(context, "coverageInfoFilled");
+        ;
+        while (cursor.moveToNext()) {
+            String idGnd = cursor.getString(cursor.getColumnIndex("idGnd"));
+            if (!strings.contains(idGnd)) {
+                strings.add(methods.getSingleStringFromDB("gnd", "locations", "idGnd", idGnd));
+            }
+        }
+        return strings;
     }
 
     private void initCompos() {
         dsd = findViewById(R.id.spinner_dsdCoverageByS);
         gnd = findViewById(R.id.spinner_GnCoverageByS);
+        topBack = findViewById(R.id.rl_toBackCoverageByTheScheme);
+        dsdTop = findViewById(R.id.tv_dsdNameCoverageByTheScheme);
+        gndTop = findViewById(R.id.tv_gndNameCoverageByTheScheme);
         village = findViewById(R.id.til_villageCoverageByS);
         num = findViewById(R.id.til_numberCoverageByS);
         res = findViewById(R.id.btn_resynchDsdCoverageByS);

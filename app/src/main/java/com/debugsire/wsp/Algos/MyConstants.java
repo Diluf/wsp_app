@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class MyConstants {
+    public static final String APP_ID = "2000";
+
+
     public static final SimpleDateFormat SIMPLE_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static final String ALL = "All";
@@ -118,6 +121,8 @@ public class MyConstants {
     public static final String DL_WATER_SAVING_DO_MEM = "HS_6_1";
     public static final String DL_WATER_SAVING_ON_YES = "HS_6_1_1";
 
+    //Alert Dialog
+    public static final int REMOVE_DIALOG = 300;
 
     /////////
     /////////

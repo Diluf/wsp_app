@@ -1,18 +1,27 @@
 package com.debugsire.wsp.WaterSafetyAndClimate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
 import com.debugsire.wsp.R;
+
+import java.util.ArrayList;
 
 public class ClimateAndDdr extends AppCompatActivity {
 
@@ -27,47 +36,104 @@ public class ClimateAndDdr extends AppCompatActivity {
             onNo, whatAreTheRecharge, optionsToReduce, optionsDrought, optionsFlood;
     Button isTheWaterR, waterIsAvailableR, whatAreSourcesR,
             onYesHowItR, onYesWhatAreTheyR, onYesWhatAreTheEffectsR,
-            onNoR, whatAreTheRechargeR, optionsToReduceR, optionsDroughtR, optionsFloodR;
+            onNoR, whatAreTheRechargeR, optionsToReduceR, optionsDroughtR, optionsFloodR, save;
     LinearLayout optionalOnYes, optionalOnEffect, optionalOnNo;
+
+    RelativeLayout headerWrapper;
+    String dateTime_, tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_climate_and_ddr);
+
         context = this;
         methods = new Methods();
+        dateTime_ = getIntent().getExtras().getString("dateTime_");
+        tableName = getIntent().getExtras().getString("tableName");
 
-        isTheWater = findViewById(R.id.spinner_isTheWater_ClimateAndDrr);
-        waterIsAvailable = findViewById(R.id.spinner_waterIsAvail_ClimateAndDrr);
-        whatAreSources = findViewById(R.id.spinner_whatAreTheS_ClimateAndDrr);
-
-        onYesHowIt = findViewById(R.id.ll_onYesHowItImpacts_ClimateAndDrr);
-        onYesWhatAreThey = findViewById(R.id.ll_onYesWhatAreThey_ClimateAndDrr);
-        onYesWhatAreTheEffects = findViewById(R.id.ll_onYesAsBWhatAreTheEffects_ClimateAndDrr);
-        onNo = findViewById(R.id.ll_onNoWhatAreTheReasons_ClimateAndDrr);
-        whatAreTheRecharge = findViewById(R.id.ll_whatAreTheWaterRecharging_ClimateAndDrr);
-        optionsToReduce = findViewById(R.id.ll_optionsToReduce_ClimateAndDrr);
-        optionsDrought = findViewById(R.id.ll_optionsDrought_ClimateAndDrr);
-        optionsFlood = findViewById(R.id.ll_optionsFlood_ClimateAndDrr);
-
-        isTheWaterR = findViewById(R.id.btn_rIsTheWater_ClimateAndDrr);
-        waterIsAvailableR = findViewById(R.id.btn_rWaterIsAvail_ClimateAndDrr);
-        whatAreSourcesR = findViewById(R.id.btn_rWhatAreTheS_ClimateAndDrr);
-        onYesHowItR = findViewById(R.id.btn_rOnYesHowItImpacts_ClimateAndDrr);
-        onYesWhatAreTheyR = findViewById(R.id.btn_rOnYesWhatAreThey_ClimateAndDrr);
-        onYesWhatAreTheEffectsR = findViewById(R.id.btn_rOnYesAsBWhatAreTheEffects_ClimateAndDrr);
-        onNoR = findViewById(R.id.btn_rOnNoWhatAreTheReasons_ClimateAndDrr);
-        whatAreTheRechargeR = findViewById(R.id.btn_rWhatAreTheWaterRecharging_ClimateAndDrr);
-        optionsToReduceR = findViewById(R.id.btn_rOptionstoReduce_ClimateAndDrr);
-        optionsDroughtR = findViewById(R.id.btn_rOptionsDrought_ClimateAndDrr);
-        optionsFloodR = findViewById(R.id.btn_rOptionsFlood_ClimateAndDrr);
-
-        optionalOnYes = findViewById(R.id.ll_optionalOnYes_ClimateAndDrr);
-        optionalOnEffect = findViewById(R.id.ll_optionalOnEffect_ClimateAndDrr);
-        optionalOnNo = findViewById(R.id.ll_optionalOnNo_ClimateAndDrr);
-
+        initCompos();
+        setEvents();
         setSpinnerValues(MyConstants.ALL);
+        loadFields();
 
+
+
+
+        isTheWater.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (valuesIsTheWater[i] == 1) {
+                    optionalOnYes.setVisibility(View.VISIBLE);
+
+                } else {
+                    optionalOnYes.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        waterIsAvailable.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (valuesIsTheWater[i] == 2) {
+                    optionalOnNo.setVisibility(View.VISIBLE);
+
+                } else {
+                    optionalOnNo.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+//
+//
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        methods.setOptionsMenuRemove(menu, dateTime_);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 0) {
+            methods.removeEntry(context, tableName, dateTime_);
+        }
+        return true;
+    }
+
+
+    private void loadFields() {
+        methods.configHeaderBar(context, dateTime_, headerWrapper);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        while (cursor.moveToNext()) {
+//            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("isTheW")), valuesIsTheWater, isTheWater);
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("how")), valuesOnYesHowIt, onYesHowIt);
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("they")), valuesOnYesWhatAreThey, onYesWhatAreThey);
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("effe")), valuesOnYes, onYesWhatAreTheEffects);
+//            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("waterIsA")), valuesWaterQualityParam, waterQualityParam);
+//            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("whatAreS")), valuesWaterQualityParam, waterQualityParam);
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("whatAreT")), valuesWaterQualityTap, waterQualityTap);
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("water")), valuesAwareness, );
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("drought")), valuesOptionsDrought, optionsDrought);
+//            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("flood")), valuesOptionsFlood, optionsFlood);
+        }
+
+
+    }
+
+
+    private void setEvents() {
         isTheWaterR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,44 +212,82 @@ public class ClimateAndDdr extends AppCompatActivity {
             }
         });
 
-        isTheWater.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (valuesIsTheWater[i] == 1) {
-                    optionalOnYes.setVisibility(View.VISIBLE);
-
-                } else {
-                    optionalOnYes.setVisibility(View.GONE);
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View v) {
+//                boolean spinnerNull = methods.isSpinnerNull(context, waterSafety, waterQualityParam, freq);
+//                boolean multiCheckNull = methods.isMultiSelectorNull(context, waterQualityTap, awareness);
+//                if (!spinnerNull && !multiCheckNull) {
+//                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, dateTime_ != null);
+//                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//
+//                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            ArrayList<String> strings = methods.getConfiguredStringForInsert(
+//                                    valuesWaterSafety[waterSafety.getSelectedItemPosition()] + "",
+//                                    valuesWaterQualityParam[waterQualityParam.getSelectedItemPosition()] + "",
+//                                    methods.getCheckedValues(valuesWaterQualityTap, waterQualityTap),
+//                                    methods.getCheckedValues(valuesAwareness, awareness),
+//                                    methods.getCheckedValues(valuesMode, mode),
+//                                    valuesFreq[freq.getSelectedItemPosition()] + ""
+//
+//                            );
+//
+//                            methods.insertData(context, tableName, dateTime_, strings);
+//                            methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+//                            onBackPressed();
+//
+//                        }
+//                    });
+//                    dialog.show();
+//                } else {
+//                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+//                }
             }
         });
-
-        waterIsAvailable.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (valuesIsTheWater[i] == 2) {
-                    optionalOnNo.setVisibility(View.VISIBLE);
-
-                } else {
-                    optionalOnNo.setVisibility(View.GONE);
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-//
-//
     }
+
+    private void initCompos() {
+        isTheWater = findViewById(R.id.spinner_isTheWater_ClimateAndDrr);
+        waterIsAvailable = findViewById(R.id.spinner_waterIsAvail_ClimateAndDrr);
+        whatAreSources = findViewById(R.id.spinner_whatAreTheS_ClimateAndDrr);
+
+        headerWrapper = findViewById(R.id.rl_wrapperTop);
+
+        onYesHowIt = findViewById(R.id.ll_onYesHowItImpacts_ClimateAndDrr);
+        onYesWhatAreThey = findViewById(R.id.ll_onYesWhatAreThey_ClimateAndDrr);
+        onYesWhatAreTheEffects = findViewById(R.id.ll_onYesAsBWhatAreTheEffects_ClimateAndDrr);
+        onNo = findViewById(R.id.ll_onNoWhatAreTheReasons_ClimateAndDrr);
+        whatAreTheRecharge = findViewById(R.id.ll_whatAreTheWaterRecharging_ClimateAndDrr);
+        optionsToReduce = findViewById(R.id.ll_optionsToReduce_ClimateAndDrr);
+        optionsDrought = findViewById(R.id.ll_optionsDrought_ClimateAndDrr);
+        optionsFlood = findViewById(R.id.ll_optionsFlood_ClimateAndDrr);
+
+        isTheWaterR = findViewById(R.id.btn_rIsTheWater_ClimateAndDrr);
+        waterIsAvailableR = findViewById(R.id.btn_rWaterIsAvail_ClimateAndDrr);
+        whatAreSourcesR = findViewById(R.id.btn_rWhatAreTheS_ClimateAndDrr);
+        onYesHowItR = findViewById(R.id.btn_rOnYesHowItImpacts_ClimateAndDrr);
+        onYesWhatAreTheyR = findViewById(R.id.btn_rOnYesWhatAreThey_ClimateAndDrr);
+        onYesWhatAreTheEffectsR = findViewById(R.id.btn_rOnYesAsBWhatAreTheEffects_ClimateAndDrr);
+        onNoR = findViewById(R.id.btn_rOnNoWhatAreTheReasons_ClimateAndDrr);
+        whatAreTheRechargeR = findViewById(R.id.btn_rWhatAreTheWaterRecharging_ClimateAndDrr);
+        optionsToReduceR = findViewById(R.id.btn_rOptionstoReduce_ClimateAndDrr);
+        optionsDroughtR = findViewById(R.id.btn_rOptionsDrought_ClimateAndDrr);
+        optionsFloodR = findViewById(R.id.btn_rOptionsFlood_ClimateAndDrr);
+        save = findViewById(R.id.btn_saveFlood_ClimateAndDrr);
+
+        optionalOnYes = findViewById(R.id.ll_optionalOnYes_ClimateAndDrr);
+        optionalOnEffect = findViewById(R.id.ll_optionalOnEffect_ClimateAndDrr);
+        optionalOnNo = findViewById(R.id.ll_optionalOnNo_ClimateAndDrr);
+    }
+
+
 
     //
 //

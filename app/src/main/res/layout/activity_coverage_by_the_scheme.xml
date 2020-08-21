@@ -9,92 +9,133 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/page_padding_h"
-        android:paddingVertical="@dimen/page_padding_v">
+        android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="DS Division"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/spinner_dsdCoverageByS"
+        <RelativeLayout
+            android:id="@+id/rl_toBackCoverageByTheScheme"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <Button
-            android:id="@+id/btn_resynchDsdCoverageByS"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:textColor="@color/colorWhite" />
+            android:background="@color/colorAccent"
+            android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:text="GN Division"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/spinner_GnCoverageByS"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_villageCoverageByS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/space_between_components">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_dsdNameCoverageByTheScheme"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Village" />
+                android:layout_centerHorizontal="true"
+                android:alpha=".8"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="dsd name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/my_sub_header_text_size" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_numberCoverageByS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/space_between_components">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_gndNameCoverageByTheScheme"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Number of houses served"
-                android:inputType="numberSigned" />
+                android:layout_below="@id/tv_dsdNameCoverageByTheScheme"
+                android:layout_centerHorizontal="true"
+                android:alpha=".5"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="dsd name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_sub_text" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
 
-
-        <Button
-            android:id="@+id/btn_saveCoverageByS"
-            android:layout_width="@dimen/button_width"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:backgroundTint="@color/btnSave"
+            android:orientation="vertical"
             android:paddingHorizontal="@dimen/page_padding_h"
-            android:paddingVertical="@dimen/page_padding_v"
-            android:text="Save"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/button_text_size"
-            android:textStyle="bold" />
+            android:paddingVertical="@dimen/page_padding_v">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="DS Division"
+                android:textSize="@dimen/label_text_size" />
+
+            <Spinner
+                android:id="@+id/spinner_dsdCoverageByS"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
+
+            <Button
+                android:id="@+id/btn_resynchDsdCoverageByS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="GN Division"
+                android:textSize="@dimen/label_text_size" />
+
+            <Spinner
+                android:id="@+id/spinner_GnCoverageByS"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_villageCoverageByS"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_between_components">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Village" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_numberCoverageByS"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_between_components">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Number of houses served"
+                    android:inputType="numberSigned" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/btn_saveCoverageByS"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:backgroundTint="@color/btnSave"
+                android:paddingHorizontal="@dimen/page_padding_h"
+                android:paddingVertical="@dimen/page_padding_v"
+                android:text="Save"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/button_text_size"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

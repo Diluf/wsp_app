@@ -1,18 +1,27 @@
 package com.debugsire.wsp.WaterSafetyAndClimate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
 import com.debugsire.wsp.R;
+
+import java.util.ArrayList;
 
 public class Governance extends AppCompatActivity {
 
@@ -24,39 +33,64 @@ public class Governance extends AppCompatActivity {
     Spinner fairLand, conflicts, isThere;
     LinearLayout inclusive, trans, onYesConflicts, onYesIsThere;
     Button fairLandR, conflictsR, isThereR,
-            inclusiveR, transR, onYesConflictsR, onYesIsThereR;
+            inclusiveR, transR, onYesConflictsR, onYesIsThereR, save;
 
     LinearLayout optionalOnYesConflicts, optionalOnYesIsThere;
+
+    RelativeLayout headerWrapper;
+    String dateTime_, tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_governance);
+
         context = this;
         methods = new Methods();
+        dateTime_ = getIntent().getExtras().getString("dateTime_");
+        tableName = getIntent().getExtras().getString("tableName");
 
-        fairLand = findViewById(R.id.spinner_fairLand_Governance);
-        conflicts = findViewById(R.id.spinner_conflicts_Governance);
-        isThere = findViewById(R.id.spinner_isThere_Governance);
-
-        inclusive = findViewById(R.id.ll_inclusive_Governance);
-        trans = findViewById(R.id.ll_trans_Governance);
-        onYesConflicts = findViewById(R.id.ll_conflicts_Governance);
-        onYesIsThere = findViewById(R.id.ll_isThere_Governance);
-
-        fairLandR = findViewById(R.id.btn_rFairLand_Governance);
-        conflictsR = findViewById(R.id.btn_rConflicts_Governance);
-        isThereR = findViewById(R.id.btn_rIsThere_Governance);
-        inclusiveR = findViewById(R.id.btn_rInclusive_Governance);
-        transR = findViewById(R.id.btn_rTrans_Governance);
-        onYesConflictsR = findViewById(R.id.btn_rOptionalOnYesConflicts_Governance);
-        onYesIsThereR = findViewById(R.id.btn_rOptionalOnYesIsThere_Governance);
-
-        optionalOnYesConflicts = findViewById(R.id.ll_optionalOnYesConflicts_Governance);
-        optionalOnYesIsThere = findViewById(R.id.ll_optionalOnYesIsThere_Governance);
-
+        initCompos();
+        setEvents();
         setSpinnerValues(MyConstants.ALL);
+        loadFields();
 
+
+//
+//
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        methods.setOptionsMenuRemove(menu, dateTime_);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 0) {
+            methods.removeEntry(context, tableName, dateTime_);
+        }
+        return true;
+    }
+
+    private void loadFields() {
+        methods.configHeaderBar(context, dateTime_, headerWrapper);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        while (cursor.moveToNext()) {
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("fair")), valuesFairLand, fairLand);
+            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("inc")), valuesInclusive, inclusive);
+            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("tra")), valuesTrans, trans);
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("con")), valuesConflicts, conflicts);
+            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("theReas")), valuesOnYesConflicts, onYesConflicts);
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("isThere")), valuesIsThere, isThere);
+            methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("pot")), valuesOnYesIsThere, onYesIsThere);
+        }
+
+    }
+
+    private void setEvents() {
         fairLandR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,8 +171,72 @@ public class Governance extends AppCompatActivity {
 
             }
         });
-//
-//
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean spinnerNull = methods.isSpinnerNull(context, fairLand, conflicts, isThere);
+                boolean multiCheckNull = methods.isMultiSelectorNull(context, inclusive, trans);
+                if (!spinnerNull && !multiCheckNull) {
+                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, dateTime_ != null);
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ArrayList<String> strings = methods.getConfiguredStringForInsert(
+                                    valuesFairLand[fairLand.getSelectedItemPosition()] + "",
+                                    methods.getCheckedValues(valuesInclusive, inclusive),
+                                    methods.getCheckedValues(valuesTrans, trans),
+                                    valuesConflicts[conflicts.getSelectedItemPosition()] + "",
+                                    conflicts.getSelectedItemPosition() == 1 ? methods.getCheckedValues(valuesOnYesConflicts, onYesConflicts) : "",
+                                    valuesIsThere[isThere.getSelectedItemPosition()] + "",
+                                    isThere.getSelectedItemPosition() == 1 ? methods.getCheckedValues(valuesOnYesIsThere, onYesIsThere) : ""
+
+                            );
+
+                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+                            onBackPressed();
+
+                        }
+                    });
+                    dialog.show();
+                } else {
+                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                }
+            }
+        });
+    }
+
+    private void initCompos() {
+        fairLand = findViewById(R.id.spinner_fairLand_Governance);
+        conflicts = findViewById(R.id.spinner_conflicts_Governance);
+        isThere = findViewById(R.id.spinner_isThere_Governance);
+
+        headerWrapper = findViewById(R.id.rl_wrapperTop);
+
+        inclusive = findViewById(R.id.ll_inclusive_Governance);
+        trans = findViewById(R.id.ll_trans_Governance);
+        onYesConflicts = findViewById(R.id.ll_conflicts_Governance);
+        onYesIsThere = findViewById(R.id.ll_isThere_Governance);
+
+        fairLandR = findViewById(R.id.btn_rFairLand_Governance);
+        conflictsR = findViewById(R.id.btn_rConflicts_Governance);
+        isThereR = findViewById(R.id.btn_rIsThere_Governance);
+        inclusiveR = findViewById(R.id.btn_rInclusive_Governance);
+        transR = findViewById(R.id.btn_rTrans_Governance);
+        onYesConflictsR = findViewById(R.id.btn_rOptionalOnYesConflicts_Governance);
+        onYesIsThereR = findViewById(R.id.btn_rOptionalOnYesIsThere_Governance);
+        save = findViewById(R.id.btn_saveActivityGovernance);
+
+        optionalOnYesConflicts = findViewById(R.id.ll_optionalOnYesConflicts_Governance);
+        optionalOnYesIsThere = findViewById(R.id.ll_optionalOnYesIsThere_Governance);
     }
 
     //

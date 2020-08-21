@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.POJOs.HomePojos;
 import com.debugsire.wsp.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -33,11 +34,13 @@ public class HomeAdapter extends ArrayAdapter {
     Context context;
     ArrayList<HomePojos> arrayList;
     LayoutInflater inflater;
+    Methods methods;
 
-    public HomeAdapter(@NonNull Context context, ArrayList<HomePojos> arrayList) {
+    public HomeAdapter(@NonNull Context context, ArrayList<HomePojos> arrayList, Methods methods) {
         super(context, R.layout.item_my_header, arrayList);
         this.context = context;
         this.arrayList = arrayList;
+        this.methods = methods;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -47,27 +50,22 @@ public class HomeAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         convertView = inflater.inflate(R.layout.item_my_header, null);
 
-        TextView title = convertView.findViewById(R.id.tv_titleItemHeader);
-        ImageView edit = convertView.findViewById(R.id.image_optionsItemHeader);
+        HomePojos homePojos = arrayList.get(position);
+        TextView titleTextView = convertView.findViewById(R.id.tv_titleItemHeader);
+        TextView countTextView = convertView.findViewById(R.id.tv_badgeItemHeader);
 
-        title.setText(arrayList.get(position).getTitle());
+        titleTextView.setText(homePojos.getTitle());
 
-        addEventListeners(arrayList.get(position), edit);
+        int count = methods.getCursorBySelectedCBONum(context, homePojos.getDbName()).getCount();
+        if (count == 0) {
+            countTextView.setVisibility(View.GONE);
+        } else {
+            countTextView.setText(count + "");
+            countTextView.setVisibility(View.VISIBLE);
+        }
+
 
         return convertView;
-    }
-
-    private void addEventListeners(final HomePojos homePojos, ImageView edit) {
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-                View v = inflater.inflate(R.layout.dialog_bottom_options, null);
-                bottomSheetDialog.setContentView(v);
-                bottomSheetDialog.show();
-
-            }
-        });
     }
 
 

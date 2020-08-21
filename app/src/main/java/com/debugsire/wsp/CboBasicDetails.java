@@ -87,7 +87,7 @@ public class CboBasicDetails extends AppCompatActivity {
             acc.setText(data.getString(data.getColumnIndex("acc")));
 
             if (methods.isAvailOnDB("cboBasicDetailsFilled")) {
-                methods.setSelctedItemForSpinner(data.getInt(data.getColumnIndex("manWss")), values, managementOfWSS);
+                methods.setSelectedItemForSpinner(data.getInt(data.getColumnIndex("manWss")), values, managementOfWSS);
             }
 
         }
@@ -167,8 +167,6 @@ public class CboBasicDetails extends AppCompatActivity {
         managementOfWSS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Integer value = values[i];
-                Log.d(TAG, "onItemSelected: " + value);
                 if (values[i] == -2) {
                     methods.setAlertDialogOnAddNew(context, MyConstants.DL_CBOBASICDETAILS_MANAGEMENT_OF_WSS, managementOfWSS);
                 }

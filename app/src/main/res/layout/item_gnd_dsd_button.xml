@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:id="@+id/card_dsd_gndItemGndDsdButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_inline_components"
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="@dimen/radius_list_item">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_rightItemGndDsdButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/margin_inline_components"
+                android:src="@drawable/ic_right"
+                android:tint="@color/colorWhite" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_inline_components"
+                android:layout_marginLeft="@dimen/margin_inline_components_plus_2"
+                android:layout_toLeftOf="@+id/image_rightItemGndDsdButton"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_dsdItemGndDsdButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CBO NAME"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/label_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_gndItemGndDsdButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".6"
+                    android:text="street"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_size_sub_text" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_downloadedItemGndDsdButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".8"
+                    android:text="* Downloaded entry"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_sub_text_small" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

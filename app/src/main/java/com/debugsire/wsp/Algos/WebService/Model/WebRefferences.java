@@ -5,7 +5,6 @@ package com.debugsire.wsp.Algos.WebService.Model;
  */
 
 public class WebRefferences {
-//
 //    private static final String IP = "http://192.168.8.109:8080/WSP_Service";
 //    private static final String IP = "http://192.168.8.181:8080/WSP_Service";
 //    private static final String IP = "http://172.20.10.14:8080/WSP_Service";
