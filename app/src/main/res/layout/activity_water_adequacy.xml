@@ -1,180 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".EndUserAssessment.WaterAdequacy">
 
-    <LinearLayout
+    <include layout="@layout/item_header_bar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:paddingVertical="@dimen/page_padding_v"
-        android:animateLayoutChanges="true"
-        android:paddingHorizontal="@dimen/page_padding_h"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="Do you get adequate amount of water from the community water supply for
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_v">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Do you get adequate amount of water from the community water supply for
 domestic use"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:id="@+id/spinner_doYouGet_WaterAdequacy"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <Button
-            android:id="@+id/btn_rDoYouGet_WaterAdequacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:layout_gravity="right"
-            android:textColor="@color/colorWhite" />
-
-        <!--        Optional Area start-->
-
-        <LinearLayout
-            android:id="@+id/ll_optionalWhatAre_WaterAdequacy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rect_back"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/page_padding_h"
-            android:paddingVertical="@dimen/page_padding_v">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="what are the reasons"
-                android:textSize="@dimen/label_text_size" />
-
-
-            <LinearLayout
-                android:id="@+id/ll_whatAre_WaterAdequacy"
-                android:padding="@dimen/page_padding_h"
-                android:background="@drawable/spinner_back"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/btn_rWhatAre_WaterAdequacy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorDarkGray"
-                android:drawableLeft="@drawable/ic_resynch"
-                android:drawablePadding="@dimen/drawable_padding_with_text"
-                android:text="Resynchronize"
-                android:layout_gravity="right"
-                android:textColor="@color/colorWhite" />
-
-
-        </LinearLayout>
-
-        <!--        Optional Area end-->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="What is the volume of water used by your household per day/ per person from the community water supply (in liters)"
-            android:textSize="@dimen/label_text_size" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:inputType="number"
-            android:layout_height="45dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="Do you use a secondary water source?"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/spinner_doYouUse_WaterAdequacy"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <Button
-            android:id="@+id/btn_rDoYouUse_WaterAdequacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:layout_gravity="right"
-            android:textColor="@color/colorWhite" />
-
-        <!--        Optional Area start-->
-
-        <LinearLayout
-            android:id="@+id/ll_optionalPleaseMention_WaterAdequacy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rect_back"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/page_padding_h"
-            android:paddingVertical="@dimen/page_padding_v">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="Please mention"
                 android:textSize="@dimen/label_text_size" />
 
             <Spinner
-                android:id="@+id/spinner_pleaseMention_WaterAdequacy"
+                android:id="@+id/spinner_doYouGet_WaterAdequacy"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@id/textView8"
                 android:background="@drawable/spinner_back"></Spinner>
 
             <Button
-                android:id="@+id/btn_rPleaseMention_WaterAdequacy"
+                android:id="@+id/btn_rDoYouGet_WaterAdequacy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:backgroundTint="@color/colorDarkGray"
                 android:drawableLeft="@drawable/ic_resynch"
                 android:drawablePadding="@dimen/drawable_padding_with_text"
                 android:text="Resynchronize"
-                android:layout_gravity="right"
                 android:textColor="@color/colorWhite" />
+
+            <!--        Optional Area start-->
+
+            <LinearLayout
+                android:id="@+id/ll_optionalWhatAre_WaterAdequacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect_back"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/page_padding_h"
+                android:paddingVertical="@dimen/page_padding_v">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="what are the reasons"
+                    android:textSize="@dimen/label_text_size" />
+
+
+                <LinearLayout
+                    android:id="@+id/ll_whatAre_WaterAdequacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_back"
+                    android:orientation="vertical"
+                    android:padding="@dimen/page_padding_h" />
+
+                <Button
+                    android:id="@+id/btn_rWhatAre_WaterAdequacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/colorDarkGray"
+                    android:drawableLeft="@drawable/ic_resynch"
+                    android:drawablePadding="@dimen/drawable_padding_with_text"
+                    android:text="Resynchronize"
+                    android:textColor="@color/colorWhite" />
+
+
+            </LinearLayout>
+
+            <!--        Optional Area end-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="What is the volume of water used by your household per day/ per person from the community water supply (in liters)"
+                android:textSize="@dimen/label_text_size" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_whatActivityWaterAdequacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="Do you use a secondary water source?"
+                android:textSize="@dimen/label_text_size" />
+
+            <Spinner
+                android:id="@+id/spinner_doYouUse_WaterAdequacy"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
+
+            <Button
+                android:id="@+id/btn_rDoYouUse_WaterAdequacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
+
+            <!--        Optional Area start-->
+
+            <LinearLayout
+                android:id="@+id/ll_optionalPleaseMention_WaterAdequacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect_back"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/page_padding_h"
+                android:paddingVertical="@dimen/page_padding_v">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Please mention"
+                    android:textSize="@dimen/label_text_size" />
+
+                <Spinner
+                    android:id="@+id/spinner_pleaseMention_WaterAdequacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/textView8"
+                    android:background="@drawable/spinner_back"></Spinner>
+
+                <Button
+                    android:id="@+id/btn_rPleaseMention_WaterAdequacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/colorDarkGray"
+                    android:drawableLeft="@drawable/ic_resynch"
+                    android:drawablePadding="@dimen/drawable_padding_with_text"
+                    android:text="Resynchronize"
+                    android:textColor="@color/colorWhite" />
+
+            </LinearLayout>
+
+            <!--        Optional Area end-->
+            <Button
+                android:id="@+id/btn_saveActivityWaterAdequacy"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:backgroundTint="@color/btnSave"
+                android:paddingHorizontal="@dimen/button_padding_h"
+                android:paddingVertical="@dimen/button_padding_v"
+                android:text="Save"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/button_text_size" />
+
 
         </LinearLayout>
 
-        <!--        Optional Area end-->
-        <Button
-            android:layout_width="@dimen/button_width"
-            android:paddingHorizontal="@dimen/button_padding_h"
-            android:paddingVertical="@dimen/button_padding_v"
-            android:text="Save"
-            android:backgroundTint="@color/btnSave"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@color/colorWhite"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content" />
+    </ScrollView>
 
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

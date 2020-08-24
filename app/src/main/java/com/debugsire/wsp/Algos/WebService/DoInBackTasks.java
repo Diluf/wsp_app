@@ -61,13 +61,13 @@ public class DoInBackTasks {
             JSONObject object = array.getJSONObject(i);
             asyncWebService.myPublishProgress("Caching " + i + " of " + array.length());
 //            if (!methods.isAvailOnDB("locations", "dsd", object.getString("dsd").trim())) {
-                MyDB.setData("INSERT INTO locations VALUES (" +
-                        " '" + Methods.configNull(object, "idGnd", "-") + "', " +
-                        " '" + Methods.configNull(object, "idDsd", "-") + "', " +
-                        " '" + Methods.configNull(object, "dsd", "-") + "', " +
-                        " '" + Methods.configNull(object, "gnd", "-") + "', " +
-                        " '" + Methods.getNowDateTime() + "' " +
-                        ")");
+            MyDB.setData("INSERT INTO locations VALUES (" +
+                    " '" + Methods.configNull(object, "idGnd", "-") + "', " +
+                    " '" + Methods.configNull(object, "idDsd", "-") + "', " +
+                    " '" + Methods.configNull(object, "dsd", "-") + "', " +
+                    " '" + Methods.configNull(object, "gnd", "-") + "', " +
+                    " '" + Methods.getNowDateTime() + "' " +
+                    ")");
             Log.d(TAG, "checkDSDandCBO: " + object);
 //            }
         }
@@ -82,6 +82,7 @@ public class DoInBackTasks {
                 asyncWebService.myPublishProgress("Caching CBO Details for " + object.getString("dsd").trim() + i + " of " + array.length());
                 if (!methods.isAvailOnDB("cboB", "CBONum", cboJsonObject.getString("cboId").trim())) {
                     MyDB.setData("INSERT INTO cboB VALUES (" +
+                            " '" + Methods.configNull(cboJsonObject, "id", "-") + "', " +
                             " '" + Methods.configNull(cboJsonObject, "cboId", "-") + "', " +
                             " '" + Methods.configNull(cboJsonObject, "name", "-") + "', " +
                             " '" + Methods.configNull(cboJsonObject, "street", "-") + "', " +
@@ -118,6 +119,7 @@ public class DoInBackTasks {
                     deleteRow("cboBasicDetails", "CBONum", jsonObject.getString("cboId").trim());
                     asyncWebService.myPublishProgress("Caching CBO Details...");
                     MyDB.setData("INSERT INTO cboBasicDetails VALUES (" +
+                            " '" + Methods.configNull(jsonObject, "id", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "cboId", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "name", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "street", "-") + "', " +
@@ -128,6 +130,7 @@ public class DoInBackTasks {
                             " '" + Methods.configNull(jsonObject, "lat", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "height", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "acc", "-") + "', " +
+                            " '0', " +
                             " '" + Methods.configNull(jsonObject, "userName", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "dateTime_", "-") + "' " +
                             ")");
@@ -135,6 +138,7 @@ public class DoInBackTasks {
                     deleteRow("connectionD", "CBONum", jsonObject.getString("cboId").trim());
                     asyncWebService.myPublishProgress("Caching Connection Details...");
                     MyDB.setData("INSERT INTO connectionD VALUES (" +
+                            " '" + Methods.configNull(jsonObject, "id", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "cboId", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "domestic", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "religious", "-") + "', " +
@@ -152,6 +156,7 @@ public class DoInBackTasks {
                         alreadyPerformed = true;
                     }
                     MyDB.setData("INSERT INTO coverageInfo VALUES (" +
+                            " '" + Methods.configNull(jsonObject, "id", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "cboId", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "village", "-") + "', " +
                             " '" + Methods.configNull(jsonObject, "idGnd", "-") + "', " +
@@ -188,6 +193,31 @@ public class DoInBackTasks {
                     ")");
             Log.d(TAG, "checkDSDandCBO: " + object);
 //            }
+        }
+    }
+
+    public void configContactDetails(String response) {
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.has("id")) {
+                    String mob = jsonObject.getString("mob").trim();
+                    String cboId = jsonObject.getString("CBONum").trim();
+                    String id = jsonObject.getString("id").trim();
+                    String columnName = jsonObject.getString("columnName").trim();
+                    jsonObject = new JSONObject();
+
+                    jsonObject.put("id", id);
+                    jsonObject.put("columnName", columnName);
+                    MyDB.setData("UPDATE basicInfo SET id = '" + jsonObject.toString() + "' WHERE CBONum = '" + cboId + "' AND mob = '" + mob + "'");
+                }
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

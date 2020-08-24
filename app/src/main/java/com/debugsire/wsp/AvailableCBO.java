@@ -5,16 +5,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,7 +33,9 @@ import com.debugsire.wsp.Algos.MyConstants;
 import com.debugsire.wsp.Algos.POJOs.DownloadedCBOPOJO;
 import com.debugsire.wsp.Algos.WebService.*;
 import com.debugsire.wsp.Algos.WebService.Model.WebRefferences;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,10 +46,14 @@ public class AvailableCBO extends AppCompatActivity {
     Button makeOff, resynch;
     ListView offlineList;
     Context context;
-    private String TAG = "----------- ";
+
     Spinner dsd, cbo;
     ArrayList<String> alDSDs, alCBOs, alCBOsId;
     ArrayList<DownloadedCBOPOJO> offlineCbopojoArrayList;
+
+    View dialogView;
+
+    FloatingActionButton floatingActionButton;
     Methods methods;
 
     @Override
@@ -52,29 +64,25 @@ public class AvailableCBO extends AppCompatActivity {
         context = AvailableCBO.this;
         methods = new Methods();
 
-        makeOff = findViewById(R.id.btn_MakeOffline_AvailableCBO);
-        resynch = findViewById(R.id.btn_rAvailCbo_AvailableCBO);
-        dsd = findViewById(R.id.sp_DSD_AvailableCBO);
-        cbo = findViewById(R.id.sp_CBOName_AvailableCBO);
         offlineList = findViewById(R.id.lv_availCBO_AvailableCBO);
+        floatingActionButton = findViewById(R.id.floatingActionButton);
 
         loadOfflineCBOs();
         addEventListeners();
 
+        if (offlineCbopojoArrayList.size() == 0) {
+            showCBODialog();
+        }
     }
 
-    private void addEventListeners() {
-        offlineList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                DownloadedCBOPOJO downloadedCBOPOJO = offlineCbopojoArrayList.get(i);
-                Intent intent = new Intent(context, Home.class);
-                intent.putExtra("cboName", downloadedCBOPOJO.getCboName());
-                methods.setSharedPref(context, MyConstants.SHARED_CBO_NUM, downloadedCBOPOJO.getCboNum());
-                startActivity(intent);
-            }
-        });
+    private void assignAlertView() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        dialogView = inflater.inflate(R.layout.dialog_download_cbo, null);
 
+        resynch = dialogView.findViewById(R.id.btn_rAvailCbo_AvailableCBO);
+        dsd = dialogView.findViewById(R.id.sp_DSD_AvailableCBO);
+        cbo = dialogView.findViewById(R.id.sp_CBOName_AvailableCBO);
+        makeOff = dialogView.findViewById(R.id.btn_MakeOffline_AvailableCBO);
 
         makeOff.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +134,41 @@ public class AvailableCBO extends AppCompatActivity {
         });
     }
 
+    private void addEventListeners() {
+        offlineList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DownloadedCBOPOJO downloadedCBOPOJO = offlineCbopojoArrayList.get(i);
+                Intent intent = new Intent(context, Home.class);
+                intent.putExtra("cboName", downloadedCBOPOJO.getCboName());
+                methods.setSharedPref(context, MyConstants.SHARED_CBO_NUM, downloadedCBOPOJO.getCboNum());
+                startActivity(intent);
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCBODialog();
+            }
+        });
+    }
+
+    private void showCBODialog() {
+        assignAlertView();
+        final AlertDialog builder = new AlertDialog.Builder(context)
+                .setView(dialogView)
+                .create();
+
+        builder.setButton(DialogInterface.BUTTON_NEGATIVE, "cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                builder.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     public void loadCbo() {
         String selectedDsd = alDSDs.get(dsd.getSelectedItemPosition());
         alCBOs = new ArrayList<>();
@@ -157,7 +200,8 @@ public class AvailableCBO extends AppCompatActivity {
                     data.getString(data.getColumnIndex("road")),
                     data.getString(data.getColumnIndex("village")),
                     data.getString(data.getColumnIndex("town")),
-                    data.getString(data.getColumnIndex("dateTime_"))
+                    data.getString(data.getColumnIndex("dateTime_")),
+                    data.getInt(data.getColumnIndex("uploadStarted")) == 0 ? false : true
             ));
 
         }
@@ -185,8 +229,17 @@ public class AvailableCBO extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (MyDB.getData("SELECT * FROM wsp_droplist").getCount() == 0) {
-            new AsyncWebService(context, MyConstants.ACTION_GET_DROP_LIST)
-                    .execute(WebRefferences.getDLValues.methodName, MyConstants.ALL);
+
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("ref_section", MyConstants.ALL);
+                jsonObject.put("newEntries", new JSONArray());
+
+                new AsyncWebService(context, MyConstants.ACTION_GET_DROP_LIST)
+                        .execute(WebRefferences.getDLValues.methodName, jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -200,8 +253,12 @@ public class AvailableCBO extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_upload_OnAvailable:
+
+
+                return true;
             case R.id.menu_signOut_OnAvailable:
-                ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
+                ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
                 startActivity(new Intent(AvailableCBO.this, SignIn.class));
                 finish();
                 return true;
@@ -210,5 +267,52 @@ public class AvailableCBO extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void startUpload() {
+
+//        INSERT INTO `contacts`
+//        (`_id`, `cboid`, `person_name`, `calling_name`, `designation_cbo`, `mobile1`, `mobile`, `gender`,
+//                `preffered_language`, `dateTime_`, `dateTimeUploaded_`, `userName`, `application`, `prev_Id`, `web_validated`)
+//        VALUES
+
+        String q = "INSERT INTO `contacts`(" +
+                "`cboid`, " +
+                "`person_name`, " +
+                "`calling_name`, " +
+                "`designation_cbo`, " +
+                "`mobile1`, " +
+                "`mobile`, " +
+                "`gender`," +
+                "`preffered_language`, " +
+                "`dateTime_`, " +
+                "`dateTimeUploaded_`, " +
+                "`userName`, " +
+                "`application`, " +
+                "`prev_Id`, " +
+                "`web_validated`) VALUES (";
+        Cursor cursor = methods.getCursorBySelectedCBONum(context, "basicInfo");
+        while (cursor.moveToNext()) {
+
+            q += "'" + Methods.getCBONum(context) + "', '" + cursor.getString(cursor.getColumnIndex("name")) + "'";
+
+//                q += "'" + Methods.getCBONum(context) + "'," +
+//                        "person_name = '" + cursor.getString(cursor.getColumnIndex("name")) + "'," +
+//                        " calling_name = '" + cursor.getString(cursor.getColumnIndex("name")) + "'," +
+//                        " designation_cbo = '" + cursor.getString(cursor.getColumnIndex("desi")) + "'," +
+//                        " " + columnName + " = '" + cursor.getString(cursor.getColumnIndex("mob")) + "'," +
+//                        " gender = '" + cursor.getString(cursor.getColumnIndex("gen")) + "'," +
+//                        " preffered_language = '" + cursor.getString(cursor.getColumnIndex("pref")) + "'" +
+//                        " WHERE _id = '" + contactId + "'";
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(q);
+        new AsyncWebService(context, MyConstants.ACTION_UPLOAD)
+                .execute(
+                        WebRefferences.execQuery.methodName,
+                        jsonArray.toString()
+                );
+
     }
 }

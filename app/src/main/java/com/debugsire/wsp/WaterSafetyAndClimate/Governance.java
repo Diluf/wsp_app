@@ -242,7 +242,7 @@ public class Governance extends AppCompatActivity {
     //
 //
     public void setSpinnerValues(String tableKey) {
-        if (tableKey == MyConstants.DL_CLIMATE_IS_THE_WATER) {
+        if (tableKey == MyConstants.DL_GOVERNANCE_FAIR_LAND) {
             valuesFairLand = methods.setSpinnerThings(context, MyConstants.DL_GOVERNANCE_FAIR_LAND,
                     valuesFairLand, fairLand, true);
 

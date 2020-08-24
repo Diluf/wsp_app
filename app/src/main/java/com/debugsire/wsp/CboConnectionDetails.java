@@ -23,6 +23,7 @@ public class CboConnectionDetails extends AppCompatActivity {
 
     TextInputLayout dom, rel, com, schools, health, gov, other;
     Button save;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class CboConnectionDetails extends AppCompatActivity {
             health.getEditText().setText(data.getString(data.getColumnIndex("health")));
             gov.getEditText().setText(data.getString(data.getColumnIndex("gov")));
             other.getEditText().setText(data.getString(data.getColumnIndex("other")));
+            id = data.getString(data.getColumnIndex("id"));
         }
     }
 
@@ -61,20 +63,21 @@ public class CboConnectionDetails extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
+                if (!methods.isTILFieldsNull(context, dom)) {
+                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (!methods.isTILFieldsNull(context, dom)) {
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             MyDB.setData("DELETE FROM connectionDFilled");
                             MyDB.setData("INSERT INTO connectionDFilled VALUES (" +
+                                    " '" + id + "', " +
                                     " '" + Methods.getCBONum(context) + "', " +
                                     " '" + Methods.configNull(dom.getEditText().getText().toString(), "0") + "', " +
                                     " '" + Methods.configNull(rel.getEditText().getText().toString(), "0") + "', " +
@@ -87,13 +90,14 @@ public class CboConnectionDetails extends AppCompatActivity {
                                     ")");
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
-
-                        } else {
-                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
                         }
-                    }
-                });
-                dialog.show();
+                    });
+                    dialog.show();
+
+                } else {
+                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                }
+
 
             }
         });

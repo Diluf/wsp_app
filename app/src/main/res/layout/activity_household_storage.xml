@@ -1,137 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".EndUserAssessment.HouseholdStorage">
 
-    <LinearLayout
+    <include layout="@layout/item_header_bar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:paddingVertical="@dimen/page_padding_v"
-        android:paddingHorizontal="@dimen/page_padding_h"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="How do you store drinking water"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/spinner_howDoYouStore_HouseHoldStorage"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <Button
-            android:id="@+id/btn_rHowDoYouStore_HouseHoldStorage"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:textColor="@color/colorWhite" />
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/page_padding_h"
+            android:paddingVertical="@dimen/page_padding_v">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="How do you store drinking water"
+                android:textSize="@dimen/label_text_size" />
+
+            <Spinner
+                android:id="@+id/spinner_howDoYouStore_HouseHoldStorage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
+
+            <Button
+                android:id="@+id/btn_rHowDoYouStore_HouseHoldStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="Is the drinking water storing container closed?"
-            android:textSize="@dimen/label_text_size" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="Is the drinking water storing container closed?"
+                android:textSize="@dimen/label_text_size" />
 
-        <Spinner
-            android:id="@+id/spinner_isTheDrinking_HouseHoldStorage"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
+            <Spinner
+                android:id="@+id/spinner_isTheDrinking_HouseHoldStorage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
 
-        <Button
-            android:id="@+id/btn_rIsTheDrinking_HouseHoldStorage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:textColor="@color/colorWhite" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="How often you clean the water storing container"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/spinner_howOften_HouseHoldStorage"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <Button
-            android:id="@+id/btn_rHowOften_HouseHoldStorage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:textColor="@color/colorWhite" />
+            <Button
+                android:id="@+id/btn_rIsTheDrinking_HouseHoldStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="How do you clean your water storing container"
-            android:textSize="@dimen/label_text_size" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="How often you clean the water storing container"
+                android:textSize="@dimen/label_text_size" />
 
-        <Spinner
-            android:id="@+id/spinner_howDoYouClean_HouseHoldStorage"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
+            <Spinner
+                android:id="@+id/spinner_howOften_HouseHoldStorage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
 
-        <Button
-            android:id="@+id/btn_rHowDoYouClean_HouseHoldStorage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:textColor="@color/colorWhite" />
-
-
-        <Button
-            android:layout_width="@dimen/button_width"
-            android:paddingHorizontal="@dimen/button_padding_h"
-            android:paddingVertical="@dimen/button_padding_v"
-            android:text="Save"
-            android:backgroundTint="@color/btnSave"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@color/colorWhite"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/space_between_components"
-            android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_rHowOften_HouseHoldStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
 
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="How do you clean your water storing container"
+                android:textSize="@dimen/label_text_size" />
 
-</ScrollView>
+            <Spinner
+                android:id="@+id/spinner_howDoYouClean_HouseHoldStorage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
+
+            <Button
+                android:id="@+id/btn_rHowDoYouClean_HouseHoldStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
+
+
+            <Button
+                android:id="@+id/btn_saveActivityHousehold"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:backgroundTint="@color/btnSave"
+                android:paddingHorizontal="@dimen/button_padding_h"
+                android:paddingVertical="@dimen/button_padding_v"
+                android:text="Save"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/button_text_size" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -102,8 +102,6 @@ public class EndUserAssessment extends AppCompatActivity {
     }
 
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -168,13 +166,13 @@ public class EndUserAssessment extends AppCompatActivity {
 
     private void initArrayList() {
         homePojosArrayList = new ArrayList<>();
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.basic_information_of_the_householder_owner), "existingQA", false));
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_adequacy), "catchment", true));
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_quality), "treatment", true));
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.household_storage), "dist", true));
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_health), "clim", true));
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_saving), "gov", true));
-        homePojosArrayList.add(new SubHomePojos(getString(R.string.Observation), "obsWS", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.basic_information_of_the_householder_owner), "basicInfo", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_adequacy), "waterAd", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_quality), "waterQ", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.household_storage), "houseHold", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_health), "waterH", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.water_saving), "waterS", true));
+        homePojosArrayList.add(new SubHomePojos(getString(R.string.Observation), "obsEU", true));
 
     }
 

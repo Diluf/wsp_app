@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -8,60 +7,81 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_inline_components"
         android:layout_marginHorizontal="@dimen/margin_inline_components"
-        android:layout_marginTop="@dimen/margin_inline_components"
-        android:layout_marginBottom="10dp"
-        android:elevation="@dimen/spinner_height"
+        android:elevation="10dp"
         app:cardCornerRadius="@dimen/radius_list_item">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/image_rightDownloadedCBOAdapter"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/image_rightDownloadedCBOAdapter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/margin_inline_components"
+                    android:src="@drawable/ic_right" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margin_inline_components"
+                    android:layout_marginLeft="@dimen/margin_inline_components_plus_2"
+                    android:layout_toLeftOf="@+id/image_rightDownloadedCBOAdapter"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_cboNameDownloadedCBOAdapter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CBO NAME"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/label_text_size" />
+
+                    <TextView
+                        android:id="@+id/tv_detailsDownloadedCBOAdapter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="street"
+                        android:textSize="@dimen/text_size_sub_text" />
+
+
+                    <TextView
+                        android:id="@+id/tv_dateTimeDownloadedCBOAdapter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".6"
+                        android:text="2019.12.12 to 2020.12.12"
+                        android:textSize="@dimen/text_size_sub_text" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btn_uploadDownloadedCBOAdapter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginHorizontal="@dimen/margin_inline_components"
-                android:src="@drawable/ic_right" />
+                android:layout_gravity="end"
+                android:backgroundTint="@color/colorAccent"
+                android:drawableEnd="@drawable/ic_cloud_upload"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:paddingHorizontal="20dp"
+                android:text="Upload now"
+                android:textColor="@color/colorWhite" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_inline_components"
-                android:layout_marginLeft="@dimen/margin_inline_components_plus_2"
-                android:layout_toLeftOf="@+id/image_rightDownloadedCBOAdapter"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_cboNameDownloadedCBOAdapter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CBO NAME"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/label_text_size" />
-
-                <TextView
-                    android:id="@+id/tv_detailsDownloadedCBOAdapter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="street"
-                    android:textSize="@dimen/text_size_sub_text" />
-
-
-                <TextView
-                    android:id="@+id/tv_dateTimeDownloadedCBOAdapter"
-                    android:alpha=".6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2019.12.12 to 2020.12.12"
-                    android:textSize="@dimen/text_size_sub_text" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

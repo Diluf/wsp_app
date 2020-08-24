@@ -45,6 +45,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
 
     private static final String TAG = "-----";
     boolean firstTime, isUpdate;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,6 @@ public class CoverageByTheScheme extends AppCompatActivity {
     }
 
     private void loadFields() {
-
         if (idGnd.trim().equalsIgnoreCase("-")) {
             if (dsdList.size() != 0) {
                 firstTime = false;
@@ -90,6 +90,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
         while (data.moveToNext()) {
             village.getEditText().setText(data.getString(data.getColumnIndex("village")));
             num.getEditText().setText(data.getString(data.getColumnIndex("noOfHHold")));
+            id = data.getString(data.getColumnIndex("id"));
         }
         //
         data = methods.getCursor("locations", "idGnd", idGnd);
@@ -133,24 +134,26 @@ public class CoverageByTheScheme extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog dialog = methods.getSaveConfirmationDialog(context, isUpdate);
 
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
 
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
-                                village, num);
-                        boolean dsdSpinnerNull = methods.isSpinnerNull(context, dsd, dsdList);
-                        boolean gndSpinnerNull = methods.isSpinnerNull(context, gnd, gndList);
+                boolean tilFieldsNull = methods.isTILFieldsNull(context,
+                        village, num);
+                boolean dsdSpinnerNull = methods.isSpinnerNull(context, dsd, dsdList);
+                boolean gndSpinnerNull = methods.isSpinnerNull(context, gnd, gndList);
 
-                        if (!tilFieldsNull && !dsdSpinnerNull && !gndSpinnerNull) {
+                if (!tilFieldsNull && !dsdSpinnerNull && !gndSpinnerNull) {
+                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, isUpdate);
+
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             String selectedGndId = gndIds.get(gnd.getSelectedItemPosition());
                             if (dsd.isEnabled()) {
                                 if (methods.getCursor("coverageInfo", "idGnd", selectedGndId, "CBONum", Methods.getCBONum(context)).getCount() != 0) {
@@ -160,6 +163,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
                             }
                             MyDB.setData("DELETE FROM coverageInfoFilled WHERE CBONum = '" + Methods.getCBONum(context) + "' AND idGnd = '" + idGnd + "'");
                             MyDB.setData("INSERT INTO coverageInfoFilled VALUES (" +
+                                    " '" + (id == null ? "-" : id) + "', " +
                                     " '" + Methods.getCBONum(context) + "', " +
                                     " '" + Methods.configNull(village.getEditText().getText().toString(), "") + "', " +
                                     " '" + selectedGndId + "', " +
@@ -168,13 +172,14 @@ public class CoverageByTheScheme extends AppCompatActivity {
                                     ")");
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
-
-                        } else {
-                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
                         }
-                    }
-                });
-                dialog.show();
+                    });
+                    dialog.show();
+
+
+                } else {
+                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                }
 
             }
         });

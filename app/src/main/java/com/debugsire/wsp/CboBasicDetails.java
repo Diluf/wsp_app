@@ -47,6 +47,7 @@ public class CboBasicDetails extends AppCompatActivity {
     ImageView loaderGPS;
     LocationListener locationListener;
     LocationManager locationManager;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class CboBasicDetails extends AppCompatActivity {
             if (methods.isAvailOnDB("cboBasicDetailsFilled")) {
                 methods.setSelectedItemForSpinner(data.getInt(data.getColumnIndex("manWss")), values, managementOfWSS);
             }
+            id = data.getString(data.getColumnIndex("id"));
 
         }
     }
@@ -97,24 +99,25 @@ public class CboBasicDetails extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
+                boolean tilFieldsNull = methods.isTILFieldsNull(context,
+                        cboName, town);
+                boolean spinnerNull = methods.isSpinnerNull(context, managementOfWSS);
 
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        boolean tilFieldsNull = methods.isTILFieldsNull(context,
-                                cboName, town);
-                        boolean spinnerNull = methods.isSpinnerNull(context, managementOfWSS);
+                if (!tilFieldsNull && !spinnerNull) {
+                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                        if (!tilFieldsNull && !spinnerNull) {
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             MyDB.setData("DELETE FROM cboBasicDetailsFilled");
                             MyDB.setData("INSERT INTO cboBasicDetailsFilled VALUES (" +
+                                    " '" + id + "', " +
                                     " '" + Methods.getCBONum(context) + "', " +
                                     " '" + Methods.configNull(cboName.getEditText().getText().toString(), "") + "', " +
                                     " '" + Methods.configNull(ass.getEditText().getText().toString(), "") + "', " +
@@ -131,13 +134,14 @@ public class CboBasicDetails extends AppCompatActivity {
                                     ")");
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
-
-                        } else {
-                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
                         }
-                    }
-                });
-                dialog.show();
+                    });
+                    dialog.show();
+
+
+                } else {
+                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                }
             }
         });
 
@@ -164,19 +168,6 @@ public class CboBasicDetails extends AppCompatActivity {
             }
         });
 
-        managementOfWSS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (values[i] == -2) {
-                    methods.setAlertDialogOnAddNew(context, MyConstants.DL_CBOBASICDETAILS_MANAGEMENT_OF_WSS, managementOfWSS);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     private void initCompos() {

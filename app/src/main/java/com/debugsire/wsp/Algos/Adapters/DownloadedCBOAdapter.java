@@ -1,12 +1,17 @@
 package com.debugsire.wsp.Algos.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,9 +19,13 @@ import androidx.annotation.Nullable;
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
 import com.debugsire.wsp.Algos.POJOs.DownloadedCBOPOJO;
+import com.debugsire.wsp.Algos.WebService.AsyncWebService;
+import com.debugsire.wsp.Algos.WebService.Model.WebRefferences;
+import com.debugsire.wsp.AvailableCBO;
 import com.debugsire.wsp.R;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.json.JSONArray;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,17 +49,18 @@ public class DownloadedCBOAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         convertView = layoutInflater.inflate(R.layout.item_downloaded_cbo, null);
 
-        TextView cboName = convertView.findViewById(R.id.tv_cboNameDownloadedCBOAdapter);
-        TextView details = convertView.findViewById(R.id.tv_detailsDownloadedCBOAdapter);
+        final TextView cboName = convertView.findViewById(R.id.tv_cboNameDownloadedCBOAdapter);
+        final TextView details = convertView.findViewById(R.id.tv_detailsDownloadedCBOAdapter);
         TextView dateTime = convertView.findViewById(R.id.tv_dateTimeDownloadedCBOAdapter);
+        Button upload = convertView.findViewById(R.id.btn_uploadDownloadedCBOAdapter);
 
-        DownloadedCBOPOJO downloadedCBOPOJO = offlineCbopojoArrayList.get(position);
+        final DownloadedCBOPOJO downloadedCBOPOJO = offlineCbopojoArrayList.get(position);
 
         cboName.setText(downloadedCBOPOJO.getCboName());
-        details.setText(downloadedCBOPOJO.getRoad() + "\n"
-                + downloadedCBOPOJO.getStreet() + "\n"
-                + downloadedCBOPOJO.getVillage() + "\n"
-                + downloadedCBOPOJO.getTown());
+        details.setText((downloadedCBOPOJO.getRoad().trim().isEmpty() ? "-" : downloadedCBOPOJO.getRoad()) + "\n"
+                + (downloadedCBOPOJO.getStreet().trim().isEmpty() ? "-" : downloadedCBOPOJO.getStreet().trim()) + "\n"
+                + (downloadedCBOPOJO.getVillage().trim().isEmpty() ? "-" : downloadedCBOPOJO.getVillage()) + "\n"
+                + (downloadedCBOPOJO.getTown().trim().isEmpty() ? "-" : downloadedCBOPOJO.getTown()));
         try {
             Date downloaded = MyConstants.SIMPLE_DATETIME_FORMAT.parse(downloadedCBOPOJO.getDateTime());
             Date expire = DateUtils.addHours(downloaded, 48);
@@ -72,6 +82,31 @@ public class DownloadedCBOAdapter extends ArrayAdapter {
             e.printStackTrace();
         }
 
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Methods methods = new Methods();
+                AlertDialog alertDialog = methods.getRequiredAlertDialog(context, MyConstants.UPLOAD_DIALOG);
+                alertDialog.setMessage("\nAre you sure you need to upload following?\n\n\n" + cboName.getText().toString().trim() + "");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        methods.setSharedPref(context, MyConstants.SHARED_CBO_NUM, downloadedCBOPOJO.getCboNum());
+                       ((AvailableCBO) context).startUpload();
+
+                    }
+                });
+
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alertDialog.show();
+            }
+        });
 
 
         return convertView;

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/my_sub_header_text_size"
+            android:text="Download CBO details"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/my_sub_header_text_size" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_rAvailCbo_AvailableCBO"
+            android:text="DS Division"
+            android:textColor="@color/black"
+            android:textSize="@dimen/label_text_size" />
+
+        <Spinner
+            android:id="@+id/sp_DSD_AvailableCBO"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/textView8"
+            android:background="@drawable/spinner_back"></Spinner>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sp_DSD_AvailableCBO"
+            android:layout_marginTop="35dp"
+            android:text="CBO Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/label_text_size" />
+
+        <Spinner
+            android:id="@+id/sp_CBOName_AvailableCBO"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/textView9"
+            android:background="@drawable/spinner_back"></Spinner>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sp_CBOName_AvailableCBO"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp">
+
+            <Button
+                android:id="@+id/btn_MakeOffline_AvailableCBO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/btnSave"
+                android:drawableEnd="@drawable/ic_cloud_download_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingHorizontal="@dimen/button_padding_h"
+                android:paddingVertical="@dimen/button_padding_v"
+                android:text="download"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/button_text_size" />
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_rAvailCbo_AvailableCBO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/colorDarkGray"
+            android:drawableLeft="@drawable/ic_resynch"
+            android:drawablePadding="@dimen/drawable_padding_with_text"
+            android:text="Resynchronize"
+            android:textColor="@color/colorWhite" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -36,6 +36,7 @@
 
 <!--    Error Messages-->
     <string name="error_cannot_be_empty">Cannot be empty</string>
+    <string name="error_max_length_ten">Length should be 10</string>
     <string name="compulsory_cant_empty">Compulsory fields cannot be empty!</string>
     <string name="saved">Saved!</string>
     <string name="updated">Updated!</string>

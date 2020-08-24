@@ -4,139 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context=".AvailableCBO">
 
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
         android:scaleType="matrix"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:srcCompat="@drawable/backgr_bottom" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:text="Select downloaded CBO for data collection"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="480dp"
+        android:text="Select downloaded CBO to continue"
+        android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:padding="5dp"
         android:id="@+id/lv_availCBO_AvailableCBO"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:background="@drawable/rect_back_noborder"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <TextView
-        android:id="@+id/textView7"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="OR"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/rect_back"
-        android:padding="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_below="@+id/btn_rAvailCbo_AvailableCBO"
-            android:text="DS Division"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/sp_DSD_AvailableCBO"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView8"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sp_DSD_AvailableCBO"
-            android:layout_marginTop="35dp"
-            android:text="CBO Name"
-            android:textSize="@dimen/label_text_size" />
-
-        <Spinner
-            android:id="@+id/sp_CBOName_AvailableCBO"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/textView9"
-            android:background="@drawable/spinner_back"></Spinner>
-
-        <Button
-            android:id="@+id/btn_MakeOffline_AvailableCBO"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sp_CBOName_AvailableCBO"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/button_text_size"
-            android:layout_marginTop="15dp"
-            android:backgroundTint="@color/btnSave"
-            android:paddingHorizontal="@dimen/button_padding_h"
-            android:paddingVertical="@dimen/button_padding_v"
-            android:text="Make Offline"
-            android:textColor="@color/colorWhite" />
-
-
-        <Button
-            android:id="@+id/btn_rAvailCbo_AvailableCBO"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/colorDarkGray"
-            android:drawableLeft="@drawable/ic_resynch"
-            android:drawablePadding="@dimen/drawable_padding_with_text"
-            android:text="Resynchronize"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/colorWhite" />
-
-
-    </RelativeLayout>
-
+        app:srcCompat="@drawable/ic_cloud_download_black_24dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

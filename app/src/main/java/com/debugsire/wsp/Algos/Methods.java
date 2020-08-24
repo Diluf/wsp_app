@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -104,7 +105,7 @@ public class Methods {
     /////////////////////////////
     /////////////////////////////
 
-    public Integer[] setSpinnerThings(final Context context, String tableKey, Integer[] values, Spinner spinner, final boolean addNew) {
+    public Integer[] setSpinnerThings(final Context context, final String tableKey, Integer[] values, final Spinner spinner, final boolean addNew) {
         spinner.setAdapter(null);
 
         Cursor data = MyDB.getData("SELECT * FROM wsp_droplist WHERE ref_section = '" + tableKey + "'");
@@ -146,6 +147,26 @@ public class Methods {
             }
         };
         spinner.setAdapter(adapter);
+        //
+        //
+        //
+        //
+        //
+        //
+        final Integer[] finalValues = values;
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (finalValues[position] == -2) {
+                    setAlertDialogOnAddNew(context, tableKey, spinner);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return values;
     }
 
@@ -221,28 +242,37 @@ public class Methods {
     }
 
     public void setAlertDialogOnResynch(final Context context, final String tableKey) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Are you sure you want to resynchronize values from server?");
-        builder.setCancelable(true);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                new AsyncWebService(context, MyConstants.ACTION_RESYNCH_DROP_LIST, tableKey)
-                        .execute(WebRefferences.getDLValues.methodName, tableKey);
-            }
-        });
-
-        builder.setNegativeButton(
-                "Cancel",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-
-        builder.create().show();
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setMessage("Are you sure you want to resynchronize values from server?");
+//        builder.setCancelable(true);
+//
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject();
+//                    jsonObject.put("ref_section", tableKey);
+//                    jsonObject.put("newEntries", new JSONArray());
+//
+//                    new AsyncWebService(context, MyConstants.ACTION_RESYNCH_DROP_LIST, tableKey)
+//                            .execute(WebRefferences.getDLValues.methodName, jsonObject.toString());
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        builder.setNegativeButton(
+//                "Cancel",
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.cancel();
+//                    }
+//                });
+//
+//        builder.create().show();
+        showToast("Cannot perform this action yet", context, MyConstants.MESSAGE_INFO);
     }
 
     public void setAlertDialogOnAddNew(final Context context, final String tableKey, final Spinner spinner) {
@@ -583,6 +613,24 @@ public class Methods {
         return b;
     }
 
+
+    public boolean isTILMobileFieldsHasError(Context context, TextInputLayout... textInputLayouts) {
+        boolean b = false;
+        if (!isTILFieldsNull(context, textInputLayouts)) {
+            for (TextInputLayout textInputLayout :
+                    textInputLayouts) {
+                if (textInputLayout.getEditText().getText().toString().trim().length() != 10) {
+                    if (!b) {
+                        b = true;
+                    }
+                    textInputLayout.setErrorTextAppearance(R.style.error_appearance);
+                    textInputLayout.setError(context.getString(R.string.error_max_length_ten));
+                }
+            }
+        }
+        return b;
+    }
+
     public boolean isSpinnerNull(Context context, Spinner... spinners) {
         boolean b = false;
         for (Spinner spinner :
@@ -777,12 +825,20 @@ public class Methods {
     }
 
     public AlertDialog getRequiredAlertDialog(Context context, int id) {
-        AlertDialog builder = null;
+        AlertDialog builder = builder = new AlertDialog.Builder(context)
+                .create();
         if (id == MyConstants.REMOVE_DIALOG) {
-            builder = new AlertDialog.Builder(context)
-                    .create();
             builder.setTitle("Remove?");
             builder.setMessage("Are you sure you need to remove this entry?");
+
+        } else if (id == MyConstants.UPLOAD_DIALOG) {
+            builder.setIcon(R.drawable.ic_info_outline);
+            builder.setTitle("Seems you've done collecting data");
+
+        } else if (id == MyConstants.UPLOAD_DIALOG) {
+            builder.setIcon(R.drawable.ic_info_outline);
+            builder.setTitle("Mobile number is already saved earlier in DB");
+
         }
         return builder;
     }
@@ -847,4 +903,5 @@ public class Methods {
         return jsonArray.toString();
 
     }
+
 }

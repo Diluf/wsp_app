@@ -32,15 +32,15 @@ import java.util.ArrayList;
 
 public class Distribution extends AppCompatActivity {
     Context context;
-    Integer[] valuesMeter, valuesInterm, valuesService,
+    Integer[] valuesMeter, valuesExpan, valuesInterm, valuesService,
             valuesIden, valuesRisk, valuesOverall;
     Methods methods;
     LayoutInflater inflater;
 
-    TextInputLayout distName, num, ex;
-    Spinner meter, interm, service;
+    TextInputLayout distName, num;
+    Spinner meter, expan, interm, service;
     LinearLayout iden, risk, overall, materialHSV;
-    Button meterR, intermR, serviceR,
+    Button meterR, expanR, intermR, serviceR,
             idenR, riskR, overallR, addNewMat, save;
     TextView matCount;
 
@@ -91,7 +91,7 @@ public class Distribution extends AppCompatActivity {
             distName.getEditText().setText(cursor.getString(cursor.getColumnIndex("distName")));
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("meter")), valuesMeter, meter);
             num.getEditText().setText(cursor.getString(cursor.getColumnIndex("numCon")));
-            ex.getEditText().setText(cursor.getString(cursor.getColumnIndex("exp")));
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("exp")), valuesExpan, expan);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("inter")), valuesInterm, interm);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("serv")), valuesService, service);
             methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("ident")), valuesIden, iden);
@@ -119,6 +119,13 @@ public class Distribution extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 methods.setAlertDialogOnResynch(context, MyConstants.DL_DISTRIBUTION_METERING);
+            }
+        });
+
+        expanR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                methods.setAlertDialogOnResynch(context, MyConstants.DL_DISTRIBUTION_EXPANDABILITY);
             }
         });
 
@@ -171,10 +178,9 @@ public class Distribution extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean tilFieldsNull = methods.isTILFieldsNull(context, distName);
                 boolean spinnerNull = methods.isSpinnerNull(context, meter, interm, service);
                 boolean multiCheckNull = methods.isMultiSelectorNull(context, iden, risk, overall);
-                if (!spinnerNull && !multiCheckNull && !tilFieldsNull) {
+                if (!spinnerNull && !multiCheckNull) {
                     final AlertDialog dialog = methods.getSaveConfirmationDialog(context, dateTime_ != null);
                     dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -190,7 +196,7 @@ public class Distribution extends AppCompatActivity {
                                     distName.getEditText().getText().toString().trim(),
                                     valuesMeter[meter.getSelectedItemPosition()] + "",
                                     num.getEditText().getText().toString().trim(),
-                                    ex.getEditText().getText().toString().trim(),
+                                    valuesExpan[expan.getSelectedItemPosition()] + "",
                                     valuesInterm[interm.getSelectedItemPosition()] + "",
                                     valuesService[service.getSelectedItemPosition()] + "",
                                     methods.getCheckedValues(valuesIden, iden),
@@ -254,7 +260,7 @@ public class Distribution extends AppCompatActivity {
         view.findViewById(R.id.btn_SaveDialogAddNewDropdown).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean tilFieldsNull = methods.isTILFieldsNull(context, mat, dia, unit, len);
+                boolean tilFieldsNull = methods.isTILFieldsNull(context, unit);
                 if (!tilFieldsNull) {
                     MaterialPojos materialPojos = new MaterialPojos(
                             mat.getEditText().getText().toString().trim(),
@@ -354,7 +360,7 @@ public class Distribution extends AppCompatActivity {
     private void initCompos() {
         distName = findViewById(R.id.til_distActivityDistribution);
         num = findViewById(R.id.til_numActivityDistribution);
-        ex = findViewById(R.id.til_exActivityDistribution);
+        expan = findViewById(R.id.spinner_exp_Distribution);
 
         meter = findViewById(R.id.spinner_meter_Distribution);
         interm = findViewById(R.id.spinner_inter_Distribution);
@@ -368,6 +374,7 @@ public class Distribution extends AppCompatActivity {
         materialHSV = findViewById(R.id.ll_wrapperHorizaontalSVAcrivityDistribution);
 
         meterR = findViewById(R.id.btn_resynchMeter_Distribution);
+        expanR = findViewById(R.id.btn_resynchExpan_Distribution);
         intermR = findViewById(R.id.btn_resynchInter_Distribution);
         serviceR = findViewById(R.id.btn_resynchService_Distribution);
         idenR = findViewById(R.id.btn_resynchIden_Distribution);
@@ -384,6 +391,10 @@ public class Distribution extends AppCompatActivity {
         if (tableKey == MyConstants.DL_DISTRIBUTION_METERING) {
             valuesMeter = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_METERING,
                     valuesMeter, meter, false);
+
+        } else if (tableKey == MyConstants.DL_DISTRIBUTION_EXPANDABILITY) {
+            valuesExpan = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_EXPANDABILITY,
+                    valuesExpan, expan, false);
 
         } else if (tableKey == MyConstants.DL_DISTRIBUTION_MATERIAL) {
 //
@@ -415,6 +426,9 @@ public class Distribution extends AppCompatActivity {
         } else if (tableKey == MyConstants.ALL) {
             valuesMeter = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_METERING,
                     valuesMeter, meter, false);
+
+            valuesExpan = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_EXPANDABILITY,
+                    valuesExpan, expan, false);
 
             valuesInterm = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_INTER,
                     valuesInterm, interm, false);

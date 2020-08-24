@@ -1,17 +1,29 @@
 package com.debugsire.wsp.EndUserAssessment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
 import com.debugsire.wsp.R;
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class BasicInfoOfHousehold extends AppCompatActivity {
 
@@ -19,27 +31,61 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
     Integer[] valuesDesig, valuesGender, valuesPreLan;
     Methods methods;
 
+    TextInputLayout name, comm, mob;
     Spinner desig, gender, preLan;
-    Button desigR, genderR, preLanR;
+    Button desigR, genderR, preLanR, save;
+
+    RelativeLayout headerWrapper;
+    String dateTime_, tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_info_of_household);
+
+
         context = this;
         methods = new Methods();
+        dateTime_ = getIntent().getExtras().getString("dateTime_");
+        tableName = getIntent().getExtras().getString("tableName");
 
-        desig = findViewById(R.id.spinner_desig_BasicInfo);
-        gender = findViewById(R.id.spinner_gender_BasicInfo);
-        preLan = findViewById(R.id.spinner_pre_BasicInfo);
-
-        desigR = findViewById(R.id.btn_rDesig_BasicInfo);
-        genderR = findViewById(R.id.btn_rGender_BasicInfo);
-        preLanR = findViewById(R.id.btn_rPre_BasicInfo);
-
-
+        initCompos();
+        setEvents();
         setSpinnerValues(MyConstants.ALL);
+        loadFields();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        methods.setOptionsMenuRemove(menu, dateTime_);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 0) {
+            methods.removeEntry(context, tableName, dateTime_);
+        }
+        return true;
+    }
+
+
+    private void loadFields() {
+        methods.configHeaderBar(context, dateTime_, headerWrapper);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        while (cursor.moveToNext()) {
+            name.getEditText().setText(cursor.getString(cursor.getColumnIndex("name")));
+            comm.getEditText().setText(cursor.getString(cursor.getColumnIndex("com")));
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("desi")), valuesDesig, desig);
+            mob.getEditText().setText(cursor.getString(cursor.getColumnIndex("mob")));
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("gen")), valuesGender, gender);
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("pref")), valuesPreLan, preLan);
+        }
+    }
+
+
+    private void setEvents() {
         desigR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +109,63 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean tilMobileFieldsHasError = methods.isTILMobileFieldsHasError(context, mob);
+                boolean tilFieldsNull = methods.isTILFieldsNull(context, name, comm);
+                boolean spinnerNull = methods.isSpinnerNull(context, desig, gender, preLan);
+                if (!spinnerNull && !tilFieldsNull && !tilMobileFieldsHasError) {
+                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, dateTime_ != null);
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ArrayList<String> strings = methods.getConfiguredStringForInsert(
+                                    name.getEditText().getText().toString().trim(),
+                                    comm.getEditText().getText().toString().trim(),
+                                    valuesDesig[desig.getSelectedItemPosition()] + "",
+                                    mob.getEditText().getText().toString().trim(),
+                                    valuesGender[gender.getSelectedItemPosition()] + "",
+                                    valuesPreLan[preLan.getSelectedItemPosition()] + ""
+
+                            );
+
+                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+                            onBackPressed();
+
+                        }
+                    });
+                    dialog.show();
+                } else {
+                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                }
+            }
+        });
+    }
+
+    private void initCompos() {
+        name = findViewById(R.id.til_nameActivityBasicInfo);
+        comm = findViewById(R.id.til_commActivityBasicInfo);
+        mob = findViewById(R.id.til_mobActivityBasicInfo);
+
+        desig = findViewById(R.id.spinner_desig_BasicInfo);
+        gender = findViewById(R.id.spinner_gender_BasicInfo);
+        preLan = findViewById(R.id.spinner_pre_BasicInfo);
+
+        headerWrapper = findViewById(R.id.rl_wrapperTop);
+
+        desigR = findViewById(R.id.btn_rDesig_BasicInfo);
+        genderR = findViewById(R.id.btn_rGender_BasicInfo);
+        preLanR = findViewById(R.id.btn_rPre_BasicInfo);
+        save = findViewById(R.id.btn_saveBasicInfo);
     }
 
     public void setSpinnerValues(String tableKey) {

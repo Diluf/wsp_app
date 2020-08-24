@@ -53,19 +53,19 @@ public class PopulationServed extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
-                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
+                boolean b = methods.isTILFieldsNull(context, male, female, less, mid, elder, dis);
+                if (!b) {
+                    final AlertDialog dialog = methods.getSaveConfirmationDialog(context, false);
+                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        boolean b = methods.isTILFieldsNull(context, male, female, less, mid, elder, dis);
-                        if (!b) {
+                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             MyDB.setData("DELETE FROM pop");
                             MyDB.setData("INSERT INTO pop VALUES (" +
                                     " '" + Methods.getCBONum(context) + "', " +
@@ -79,13 +79,15 @@ public class PopulationServed extends AppCompatActivity {
                                     ")");
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
-
-                        } else {
-                            methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
                         }
-                    }
-                });
-                dialog.show();
+                    });
+                    dialog.show();
+
+
+                } else {
+                    methods.showToast(getString(R.string.compulsory_cant_empty), context, MyConstants.MESSAGE_ERROR);
+                }
+
 
             }
         });

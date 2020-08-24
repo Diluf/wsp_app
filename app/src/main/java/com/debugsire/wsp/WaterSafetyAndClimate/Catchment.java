@@ -26,13 +26,13 @@ import java.util.ArrayList;
 public class Catchment extends AppCompatActivity {
 
     Context context;
-    Integer[] valuesNature, valuesRisksOfWater, valuesRisksForSource, valuesIssues, valuesRiskMiti;
+    Integer[] valuesArea, valuesNature, valuesRisksOfWater, valuesRisksForSource, valuesIssues, valuesRiskMiti;
     Methods methods;
 
-    Spinner nature;
+    Spinner area, nature;
     LinearLayout risksOfWater, risksForSource, issues, riskMiti;
-    TextInputLayout catchM, area, loca;
-    Button natureR, risksOfWaterR, risksForSourceR, issuesR, riskMitiR, save;
+    TextInputLayout catchM, loca;
+    Button areaR, natureR, risksOfWaterR, risksForSourceR, issuesR, riskMitiR, save;
     RelativeLayout headerWrapper;
     String dateTime_, tableName;
 
@@ -72,7 +72,7 @@ public class Catchment extends AppCompatActivity {
         Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
         while (cursor.moveToNext()) {
             catchM.getEditText().setText(cursor.getString(cursor.getColumnIndex("catchName")));
-            area.getEditText().setText(cursor.getString(cursor.getColumnIndex("area")));
+            methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("area")), valuesArea, area);
             loca.getEditText().setText(cursor.getString(cursor.getColumnIndex("loca")));
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("nature")), valuesNature, nature);
             methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("riskOf")), valuesRisksOfWater, risksOfWater);
@@ -84,6 +84,13 @@ public class Catchment extends AppCompatActivity {
     }
 
     private void setEvents() {
+        areaR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                methods.setAlertDialogOnResynch(context, MyConstants.DL_CATCHMENT_AREA);
+            }
+        });
+
         natureR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +133,7 @@ public class Catchment extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean tilFieldsNull = methods.isTILFieldsNull(context, catchM, area, loca);
+                boolean tilFieldsNull = methods.isTILFieldsNull(context, loca);
                 boolean spinnerNull = methods.isSpinnerNull(context, nature);
                 boolean multiCheckNull = methods.isMultiSelectorNull(context, risksOfWater, risksForSource, issues, riskMiti);
                 if (!spinnerNull && !multiCheckNull && !tilFieldsNull) {
@@ -143,7 +150,7 @@ public class Catchment extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ArrayList<String> strings = methods.getConfiguredStringForInsert(
                                     catchM.getEditText().getText().toString().trim(),
-                                    area.getEditText().getText().toString().trim(),
+                                    valuesArea[area.getSelectedItemPosition()] + "",
                                     loca.getEditText().getText().toString().trim(),
                                     valuesNature[nature.getSelectedItemPosition()] + "",
                                     methods.getCheckedValues(valuesRisksOfWater, risksOfWater),
@@ -167,6 +174,7 @@ public class Catchment extends AppCompatActivity {
     }
 
     private void initCompos() {
+        area = findViewById(R.id.spinner_areaActivityCatchment);
         nature = findViewById(R.id.spinner_nature_Catchment);
 
         headerWrapper = findViewById(R.id.rl_wrapperTop);
@@ -177,10 +185,10 @@ public class Catchment extends AppCompatActivity {
         riskMiti = findViewById(R.id.ll_riskMitigation_Catchment);
 
         catchM = findViewById(R.id.til_catchActivityCatchment);
-        area = findViewById(R.id.til_areaActivityCatchment);
         loca = findViewById(R.id.til_locaActivityCatchment);
 
 
+        areaR = findViewById(R.id.btn_resynchAreaActivityCatchment);
         natureR = findViewById(R.id.btn_resynchNature_Catchment);
         risksOfWaterR = findViewById(R.id.btn_resynchRisksOfWater_Catchment);
         risksForSourceR = findViewById(R.id.btn_resynchRisksForSource_Catchment);
@@ -190,7 +198,11 @@ public class Catchment extends AppCompatActivity {
     }
 
     public void setSpinnerValues(String tableKey) {
-        if (tableKey == MyConstants.DL_CATCHMENT_NATURE) {
+        if (tableKey == MyConstants.DL_CATCHMENT_AREA) {
+            valuesArea = methods.setSpinnerThings(context, MyConstants.DL_CATCHMENT_AREA,
+                    valuesArea, area, false);
+
+        } else if (tableKey == MyConstants.DL_CATCHMENT_NATURE) {
             valuesNature = methods.setSpinnerThings(context, MyConstants.DL_CATCHMENT_NATURE,
                     valuesNature, nature, false);
 
@@ -211,6 +223,9 @@ public class Catchment extends AppCompatActivity {
                     valuesRiskMiti, riskMiti, true);
 
         } else if (tableKey == MyConstants.ALL) {
+
+            valuesArea = methods.setSpinnerThings(context, MyConstants.DL_CATCHMENT_AREA,
+                    valuesArea, area, false);
 
             valuesNature = methods.setSpinnerThings(context, MyConstants.DL_CATCHMENT_NATURE,
                     valuesNature, nature, false);

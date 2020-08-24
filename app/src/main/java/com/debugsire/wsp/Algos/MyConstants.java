@@ -17,6 +17,7 @@ public class MyConstants {
     public static final int ACTION_RESYNCH_DROP_LIST = 101;
     public static final int ACTION_GET_DSD_AND_CBO = 102;
     public static final int ACTION_GET_LOCATION_DSD_GND = 103;
+    public static final int ACTION_UPLOAD = 104;
 
     public static final String ACTION_GET_CBO_DETAILS_DOWNLOADS = "GET_CBO_DETAILS";
     public static final String ACTION_GET_CONNECTION_DOWNLOADS = "GET_CONNECTION";
@@ -45,6 +46,7 @@ public class MyConstants {
     public static final String DL_EXISTINGQA_MODE = "BS_5_5";
     public static final String DL_EXISTINGQA_FREQ = "BS_5_6";
     //Catchment
+    public static final String DL_CATCHMENT_AREA = "BS_6_2";
     public static final String DL_CATCHMENT_NATURE = "BS_6_3";
     public static final String DL_CATCHMENT_RISKS_OF_WATER = "BS_6_4";
     public static final String DL_CATCHMENT_RISKS_FOR_SOURCE = "BS_6_5";
@@ -63,6 +65,7 @@ public class MyConstants {
     public static final String DL_TREATMENTSYSTEM_RISK_MITIGATION = "BS_7_7";
     //Distribution
     public static final String DL_DISTRIBUTION_METERING = "BS_8_1";
+    public static final String DL_DISTRIBUTION_EXPANDABILITY = "BS_8_4";
     public static final String DL_DISTRIBUTION_MATERIAL = "BS_8_2_1";
     public static final String DL_DISTRIBUTION_UNIT = "BS_8_2_2";
     public static final String DL_DISTRIBUTION_INTER = "BS_8_5";
@@ -74,8 +77,8 @@ public class MyConstants {
     public static final String DL_CLIMATE_IS_THE_WATER = "BS_9_1";
     public static final String DL_CLIMATE_ON_YES_HOW_IT_IMPACTS = "BS_9_1_1";
     public static final String DL_CLIMATE_ON_YES_WHAT_ARE_THEY = "BS_9_1_2";
-    public static final String DL_CLIMATE_ON_YES_WHAT_ARE_THE_EFFECTS_A = "BS_9_1_2a";
-    public static final String DL_CLIMATE_ON_YES_WHAT_ARE_THE_EFFECTS_B = "BS_9_1_2b";
+    public static final String DL_CLIMATE_ON_YES_WHAT_ARE_THE_EFFECTS_FLOOD = "BS_9_1_2a";
+    public static final String DL_CLIMATE_ON_YES_WHAT_ARE_THE_EFFECTS_DROUGHT = "BS_9_1_2b";
     public static final String DL_CLIMATE_WATER_IS_AVAILABLE = "BS_9_2";
     public static final String DL_CLIMATE_ON_NO_WHAT_ARE_THE_REASONS = "BS_9_2_1";
     public static final String DL_CLIMATE_WHAT_ARE_THE_SOURCES = "BS_9_3";
@@ -123,6 +126,8 @@ public class MyConstants {
 
     //Alert Dialog
     public static final int REMOVE_DIALOG = 300;
+    public static final int UPLOAD_DIALOG = 301;
+    public static final int UPDATE_CONTACT_DIALOG = 302;
 
     /////////
     /////////
