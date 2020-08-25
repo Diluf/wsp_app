@@ -26,6 +26,9 @@ public class PreTasks {
         } else if (face == MyConstants.ACTION_GET_BY_CBO_NAME_DOWNLOADS) {
             progressDialog.setMessage("Fetching data for selected CBO...");
 
+        } else if (face == MyConstants.ACTION_RESYNCH_BEFORE_UPLOAD) {
+            progressDialog.setMessage("Preparing...");
+
         }
         progressDialog.show();
     }

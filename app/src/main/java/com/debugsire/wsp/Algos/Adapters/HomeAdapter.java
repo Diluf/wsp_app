@@ -53,15 +53,21 @@ public class HomeAdapter extends ArrayAdapter {
         HomePojos homePojos = arrayList.get(position);
         TextView titleTextView = convertView.findViewById(R.id.tv_titleItemHeader);
         TextView countTextView = convertView.findViewById(R.id.tv_badgeItemHeader);
+        ImageView rightImageView = convertView.findViewById(R.id.image_compulsoryItemHeader);
 
         titleTextView.setText(homePojos.getTitle());
 
         int count = methods.getCursorBySelectedCBONum(context, homePojos.getDbName()).getCount();
         if (count == 0) {
             countTextView.setVisibility(View.GONE);
+            rightImageView.setImageResource(R.drawable.ic_circle);
         } else {
             countTextView.setText(count + "");
             countTextView.setVisibility(View.VISIBLE);
+            if (!homePojos.getTitle().equalsIgnoreCase(context.getString(R.string.title_coverage_by_scheme))) {
+                rightImageView.setImageResource(R.drawable.ic_done_black_24dp);
+
+            }
         }
 
 

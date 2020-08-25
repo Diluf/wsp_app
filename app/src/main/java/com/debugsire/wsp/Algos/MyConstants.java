@@ -17,7 +17,8 @@ public class MyConstants {
     public static final int ACTION_RESYNCH_DROP_LIST = 101;
     public static final int ACTION_GET_DSD_AND_CBO = 102;
     public static final int ACTION_GET_LOCATION_DSD_GND = 103;
-    public static final int ACTION_UPLOAD = 104;
+    public static final int ACTION_RESYNCH_BEFORE_UPLOAD = 104;
+    public static final int ACTION_UPLOAD = 105;
 
     public static final String ACTION_GET_CBO_DETAILS_DOWNLOADS = "GET_CBO_DETAILS";
     public static final String ACTION_GET_CONNECTION_DOWNLOADS = "GET_CONNECTION";

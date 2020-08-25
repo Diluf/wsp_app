@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,6 +15,7 @@ import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CboConnectionDetails extends AppCompatActivity {
@@ -23,7 +26,7 @@ public class CboConnectionDetails extends AppCompatActivity {
 
     TextInputLayout dom, rel, com, schools, health, gov, other;
     Button save;
-    String id;
+    String id,  dateTime_, tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +35,27 @@ public class CboConnectionDetails extends AppCompatActivity {
 
         context = this;
         methods = new Methods();
+        dateTime_ = getIntent().getExtras().getString("dateTime_");
+        tableName = getIntent().getExtras().getString("tableName");
 
         initCompos();
         setEvents();
         loadFields();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        methods.setOptionsMenuRemove(menu, dateTime_);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 0) {
+            methods.removeEntry(context, tableName, dateTime_);
+        }
+        return true;
     }
 
     private void loadFields() {

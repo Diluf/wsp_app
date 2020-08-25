@@ -64,6 +64,11 @@ public class PostTasks {
             methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
 
 
+        } else if (face == MyConstants.ACTION_RESYNCH_BEFORE_UPLOAD) {
+            progressDialog.dismiss();
+            methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
+
+
         }
     }
 

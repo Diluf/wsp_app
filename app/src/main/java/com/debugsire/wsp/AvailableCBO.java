@@ -229,17 +229,7 @@ public class AvailableCBO extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (MyDB.getData("SELECT * FROM wsp_droplist").getCount() == 0) {
-
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("ref_section", MyConstants.ALL);
-                jsonObject.put("newEntries", new JSONArray());
-
-                new AsyncWebService(context, MyConstants.ACTION_GET_DROP_LIST)
-                        .execute(WebRefferences.getDLValues.methodName, jsonObject.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            methods.doResynchDropDownValues(context, MyConstants.ALL, MyConstants.ACTION_GET_DROP_LIST);
         }
     }
 
@@ -271,48 +261,46 @@ public class AvailableCBO extends AppCompatActivity {
 
     public void startUpload() {
 
-//        INSERT INTO `contacts`
-//        (`_id`, `cboid`, `person_name`, `calling_name`, `designation_cbo`, `mobile1`, `mobile`, `gender`,
-//                `preffered_language`, `dateTime_`, `dateTimeUploaded_`, `userName`, `application`, `prev_Id`, `web_validated`)
-//        VALUES
+        methods.doResynchDropDownValues(context, MyConstants.ALL, MyConstants.ACTION_RESYNCH_BEFORE_UPLOAD);
 
-        String q = "INSERT INTO `contacts`(" +
-                "`cboid`, " +
-                "`person_name`, " +
-                "`calling_name`, " +
-                "`designation_cbo`, " +
-                "`mobile1`, " +
-                "`mobile`, " +
-                "`gender`," +
-                "`preffered_language`, " +
-                "`dateTime_`, " +
-                "`dateTimeUploaded_`, " +
-                "`userName`, " +
-                "`application`, " +
-                "`prev_Id`, " +
-                "`web_validated`) VALUES (";
-        Cursor cursor = methods.getCursorBySelectedCBONum(context, "basicInfo");
-        while (cursor.moveToNext()) {
 
-            q += "'" + Methods.getCBONum(context) + "', '" + cursor.getString(cursor.getColumnIndex("name")) + "'";
-
-//                q += "'" + Methods.getCBONum(context) + "'," +
-//                        "person_name = '" + cursor.getString(cursor.getColumnIndex("name")) + "'," +
-//                        " calling_name = '" + cursor.getString(cursor.getColumnIndex("name")) + "'," +
-//                        " designation_cbo = '" + cursor.getString(cursor.getColumnIndex("desi")) + "'," +
-//                        " " + columnName + " = '" + cursor.getString(cursor.getColumnIndex("mob")) + "'," +
-//                        " gender = '" + cursor.getString(cursor.getColumnIndex("gen")) + "'," +
-//                        " preffered_language = '" + cursor.getString(cursor.getColumnIndex("pref")) + "'" +
-//                        " WHERE _id = '" + contactId + "'";
-        }
-
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(q);
-        new AsyncWebService(context, MyConstants.ACTION_UPLOAD)
-                .execute(
-                        WebRefferences.execQuery.methodName,
-                        jsonArray.toString()
-                );
+//        String q = "INSERT INTO `contacts`(" +
+//                "`cboid`, " +
+//                "`person_name`, " +
+//                "`calling_name`, " +
+//                "`designation_cbo`, " +
+//                "`mobile1`, " +
+//                "`mobile`, " +
+//                "`gender`," +
+//                "`preffered_language`, " +
+//                "`dateTime_`, " +
+//                "`dateTimeUploaded_`, " +
+//                "`userName`, " +
+//                "`application`, " +
+//                "`prev_Id`, " +
+//                "`web_validated`) VALUES (";
+//        Cursor cursor = methods.getCursorBySelectedCBONum(context, "basicInfo");
+//        while (cursor.moveToNext()) {
+//
+//            q += "'" + Methods.getCBONum(context) + "', '" + cursor.getString(cursor.getColumnIndex("name")) + "'";
+//
+////                q += "'" + Methods.getCBONum(context) + "'," +
+////                        "person_name = '" + cursor.getString(cursor.getColumnIndex("name")) + "'," +
+////                        " calling_name = '" + cursor.getString(cursor.getColumnIndex("name")) + "'," +
+////                        " designation_cbo = '" + cursor.getString(cursor.getColumnIndex("desi")) + "'," +
+////                        " " + columnName + " = '" + cursor.getString(cursor.getColumnIndex("mob")) + "'," +
+////                        " gender = '" + cursor.getString(cursor.getColumnIndex("gen")) + "'," +
+////                        " preffered_language = '" + cursor.getString(cursor.getColumnIndex("pref")) + "'" +
+////                        " WHERE _id = '" + contactId + "'";
+//        }
+//
+//        JSONArray jsonArray = new JSONArray();
+//        jsonArray.put(q);
+//        new AsyncWebService(context, MyConstants.ACTION_UPLOAD)
+//                .execute(
+//                        WebRefferences.execQuery.methodName,
+//                        jsonArray.toString()
+//                );
 
     }
 }

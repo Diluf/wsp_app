@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CoverageByTheScheme extends AppCompatActivity {
@@ -45,7 +48,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
 
     private static final String TAG = "-----";
     boolean firstTime, isUpdate;
-    String id;
+    String id, dateTime_, tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +59,29 @@ public class CoverageByTheScheme extends AppCompatActivity {
         methods = new Methods();
         firstTime = true;
         idGnd = getIntent().getExtras().getString("idGnd");
+        tableName = "coverageInfoFilled";
+        dateTime_ = methods.getSingleStringFromDBByCBONum(context, "dateTime_", tableName, "idGnd", idGnd);
 
         initCompos();
         loadDSDSpinner();
         loadFields();
         addEventListeners();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        methods.setOptionsMenuRemove(menu, dateTime_);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 0) {
+            methods.removeEntry(context, tableName, dateTime_);
+        }
+        return true;
     }
 
     private void loadFields() {

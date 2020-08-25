@@ -47,8 +47,8 @@ public class Catchment extends AppCompatActivity {
         tableName = getIntent().getExtras().getString("tableName");
 
         initCompos();
-        setEvents();
         setSpinnerValues(MyConstants.ALL);
+        setEvents();
         loadFields();
     }
 
@@ -225,7 +225,7 @@ public class Catchment extends AppCompatActivity {
         } else if (tableKey == MyConstants.ALL) {
 
             valuesArea = methods.setSpinnerThings(context, MyConstants.DL_CATCHMENT_AREA,
-                    valuesArea, area, false);
+                    valuesArea, area, true);
 
             valuesNature = methods.setSpinnerThings(context, MyConstants.DL_CATCHMENT_NATURE,
                     valuesNature, nature, false);

@@ -103,7 +103,7 @@ public class WaterSafetyAndClimate extends AppCompatActivity {
             intent = new Intent(context, Observation.class);
 
         }
-        methods.    configIntent(context, inflater, homePojos, intent);
+        methods.configIntent(context, inflater, homePojos, intent);
     }
 
     private void initArrayList() {

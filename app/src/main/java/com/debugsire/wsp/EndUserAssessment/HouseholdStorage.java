@@ -46,8 +46,8 @@ public class HouseholdStorage extends AppCompatActivity {
         tableName = getIntent().getExtras().getString("tableName");
 
         initCompos();
-        setEvents();
         setSpinnerValues(MyConstants.ALL);
+        setEvents();
         loadFields();
 
     }

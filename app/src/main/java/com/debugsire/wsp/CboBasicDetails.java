@@ -10,6 +10,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,7 +50,7 @@ public class CboBasicDetails extends AppCompatActivity {
     ImageView loaderGPS;
     LocationListener locationListener;
     LocationManager locationManager;
-    String id;
+    String id, dateTime_, tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class CboBasicDetails extends AppCompatActivity {
 
         context = this;
         methods = new Methods();
+        dateTime_ = getIntent().getExtras().getString("dateTime_");
+        tableName = getIntent().getExtras().getString("tableName");
         locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         locationListener = new MyLocationListener(context, locationManager);
@@ -66,6 +71,22 @@ public class CboBasicDetails extends AppCompatActivity {
         loadFields();
 
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        methods.setOptionsMenuRemove(menu, dateTime_);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 0) {
+            methods.removeEntry(context, tableName, dateTime_);
+        }
+        return true;
     }
 
 

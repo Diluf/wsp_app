@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -140,7 +141,9 @@ public class Methods {
                     view.setBackgroundColor(ContextCompat.getColor(context, R.color.btnAddNew));
 
                 } else {
-//                    checkedTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                    checkedTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite));
+                    checkedTextView.setTextColor(Color.BLACK);
 
                 }
                 return view;
@@ -154,19 +157,21 @@ public class Methods {
         //
         //
         final Integer[] finalValues = values;
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (finalValues[position] == -2) {
-                    setAlertDialogOnAddNew(context, tableKey, spinner);
+        if (addNew) {
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (finalValues[position] == -2) {
+                        setAlertDialogOnAddNew(context, tableKey, spinner);
+                    }
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+                }
+            });
+        }
         return values;
     }
 
@@ -242,37 +247,65 @@ public class Methods {
     }
 
     public void setAlertDialogOnResynch(final Context context, final String tableKey) {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setMessage("Are you sure you want to resynchronize values from server?");
-//        builder.setCancelable(true);
-//
-//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                try {
-//                    JSONObject jsonObject = new JSONObject();
-//                    jsonObject.put("ref_section", tableKey);
-//                    jsonObject.put("newEntries", new JSONArray());
-//
-//                    new AsyncWebService(context, MyConstants.ACTION_RESYNCH_DROP_LIST, tableKey)
-//                            .execute(WebRefferences.getDLValues.methodName, jsonObject.toString());
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure you want to resynchronize values from server?");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                doResynchDropDownValues(context, tableKey, MyConstants.ACTION_RESYNCH_DROP_LIST);
+            }
+        });
+
+        builder.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+        builder.create().show();
+    }
+
+    public void doResynchDropDownValues(Context context, String tableKey, int face) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ref_section", tableKey);
+            jsonObject.put("newEntries", getNewEntriesFromDropList(tableKey));
+
+//            if (tableKey.trim().equalsIgnoreCase(MyConstants.ALL)) {
+//                new AsyncWebService(context, MyConstants.ACTION_GET_DROP_LIST)
+//                        .execute(WebRefferences.getDLValues.methodName, jsonObject.toString());
+//            } else {
+            new AsyncWebService(context, face, tableKey)
+                    .execute(WebRefferences.getDLValues.methodName, jsonObject.toString());
 //            }
-//        });
-//
-//        builder.setNegativeButton(
-//                "Cancel",
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.cancel();
-//                    }
-//                });
-//
-//        builder.create().show();
-        showToast("Cannot perform this action yet", context, MyConstants.MESSAGE_INFO);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONArray getNewEntriesFromDropList(String tableKey) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+        Cursor cursor;
+        if (tableKey.trim().equalsIgnoreCase(MyConstants.ALL)) {
+            cursor = MyDB.getData("SELECT * FROM wsp_droplist WHERE id <= -10");
+        } else {
+            cursor = MyDB.getData("SELECT * FROM wsp_droplist WHERE id <= -10 AND ref_section = '" + tableKey + "'");
+
+        }
+        while (cursor.moveToNext()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ref_section", cursor.getString(cursor.getColumnIndex("ref_section")));
+            jsonObject.put("display_label", cursor.getString(cursor.getColumnIndex("display_label")));
+            jsonObject.put("id", cursor.getString(cursor.getColumnIndex("id")));
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray;
     }
 
     public void setAlertDialogOnAddNew(final Context context, final String tableKey, final Spinner spinner) {
@@ -506,6 +539,15 @@ public class Methods {
 
     public String getSingleStringFromDBByCBONum(Context context, String selectedColumn, String tableName) {
         Cursor data = MyDB.getData("SELECT " + selectedColumn + " FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "'");
+        while (data.moveToNext()) {
+            return data.getString(data.getColumnIndex(selectedColumn));
+        }
+        return null;
+
+    }
+
+    public String getSingleStringFromDBByCBONum(Context context, String selectedColumn, String tableName, String where, String value) {
+        Cursor data = MyDB.getData("SELECT " + selectedColumn + " FROM " + tableName + " WHERE " + where + " = '" + value + "' AND CBONum = '" + Methods.getCBONum(context) + "'");
         while (data.moveToNext()) {
             return data.getString(data.getColumnIndex(selectedColumn));
         }

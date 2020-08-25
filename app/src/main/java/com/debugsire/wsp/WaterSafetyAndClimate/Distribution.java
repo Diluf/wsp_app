@@ -63,8 +63,8 @@ public class Distribution extends AppCompatActivity {
         uniqueString = new MyStringRandomGen().generateRandomString();
 
         initCompos();
-        setEvents();
         setSpinnerValues(MyConstants.ALL);
+        setEvents();
         loadFields();
     }
 

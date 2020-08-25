@@ -138,8 +138,9 @@ public class AsyncWebService extends AsyncTask<String, String, String> {
     private void checkAsyncBack(String response, String value) throws Exception {
         DoInBackTasks doInBackTasks = new DoInBackTasks(face, this);
         if (face == MyConstants.ACTION_GET_DROP_LIST
-                || face == MyConstants.ACTION_RESYNCH_DROP_LIST) {
-            doInBackTasks.checkDropdownSynch(response, value);
+                || face == MyConstants.ACTION_RESYNCH_DROP_LIST
+                || face == MyConstants.ACTION_RESYNCH_BEFORE_UPLOAD) {
+            doInBackTasks.checkDropdownSynch(response, value, face);
 
         } else if (face == MyConstants.ACTION_GET_DSD_AND_CBO) {
             doInBackTasks.checkDSDandCBO(response);

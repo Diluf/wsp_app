@@ -51,9 +51,9 @@ public class Governance extends AppCompatActivity {
         tableName = getIntent().getExtras().getString("tableName");
 
         initCompos();
-        setEvents();
         setSpinnerValues(MyConstants.ALL);
-        loadFields();
+        setEvents();
+        loadFields();;
 
 
 //

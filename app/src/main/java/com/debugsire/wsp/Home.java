@@ -76,10 +76,16 @@ public class Home extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 HomePojos homePojos = arrayList.get(i);
                 if (homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_cbo_basic_details))) {
-                    startActivity(new Intent(getApplicationContext(), CboBasicDetails.class));
+                    Intent intent = new Intent(getApplicationContext(), CboBasicDetails.class);
+                    intent.putExtra("dateTime_", methods.getSingleStringFromDB("dateTime_", "cboBasicDetailsFilled", "CBONum", Methods.getCBONum(context)));
+                    intent.putExtra("tableName", "cboBasicDetailsFilled");
+                    startActivity(intent);
 
                 } else if (homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_cbo_connection_details))) {
-                    startActivity(new Intent(getApplicationContext(), CboConnectionDetails.class));
+                    Intent intent = new Intent(getApplicationContext(), CboConnectionDetails.class);
+                    intent.putExtra("dateTime_", methods.getSingleStringFromDB("dateTime_", "connectionDFilled", "CBONum", Methods.getCBONum(context)));
+                    intent.putExtra("tableName", "connectionDFilled");
+                    startActivity(intent);
 
                 } else if (homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_coverage_by_scheme))) {
                     View v = inflater.inflate(R.layout.dialog_which_one, null);
@@ -125,85 +131,89 @@ public class Home extends AppCompatActivity {
                     builder.show();
 
                 } else if (homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_population_served))) {
-                    startActivity(new Intent(getApplicationContext(), PopulationServed.class));
+                    Intent intent = new Intent(getApplicationContext(), PopulationServed.class);
+                    intent.putExtra("dateTime_", methods.getSingleStringFromDB("dateTime_", "pop", "CBONum", Methods.getCBONum(context)));
+                    intent.putExtra("tableName", "pop");
+                    startActivity(intent);
+
 
                 }
             }
         });
 
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final HomePojos homePojos = arrayList.get(position);
-                final Cursor cursor = methods.getCursorBySelectedCBONum(context, homePojos.getDbName());
-                if (cursor.getCount() == 0) {
-                    return true;
-                }
-
-                final boolean isCoverage = homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_coverage_by_scheme));
-
-                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-                View v = inflater.inflate(R.layout.dialog_bottom_options, null);
-                ((TextView) v.findViewById(R.id.tv_headerDialogBottomOptions)).setText(homePojos.getTitle());
-                final LinearLayout wrapper = v.findViewById(R.id.ll_moreThanOneDialogBottomOptions);
-                while (cursor.moveToNext()) {
-                    String idGnd = null;
-                    final View itemView = inflater.inflate(R.layout.item_bottom_dialog, null);
-                    ((TextView) itemView.findViewById(R.id.tv_dateTimeItemBottomDialog)).setText(cursor.getString(cursor.getColumnIndex("dateTime_")));
-                    if (isCoverage) {
-                        idGnd = cursor.getString(cursor.getColumnIndex("idGnd"));
-                        String dsdName = methods.getSingleStringFromDB("dsd", "locations", "idGnd", idGnd);
-                        String gndName = methods.getSingleStringFromDB("gnd", "locations", "idGnd", idGnd);
-                        TextView sub = itemView.findViewById(R.id.tv_subItemBottomDialog);
-                        TextView lastSub = itemView.findViewById(R.id.tv_lastSubItemBottomDialog);
-                        sub.setText(dsdName);
-                        lastSub.setText(gndName);
-                        sub.setVisibility(View.VISIBLE);
-                        lastSub.setVisibility(View.VISIBLE);
-                    }
-                    final String finalIdGnd = idGnd;
-                    itemView.findViewById(R.id.imgBDelItemBottomDialog).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final AlertDialog builder = methods.getRequiredAlertDialog(context, MyConstants.REMOVE_DIALOG);
-                            builder.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (isCoverage) {
-                                        MyDB.setData("DELETE FROM " + homePojos.getDbName() + " WHERE CBONum = '" + Methods.getCBONum(context) + "' AND " +
-                                                " idGnd = '" + finalIdGnd + "'");
-                                        Log.d("000000000000 ", "onClick: " + finalIdGnd);
-                                    } else {
-                                        MyDB.setData("DELETE FROM " + homePojos.getDbName() + "  WHERE CBONum = '" + Methods.getCBONum(context) + "'");
-                                    }
-                                    builder.dismiss();
-                                    methods.showToast(getString(R.string.removed), context, MyConstants.MESSAGE_SUCCESS);
-                                    loadListView();
-                                    wrapper.removeView(itemView);
-                                    if (wrapper.getChildCount() == 0) {
-                                        bottomSheetDialog.dismiss();
-                                    }
-                                }
-                            });
-                            builder.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-                            builder.show();
-                        }
-                    });
-
-                    wrapper.addView(itemView);
-                }
-                bottomSheetDialog.setContentView(v);
-                bottomSheetDialog.show();
-
-                return true;
-            }
-        });
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                final HomePojos homePojos = arrayList.get(position);
+//                final Cursor cursor = methods.getCursorBySelectedCBONum(context, homePojos.getDbName());
+//                if (cursor.getCount() == 0) {
+//                    return true;
+//                }
+//
+//                final boolean isCoverage = homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_coverage_by_scheme));
+//
+//                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
+//                View v = inflater.inflate(R.layout.dialog_bottom_options, null);
+//                ((TextView) v.findViewById(R.id.tv_headerDialogBottomOptions)).setText(homePojos.getTitle());
+//                final LinearLayout wrapper = v.findViewById(R.id.ll_moreThanOneDialogBottomOptions);
+//                while (cursor.moveToNext()) {
+//                    String idGnd = null;
+//                    final View itemView = inflater.inflate(R.layout.item_bottom_dialog, null);
+//                    ((TextView) itemView.findViewById(R.id.tv_dateTimeItemBottomDialog)).setText(cursor.getString(cursor.getColumnIndex("dateTime_")));
+//                    if (isCoverage) {
+//                        idGnd = cursor.getString(cursor.getColumnIndex("idGnd"));
+//                        String dsdName = methods.getSingleStringFromDB("dsd", "locations", "idGnd", idGnd);
+//                        String gndName = methods.getSingleStringFromDB("gnd", "locations", "idGnd", idGnd);
+//                        TextView sub = itemView.findViewById(R.id.tv_subItemBottomDialog);
+//                        TextView lastSub = itemView.findViewById(R.id.tv_lastSubItemBottomDialog);
+//                        sub.setText(dsdName);
+//                        lastSub.setText(gndName);
+//                        sub.setVisibility(View.VISIBLE);
+//                        lastSub.setVisibility(View.VISIBLE);
+//                    }
+//                    final String finalIdGnd = idGnd;
+//                    itemView.findViewById(R.id.imgBDelItemBottomDialog).setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            final AlertDialog builder = methods.getRequiredAlertDialog(context, MyConstants.REMOVE_DIALOG);
+//                            builder.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    if (isCoverage) {
+//                                        MyDB.setData("DELETE FROM " + homePojos.getDbName() + " WHERE CBONum = '" + Methods.getCBONum(context) + "' AND " +
+//                                                " idGnd = '" + finalIdGnd + "'");
+//                                        Log.d("000000000000 ", "onClick: " + finalIdGnd);
+//                                    } else {
+//                                        MyDB.setData("DELETE FROM " + homePojos.getDbName() + "  WHERE CBONum = '" + Methods.getCBONum(context) + "'");
+//                                    }
+//                                    builder.dismiss();
+//                                    methods.showToast(getString(R.string.removed), context, MyConstants.MESSAGE_SUCCESS);
+//                                    loadListView();
+//                                    wrapper.removeView(itemView);
+//                                    if (wrapper.getChildCount() == 0) {
+//                                        bottomSheetDialog.dismiss();
+//                                    }
+//                                }
+//                            });
+//                            builder.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//
+//                                }
+//                            });
+//                            builder.show();
+//                        }
+//                    });
+//
+//                    wrapper.addView(itemView);
+//                }
+//                bottomSheetDialog.setContentView(v);
+//                bottomSheetDialog.show();
+//
+//                return true;
+//            }
+//        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
