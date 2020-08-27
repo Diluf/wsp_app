@@ -220,6 +220,7 @@ public class AvailableCBO extends AppCompatActivity {
             placeHolder.setVisibility(View.VISIBLE);
         } else {
             placeHolder.setVisibility(View.GONE);
+
         }
 
     }
