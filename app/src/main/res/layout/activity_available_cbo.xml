@@ -19,6 +19,7 @@
         app:srcCompat="@drawable/backgr_bottom" />
 
     <TextView
+        android:textColor="@color/colorPrimary"
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,19 +36,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvPlaceHolder"
+        android:layout_width="match_parent"
+        android:padding="@dimen/button_padding_v"
+        android:textSize="@dimen/my_sub_header_text_size"
+        android:textColor="@color/colorPrimary"
+        android:alpha=".4"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:text="Seems you have no any downloaded CBOs yetdi\n\n\n Press BLUE button below to download new CBO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
     <ListView
-        android:padding="5dp"
         android:id="@+id/lv_availCBO_AvailableCBO"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/rect_back_noborder"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

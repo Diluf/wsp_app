@@ -78,7 +78,7 @@ public class Distribution extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, false);
         }
         return true;
     }
@@ -86,7 +86,7 @@ public class Distribution extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, false);
         while (cursor.moveToNext()) {
             distName.getEditText().setText(cursor.getString(cursor.getColumnIndex("distName")));
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("meter")), valuesMeter, meter);
@@ -206,7 +206,7 @@ public class Distribution extends AppCompatActivity {
 
                             );
 
-                            String s = methods.insertData(context, tableName, dateTime_, strings);
+                            String s = methods.insertData(context, tableName, dateTime_, strings, false);
                             MyDB.setData("DELETE FROM distTypes WHERE uniqueId = '" + uniqueString + "' AND dateTime_ = '" + s + "'");
                             for (MaterialPojos materialPojos :
                                     arrayList) {
@@ -263,10 +263,10 @@ public class Distribution extends AppCompatActivity {
                 boolean tilFieldsNull = methods.isTILFieldsNull(context, unit);
                 if (!tilFieldsNull) {
                     MaterialPojos materialPojos = new MaterialPojos(
-                            mat.getEditText().getText().toString().trim(),
-                            dia.getEditText().getText().toString().trim(),
+                            mat.getEditText().getText().toString().trim().isEmpty() ? "0" : mat.getEditText().getText().toString().trim(),
+                            dia.getEditText().getText().toString().trim().isEmpty() ? "0" : dia.getEditText().getText().toString().trim(),
                             unit.getEditText().getText().toString().trim(),
-                            len.getEditText().getText().toString().trim()
+                            len.getEditText().getText().toString().trim().isEmpty() ? "0" : len.getEditText().getText().toString().trim()
                     );
 
                     if (position != -1) {

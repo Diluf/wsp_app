@@ -151,6 +151,9 @@ public class AsyncWebService extends AsyncTask<String, String, String> {
         } else if (face == MyConstants.ACTION_GET_LOCATION_DSD_GND) {
             doInBackTasks.saveLocationValues(response);
 
+        } else if (face == MyConstants.ACTION_CONTACT_UPLOAD) {
+            doInBackTasks.updateBasicInfoID(response);
+
         }
     }
 

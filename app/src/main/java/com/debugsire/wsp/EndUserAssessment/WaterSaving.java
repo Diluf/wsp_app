@@ -64,7 +64,7 @@ public class WaterSaving extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, true);
         }
         return true;
     }
@@ -72,7 +72,7 @@ public class WaterSaving extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, true);
         while (cursor.moveToNext()) {
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("doM")), valuesDoMem, doMem);
             methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("ifYes")), valuesWhatAre, whatAre);
@@ -131,11 +131,12 @@ public class WaterSaving extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ArrayList<String> strings = methods.getConfiguredStringForInsert(
                                     valuesDoMem[doMem.getSelectedItemPosition()] + "",
-                                    doMem.getSelectedItemPosition() == 1 ? methods.getCheckedValues(valuesWhatAre, whatAre) : ""
+                                    doMem.getSelectedItemPosition() == 1 ? methods.getCheckedValues(valuesWhatAre, whatAre) : "",
+                                    Methods.getSelectedGenId(context)
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, true);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

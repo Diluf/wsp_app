@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.debugsire.wsp.Algos.Adapters.DropdownAdapter;
 import com.debugsire.wsp.Algos.Adapters.DropdownAdapterForGND;
@@ -79,7 +78,7 @@ public class CoverageByTheScheme extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, false);
         }
         return true;
     }

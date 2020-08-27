@@ -18,6 +18,7 @@ import android.widget.Spinner;
 
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
+import com.debugsire.wsp.Algos.MyStringRandomGen;
 import com.debugsire.wsp.R;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -36,7 +37,7 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
     Button desigR, genderR, preLanR, save;
 
     RelativeLayout headerWrapper;
-    String dateTime_, tableName;
+    String dateTime_, tableName, generatedId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
         methods = new Methods();
         dateTime_ = getIntent().getExtras().getString("dateTime_");
         tableName = getIntent().getExtras().getString("tableName");
+        generatedId = getIntent().getExtras().getString("generatedId");
 
         initCompos();
         setSpinnerValues(MyConstants.ALL);
@@ -65,7 +67,7 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, true);
         }
         return true;
     }
@@ -73,7 +75,7 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, true);
         while (cursor.moveToNext()) {
             name.getEditText().setText(cursor.getString(cursor.getColumnIndex("name")));
             comm.getEditText().setText(cursor.getString(cursor.getColumnIndex("com")));
@@ -127,18 +129,24 @@ public class BasicInfoOfHousehold extends AppCompatActivity {
                     dialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            if (generatedId == null) {
+                                generatedId = new MyStringRandomGen().generateRandomString();
+                            }
                             ArrayList<String> strings = methods.getConfiguredStringForInsert(
+                                    "-",
                                     name.getEditText().getText().toString().trim(),
                                     comm.getEditText().getText().toString().trim(),
                                     valuesDesig[desig.getSelectedItemPosition()] + "",
                                     mob.getEditText().getText().toString().trim(),
                                     valuesGender[gender.getSelectedItemPosition()] + "",
-                                    valuesPreLan[preLan.getSelectedItemPosition()] + ""
+                                    valuesPreLan[preLan.getSelectedItemPosition()] + "",
+                                    generatedId
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, true);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
+                            methods.setSharedPref(context, MyConstants.ACTION_SELECTED_GENERATED_ID, generatedId);
                             onBackPressed();
 
                         }

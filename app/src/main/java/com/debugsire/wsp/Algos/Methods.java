@@ -15,7 +15,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -513,9 +512,17 @@ public class Methods {
                 " " + where2 + " = '" + value2 + "' ");
     }
 
-    public Cursor getCursorFromDateTime(Context context, String tableName, String dateTime_) {
-        return MyDB.getData("SELECT * FROM " + tableName + " WHERE dateTime_ = '" + dateTime_ + "' AND CBONum = '" + Methods.getCBONum(context) + "'");
+    public Cursor getCursorFromDateTime(Context context, String tableName, String dateTime_, boolean hasGeneratedId) {
+        if (hasGeneratedId) {
+            return MyDB.getData("SELECT * FROM " + tableName + " WHERE dateTime_ = '" + dateTime_ + "' AND  CBONum = '" + Methods.getCBONum(context) + "' " +
+                    " AND generatedId = '" + getSelectedGenId(context) + "'");
+
+        } else {
+            return MyDB.getData("SELECT * FROM " + tableName + " WHERE dateTime_ = '" + dateTime_ + "' AND  CBONum = '" + Methods.getCBONum(context) + "'");
+
+        }
     }
+
 
     public Integer getMaxNegativeId(String tableName) {
         Cursor data = MyDB.getData("SELECT MIN(id) FROM " + tableName);
@@ -555,15 +562,25 @@ public class Methods {
 
     }
 
-    public void deleteFromDBByCBONum(Context context, String tableName, String where, String value) {
-        MyDB.setData("DELETE FROM " + tableName + " WHERE " + where + " = '" + value + "' AND CBONum = '" + Methods.getCBONum(context) + "'");
+    public void deleteFromDBByCBONum(Context context, String tableName, String where, String value, boolean hasGeneratedId) {
+        if (hasGeneratedId) {
+            MyDB.setData("DELETE FROM " + tableName + " WHERE " + where + " = '" + value + "' AND CBONum = '" + Methods.getCBONum(context) + "' AND generatedId = '" + getSelectedGenId(context) + "'");
+        } else {
+            MyDB.setData("DELETE FROM " + tableName + " WHERE " + where + " = '" + value + "' AND CBONum = '" + Methods.getCBONum(context) + "'");
+        }
     }
 
-    public String insertData(Context context, String tableName, String dateTime_, ArrayList<String> strings) {
+    public String insertData(Context context, String tableName, String dateTime_, ArrayList<String> strings, boolean hasGeneratedId) {
         if (dateTime_ == null) {
             dateTime_ = getNowDateTime();
         } else {
-            MyDB.setData("DELETE FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "' AND dateTime_ = '" + dateTime_ + "'");
+            if (hasGeneratedId) {
+                MyDB.setData("DELETE FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "' AND dateTime_ = '" + dateTime_ + "' AND generatedId = '" + getSelectedGenId(context) + "'");
+
+            } else {
+                MyDB.setData("DELETE FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "' AND dateTime_ = '" + dateTime_ + "'");
+
+            }
         }
 
         String[] stringArray = strings.toArray(new String[0]);
@@ -592,6 +609,15 @@ public class Methods {
     public static String getCBONum(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(MyConstants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         return prefs.getString(MyConstants.SHARED_CBO_NUM, "").trim();
+    }
+
+    public static String getSelectedGenId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(MyConstants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        if (prefs.getString(MyConstants.ACTION_SELECTED_GENERATED_ID, null) == null) {
+            return prefs.getString(MyConstants.ACTION_SELECTED_GENERATED_ID, null);
+        } else {
+            return prefs.getString(MyConstants.ACTION_SELECTED_GENERATED_ID, null).trim();
+        }
     }
 
     public static String getSharedPref(Context context, String sharedName) {
@@ -795,10 +821,17 @@ public class Methods {
         }
     }
 
-    public void configIntent(final Context context, LayoutInflater inflater, final SubHomePojos homePojos, final Intent intent) {
+    public void configIntent(final Context context, LayoutInflater inflater, final SubHomePojos homePojos, final Intent intent, boolean hasGeneratedId) {
         if (homePojos.isRepeat()) {
             ArrayList<String> strings = new ArrayList<>();
-            Cursor cursor = getCursorBySelectedCBONum(context, homePojos.getTableName());
+            Cursor cursor;
+            if (hasGeneratedId) {
+                cursor = getCursor(homePojos.getTableName(), "CBONum", getCBONum(context), "generatedId", getSelectedGenId(context));
+
+            } else {
+                cursor = getCursorBySelectedCBONum(context, homePojos.getTableName());
+
+            }
             while (cursor.moveToNext()) {
                 strings.add(cursor.getString(cursor.getColumnIndex("dateTime_")));
             }
@@ -837,15 +870,24 @@ public class Methods {
 
             } else {
                 intent.putExtra("tableName", homePojos.getTableName());
-                intent.putExtra("dateTime_", getSingleStringFromDBByCBONum(context, "dateTime_", homePojos.getTableName()));
+                intent.putExtra("dateTime_", getRequiredDateTimeByGenId(context, homePojos, hasGeneratedId));
                 context.startActivity(intent);
             }
 
         } else {
             intent.putExtra("tableName", homePojos.getTableName());
-            intent.putExtra("dateTime_", getSingleStringFromDBByCBONum(context, "dateTime_", homePojos.getTableName()));
+            intent.putExtra("dateTime_", getRequiredDateTimeByGenId(context, homePojos, hasGeneratedId));
             context.startActivity(intent);
         }
+    }
+
+    private String getRequiredDateTimeByGenId(Context context, SubHomePojos homePojos, boolean hasGeneratedId) {
+        if (hasGeneratedId) {
+            return getSingleStringFromDBByCBONum(context, "dateTime_", homePojos.getTableName(), "generatedId", getSelectedGenId(context));
+
+        }
+        return getSingleStringFromDBByCBONum(context, "dateTime_", homePojos.getTableName());
+
     }
 
     private void loadView(final Context context, final String dateTime_, final String tableName, LayoutInflater inflater, final AlertDialog builder, LinearLayout itemsLinearLayout, final Intent intent) {
@@ -877,25 +919,33 @@ public class Methods {
             builder.setIcon(R.drawable.ic_info_outline);
             builder.setTitle("Seems you've done collecting data");
 
-        } else if (id == MyConstants.UPLOAD_DIALOG) {
-            builder.setIcon(R.drawable.ic_info_outline);
-            builder.setTitle("Mobile number is already saved earlier in DB");
+        } else if (id == MyConstants.SIGNOUT_DIALOG) {
+            builder.setIcon(R.drawable.ic_warning_black_24dp);
+            builder.setTitle("Are you sure you need to Sign Out?");
 
         }
         return builder;
     }
 
-    public void removeEntry(final Context context, final String tableName, final String dateTime_) {
+    public void removeEntry(final Context context, final String tableName, final String dateTime_, final boolean hasGeneratedId) {
         final AlertDialog builder = getRequiredAlertDialog(context, MyConstants.REMOVE_DIALOG);
         builder.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deleteFromDBByCBONum(context, tableName, "dateTime_", dateTime_);
+                if (tableName.equalsIgnoreCase("basicInfo")) {
+                    checkForDependencies(context, tableName, dateTime_, hasGeneratedId);
+                    builder.dismiss();
+                    return;
+                } else {
+                    deleteFromDBByCBONum(context, tableName, "dateTime_", dateTime_, hasGeneratedId);
+
+                }
                 //
                 if (tableName.equalsIgnoreCase("dist")) {
                     ((Distribution) context).removeMatTypes();
                 }
                 //
+
                 showToast("Removed", context, MyConstants.MESSAGE_SUCCESS);
                 ((Activity) context).onBackPressed();
                 builder.dismiss();
@@ -908,6 +958,26 @@ public class Methods {
             }
         });
         builder.show();
+    }
+
+    private void checkForDependencies(Context context, String tableName, String dateTime_, boolean hasGeneratedId) {
+        String[] strings = new String[]{"waterAd", "waterQ", "houseHold", "waterH", "waterS", "obsEU"};
+        boolean canRemove = true;
+        for (String s :
+                strings) {
+            if (getCursor(s, "generatedId", getSelectedGenId(context)).getCount() != 0) {
+                canRemove = false;
+                break;
+            }
+        }
+        if (canRemove) {
+            deleteFromDBByCBONum(context, tableName, "dateTime_", dateTime_, hasGeneratedId);
+            setSharedPref(context, MyConstants.ACTION_SELECTED_GENERATED_ID, null);
+            showToast("Removed", context, MyConstants.MESSAGE_SUCCESS);
+            ((Activity) context).onBackPressed();
+        } else {
+            showToast("Cannot remove when have dependencies", context, MyConstants.MESSAGE_ERROR);
+        }
     }
 
     public void configHeaderBar(Context context, String dateTime_, RelativeLayout headerBar) {
@@ -946,4 +1016,37 @@ public class Methods {
 
     }
 
+    public ArrayList<String> getAllTableNames(boolean isToFinishUpload) {
+        ArrayList<String> tableArrayList = new ArrayList<>();
+        if (!isToFinishUpload) {
+            tableArrayList.add("wsp_droplist");
+            tableArrayList.add("user");
+            tableArrayList.add("locations");
+            tableArrayList.add("cboB");
+        }
+//
+        tableArrayList.add("cboBasicDetails");
+        tableArrayList.add("connectionD");
+        tableArrayList.add("coverageInfo");
+        tableArrayList.add("cboBasicDetailsFilled");
+        tableArrayList.add("connectionDFilled");
+        tableArrayList.add("coverageInfoFilled");
+        tableArrayList.add("pop");
+        tableArrayList.add("existingQA");
+        tableArrayList.add("catchment");
+        tableArrayList.add("treatment");
+        tableArrayList.add("dist");
+        tableArrayList.add("distTypes");
+        tableArrayList.add("clim");
+        tableArrayList.add("gov");
+        tableArrayList.add("obsWS");
+        tableArrayList.add("basicInfo");
+        tableArrayList.add("waterAd");
+        tableArrayList.add("waterQ");
+        tableArrayList.add("houseHold");
+        tableArrayList.add("WaterH");
+        tableArrayList.add("waterS");
+        tableArrayList.add("obsEU");
+        return tableArrayList;
+    }
 }

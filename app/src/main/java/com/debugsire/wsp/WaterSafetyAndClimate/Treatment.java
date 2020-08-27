@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -69,14 +67,14 @@ public class Treatment extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, false);
         }
         return true;
     }
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, false);
         while (cursor.moveToNext()) {
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("sType")), valuesSourceType, sourceType);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("sProt")), valuesSourceIs, sourceIs);
@@ -198,7 +196,7 @@ public class Treatment extends AppCompatActivity {
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, false);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

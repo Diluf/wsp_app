@@ -42,15 +42,6 @@ public class MyDB {
 //-------------------------------------------
 //-------------------------------------------
 //-------------------------------------------
-//        database.execSQL("CREATE TABLE IF NOT EXISTS user (" +
-//                " userName VARCHAR, " +
-//                " password VARCHAR, " +
-//                " name_ VARCHAR, " +
-//                " desig VARCHAR, " +
-//                " status VARCHAR," +
-//                " dateTime_ DATETIME" +
-//                " )");
-
 
         //From server
         database.execSQL("CREATE TABLE IF NOT EXISTS wsp_droplist (" +
@@ -98,6 +89,9 @@ public class MyDB {
                 " dateTime_ DATETIME " +
                 " )");
 
+        //
+        //
+        //
 
         database.execSQL("CREATE TABLE IF NOT EXISTS cboBasicDetails (" +
                 " id VARCHAR," +
@@ -353,12 +347,14 @@ public class MyDB {
 
         database.execSQL("CREATE TABLE IF NOT EXISTS basicInfo (" +
                 " CBONum VARCHAR, " +
+                " id VARCHAR, " +
                 " name VARCHAR, " +
                 " com VARCHAR, " +
                 " desi VARCHAR, " +
                 " mob VARCHAR, " +
                 " gen VARCHAR, " +
                 " pref VARCHAR, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +
@@ -371,6 +367,7 @@ public class MyDB {
                 " whatIs VARCHAR, " +
                 " doYouUse VARCHAR, " +
                 " ifYes VARCHAR, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +
@@ -385,6 +382,7 @@ public class MyDB {
                 " doYouT VARCHAR, " +
                 " whatAre VARCHAR, " +
                 " ifWater VARCHAR, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +
@@ -396,6 +394,7 @@ public class MyDB {
                 " isThe VARCHAR, " +
                 " howOften VARCHAR, " +
                 " howDoYouC VARCHAR, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +
@@ -405,6 +404,7 @@ public class MyDB {
                 " CBONum VARCHAR, " +
                 " didA VARCHAR, " +
                 " didY VARCHAR, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +
@@ -414,6 +414,7 @@ public class MyDB {
                 " CBONum VARCHAR, " +
                 " doM VARCHAR, " +
                 " ifYes VARCHAR, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +
@@ -422,6 +423,7 @@ public class MyDB {
         database.execSQL("CREATE TABLE IF NOT EXISTS obsEU (" +
                 " CBONum VARCHAR, " +
                 " obs TEXT, " +
+                " generatedId VARCHAR, " +
                 " dateTime_ DATETIME, " +
                 " userName VARCHAR, " +
                 " application VARCHAR " +

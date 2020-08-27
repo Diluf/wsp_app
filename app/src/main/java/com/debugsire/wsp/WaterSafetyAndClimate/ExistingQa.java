@@ -63,7 +63,7 @@ public class ExistingQa extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, false);
         }
         return true;
     }
@@ -71,7 +71,7 @@ public class ExistingQa extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, false);
         while (cursor.moveToNext()) {
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("wsp")), valuesWaterSafety, waterSafety);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("wqp")), valuesWaterQualityParam, waterQualityParam);
@@ -160,7 +160,7 @@ public class ExistingQa extends AppCompatActivity {
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, false);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

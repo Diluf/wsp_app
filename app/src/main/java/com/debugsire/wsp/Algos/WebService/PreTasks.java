@@ -27,7 +27,13 @@ public class PreTasks {
             progressDialog.setMessage("Fetching data for selected CBO...");
 
         } else if (face == MyConstants.ACTION_RESYNCH_BEFORE_UPLOAD) {
-            progressDialog.setMessage("Preparing...");
+            progressDialog.setMessage("Verifying...");
+
+        } else if (face == MyConstants.ACTION_UPLOAD_1) {
+            progressDialog.setMessage("Uploading...");
+
+        } else if (face == MyConstants.ACTION_CONTACT_UPLOAD) {
+            progressDialog.setMessage("Few more steps to go...");
 
         }
         progressDialog.show();

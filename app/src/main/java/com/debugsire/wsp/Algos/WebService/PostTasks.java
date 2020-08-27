@@ -2,7 +2,9 @@ package com.debugsire.wsp.Algos.WebService;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 
+import com.debugsire.wsp.Algos.AsyncPrepareData;
 import com.debugsire.wsp.Algos.DB.MyDB;
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
@@ -65,8 +67,45 @@ public class PostTasks {
 
 
         } else if (face == MyConstants.ACTION_RESYNCH_BEFORE_UPLOAD) {
-            progressDialog.dismiss();
-            methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
+            new AsyncPrepareData(context, progressDialog, methods, MyConstants.ACTION_UPLOAD_1).execute();
+
+
+        } else if (face == MyConstants.ACTION_UPLOAD_1) {
+            Cursor cursor = methods.getCursorBySelectedCBONum(context, "basicInfo");
+            JSONArray jsonArray = new JSONArray();
+            while (cursor.moveToNext()) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("CBONum", cursor.getString(cursor.getColumnIndex("CBONum")));
+                jsonObject.put("name", cursor.getString(cursor.getColumnIndex("name")));
+                jsonObject.put("com", cursor.getString(cursor.getColumnIndex("com")));
+                jsonObject.put("desi", cursor.getString(cursor.getColumnIndex("desi")));
+                jsonObject.put("mob", cursor.getString(cursor.getColumnIndex("mob")));
+                jsonObject.put("gen", cursor.getString(cursor.getColumnIndex("gen")));
+                jsonObject.put("pre", cursor.getString(cursor.getColumnIndex("pref")));
+                jsonObject.put("generatedId", cursor.getString(cursor.getColumnIndex("generatedId")));
+                jsonObject.put("dateTime_", cursor.getString(cursor.getColumnIndex("dateTime_")));
+                jsonObject.put("userName", cursor.getString(cursor.getColumnIndex("userName")));
+                jsonObject.put("appId", cursor.getString(cursor.getColumnIndex("application")));
+                jsonObject.put("dateTimeUploaded", Methods.getNowDateTime());
+                jsonArray.put(jsonObject);
+            }
+
+            new AsyncWebService(context, MyConstants.ACTION_CONTACT_UPLOAD, progressDialog)
+                    .execute(WebRefferences.saveContact.methodName, jsonArray.toString());
+//            new AsyncPrepareData(context, progressDialog, MyConstants.ACTION_CONTACT_UPLOAD).execute();
+//            progressDialog.dismiss();
+//            methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
+
+
+        } else if (face == MyConstants.ACTION_CONTACT_UPLOAD) {
+            new AsyncPrepareData(context, progressDialog, methods,  MyConstants.ACTION_UPLOAD_2).execute();
+//            progressDialog.dismiss();
+//            methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
+
+
+        } else if (face == MyConstants.ACTION_UPLOAD_2) {
+            new AsyncPrepareData(context, progressDialog, methods, MyConstants.ACTION_REMOVE_OFFLINE_DATA).execute();
+//            methods.showToast("Successfully resynchronized", context, MyConstants.MESSAGE_SUCCESS);
 
 
         }

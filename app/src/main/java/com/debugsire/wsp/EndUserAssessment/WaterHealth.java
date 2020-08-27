@@ -61,7 +61,7 @@ public class WaterHealth extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, true);
         }
         return true;
     }
@@ -69,7 +69,7 @@ public class WaterHealth extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, true);
         while (cursor.moveToNext()) {
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("didA")), valuesDidAnyone, didAnyone);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("didY")), valuesDidYou, didYou);
@@ -111,11 +111,12 @@ public class WaterHealth extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ArrayList<String> strings = methods.getConfiguredStringForInsert(
                                     valuesDidAnyone[didAnyone.getSelectedItemPosition()] + "",
-                                    valuesDidYou[didYou.getSelectedItemPosition()] + ""
+                                    valuesDidYou[didYou.getSelectedItemPosition()] + "",
+                                    Methods.getSelectedGenId(context)
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, true);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

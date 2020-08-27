@@ -5,14 +5,12 @@ package com.debugsire.wsp.Algos.WebService.Model;
  */
 
 public class WebRefferences {
-    private static final String IP = "http://192.168.8.177:8084/WSP_Service";
-//    private static final String IP = "http://rwss.lk:8080/WSP_Service";
+//    private static final String IP = "http://192.168.8.177:8084/WSP_Service";
+    private static final String IP = "http://rwss.lk:8080/WSP_Service";
 //    public static final String IMAGE_UPLOAD_URL = IP + "/FileUploadServlet";
     public static String url = IP + "/MyWebService";
     public static int timeOut = 30000;
     public static String nameSpace = "http://MyWebService/";
-
-
 
 
     public static class hello {
@@ -45,6 +43,10 @@ public class WebRefferences {
 
     public static class execQuery {
         public static String methodName = "execQuery";
+    }
+
+    public static class saveContact {
+        public static String methodName = "saveContact";
     }
 
 

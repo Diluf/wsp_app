@@ -18,7 +18,10 @@ public class MyConstants {
     public static final int ACTION_GET_DSD_AND_CBO = 102;
     public static final int ACTION_GET_LOCATION_DSD_GND = 103;
     public static final int ACTION_RESYNCH_BEFORE_UPLOAD = 104;
-    public static final int ACTION_UPLOAD = 105;
+    public static final int ACTION_UPLOAD_1 = 105;
+    public static final int ACTION_CONTACT_UPLOAD = 106;
+    public static final int ACTION_UPLOAD_2 = 107;
+    public static final int ACTION_REMOVE_OFFLINE_DATA = 108;
 
     public static final String ACTION_GET_CBO_DETAILS_DOWNLOADS = "GET_CBO_DETAILS";
     public static final String ACTION_GET_CONNECTION_DOWNLOADS = "GET_CONNECTION";
@@ -128,7 +131,7 @@ public class MyConstants {
     //Alert Dialog
     public static final int REMOVE_DIALOG = 300;
     public static final int UPLOAD_DIALOG = 301;
-    public static final int UPDATE_CONTACT_DIALOG = 302;
+    public static final int SIGNOUT_DIALOG = 302;
 
     /////////
     /////////
@@ -156,4 +159,5 @@ public class MyConstants {
 
     public static final String MY_PREFS_NAME = "com.debugsire.wsp";
     public static final String SHARED_CBO_NUM = "SHARED_CBO_NUM";
+    public static final String ACTION_SELECTED_GENERATED_ID = "ACTION_SELECTED_GENERATED_ID";
 }

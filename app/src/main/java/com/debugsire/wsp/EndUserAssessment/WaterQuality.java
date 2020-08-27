@@ -65,7 +65,7 @@ public class WaterQuality extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, true);
         }
         return true;
     }
@@ -73,7 +73,7 @@ public class WaterQuality extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, true);
         while (cursor.moveToNext()) {
             methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("forW")), valuesForWhat, forWhat);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("doYouS")), valuesDoYouSat, doYouSat);
@@ -184,11 +184,12 @@ public class WaterQuality extends AppCompatActivity {
                                     doYouSat.getSelectedItemPosition() == 2 ? methods.getCheckedValues(valuesPleasePro, pleasePro) : "",
                                     valuesDoYouTreat[doYouTreat.getSelectedItemPosition()] + "",
                                     doYouTreat.getSelectedItemPosition() == 2 ? methods.getCheckedValues(valuesWhatAre, whatAre) : "",
-                                    methods.getCheckedValues(valuesIfWater, ifWater)
+                                    methods.getCheckedValues(valuesIfWater, ifWater),
+                                    Methods.getSelectedGenId(context)
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, true);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

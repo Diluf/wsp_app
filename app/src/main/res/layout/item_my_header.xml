@@ -49,7 +49,7 @@
                 android:layout_marginVertical="@dimen/margin_inline_components"
                 android:layout_marginLeft="@dimen/margin_inline_components_plus_2"
                 android:orientation="vertical"
-                android:paddingVertical="@dimen/space_between_multi_selected_item">
+                >
 
                 <TextView
                     android:id="@+id/tv_titleItemHeader"

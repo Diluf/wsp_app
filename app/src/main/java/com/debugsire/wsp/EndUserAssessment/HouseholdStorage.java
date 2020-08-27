@@ -11,9 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -63,7 +61,7 @@ public class HouseholdStorage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, true);
         }
         return true;
     }
@@ -71,7 +69,7 @@ public class HouseholdStorage extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, true);
         while (cursor.moveToNext()) {
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("howDoYouS")), valuesHowStore, howStore);
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("isThe")), valuesIsThe, isThe);
@@ -132,11 +130,12 @@ public class HouseholdStorage extends AppCompatActivity {
                                     valuesHowStore[howStore.getSelectedItemPosition()] + "",
                                     valuesIsThe[isThe.getSelectedItemPosition()] + "",
                                     valuesHowOften[howOften.getSelectedItemPosition()] + "",
-                                    valuesHowClean[howClean.getSelectedItemPosition()] + ""
+                                    valuesHowClean[howClean.getSelectedItemPosition()] + "",
+                                    Methods.getSelectedGenId(context)
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, true);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

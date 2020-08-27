@@ -21,6 +21,7 @@ import com.debugsire.wsp.Algos.DB.MyDB;
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
 import com.debugsire.wsp.Algos.POJOs.HomePojos;
+import com.debugsire.wsp.Algos.POJOs.SubHomePojos;
 import com.debugsire.wsp.EndUserAssessment.EndUserAssessment;
 import com.debugsire.wsp.WaterSafetyAndClimate.WaterSafetyAndClimate;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -38,10 +39,10 @@ public class Home extends AppCompatActivity {
 
     Context context;
     ListView listView;
-    FloatingActionButton floatingActionButton;
-    ArrayList<HomePojos> arrayList;
+    ArrayList<HomePojos> arrayList, bottomArrayList;
     Methods methods;
     LayoutInflater inflater;
+    LinearLayout wrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,18 @@ public class Home extends AppCompatActivity {
         arrayList.add(new HomePojos(getString(R.string.title_population_served), "pop"));
 
         listView.setAdapter(new HomeAdapter(context, arrayList, methods));
+
+        //
+        //
+        //
+        //
+        //
+
+        bottomArrayList = new ArrayList<>();
+        bottomArrayList.add(new HomePojos("Water Safety and climate resilience", ""));
+        bottomArrayList.add(new HomePojos("End-user assessment at household level", ""));
+        loadBottomButtons();
+
     }
 
     private void addEventListeners() {
@@ -142,116 +155,6 @@ public class Home extends AppCompatActivity {
         });
 
 
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                final HomePojos homePojos = arrayList.get(position);
-//                final Cursor cursor = methods.getCursorBySelectedCBONum(context, homePojos.getDbName());
-//                if (cursor.getCount() == 0) {
-//                    return true;
-//                }
-//
-//                final boolean isCoverage = homePojos.getTitle().equalsIgnoreCase(getString(R.string.title_coverage_by_scheme));
-//
-//                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-//                View v = inflater.inflate(R.layout.dialog_bottom_options, null);
-//                ((TextView) v.findViewById(R.id.tv_headerDialogBottomOptions)).setText(homePojos.getTitle());
-//                final LinearLayout wrapper = v.findViewById(R.id.ll_moreThanOneDialogBottomOptions);
-//                while (cursor.moveToNext()) {
-//                    String idGnd = null;
-//                    final View itemView = inflater.inflate(R.layout.item_bottom_dialog, null);
-//                    ((TextView) itemView.findViewById(R.id.tv_dateTimeItemBottomDialog)).setText(cursor.getString(cursor.getColumnIndex("dateTime_")));
-//                    if (isCoverage) {
-//                        idGnd = cursor.getString(cursor.getColumnIndex("idGnd"));
-//                        String dsdName = methods.getSingleStringFromDB("dsd", "locations", "idGnd", idGnd);
-//                        String gndName = methods.getSingleStringFromDB("gnd", "locations", "idGnd", idGnd);
-//                        TextView sub = itemView.findViewById(R.id.tv_subItemBottomDialog);
-//                        TextView lastSub = itemView.findViewById(R.id.tv_lastSubItemBottomDialog);
-//                        sub.setText(dsdName);
-//                        lastSub.setText(gndName);
-//                        sub.setVisibility(View.VISIBLE);
-//                        lastSub.setVisibility(View.VISIBLE);
-//                    }
-//                    final String finalIdGnd = idGnd;
-//                    itemView.findViewById(R.id.imgBDelItemBottomDialog).setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            final AlertDialog builder = methods.getRequiredAlertDialog(context, MyConstants.REMOVE_DIALOG);
-//                            builder.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    if (isCoverage) {
-//                                        MyDB.setData("DELETE FROM " + homePojos.getDbName() + " WHERE CBONum = '" + Methods.getCBONum(context) + "' AND " +
-//                                                " idGnd = '" + finalIdGnd + "'");
-//                                        Log.d("000000000000 ", "onClick: " + finalIdGnd);
-//                                    } else {
-//                                        MyDB.setData("DELETE FROM " + homePojos.getDbName() + "  WHERE CBONum = '" + Methods.getCBONum(context) + "'");
-//                                    }
-//                                    builder.dismiss();
-//                                    methods.showToast(getString(R.string.removed), context, MyConstants.MESSAGE_SUCCESS);
-//                                    loadListView();
-//                                    wrapper.removeView(itemView);
-//                                    if (wrapper.getChildCount() == 0) {
-//                                        bottomSheetDialog.dismiss();
-//                                    }
-//                                }
-//                            });
-//                            builder.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//
-//                                }
-//                            });
-//                            builder.show();
-//                        }
-//                    });
-//
-//                    wrapper.addView(itemView);
-//                }
-//                bottomSheetDialog.setContentView(v);
-//                bottomSheetDialog.show();
-//
-//                return true;
-//            }
-//        });
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final AlertDialog alertDialog = new android.app.AlertDialog.Builder(Home.this).create();
-
-                View v = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE))
-                        .inflate(R.layout.dialog_on_home_continue, null);
-                Button ws = v.findViewById(R.id.btn_ws);
-                Button endU = v.findViewById(R.id.btn_endUser);
-
-                ws.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getApplicationContext(), WaterSafetyAndClimate.class));
-                        alertDialog.dismiss();
-                    }
-                });
-
-                endU.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getApplicationContext(), EndUserAssessment.class));
-                        alertDialog.dismiss();
-                    }
-                });
-
-                alertDialog.setView(v);
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-                alertDialog.show();
-            }
-        });
     }
 
     private void loadView(final String idGnd, LayoutInflater inflater, final AlertDialog builder, LinearLayout itemsLinearLayout, boolean downloadedEntry) {
@@ -285,7 +188,101 @@ public class Home extends AppCompatActivity {
     private void initCompos() {
         listView = findViewById(R.id.lv_Home);
         //
-        floatingActionButton = findViewById(R.id.fab);
+        wrapper = findViewById(R.id.ll_wrapperHome);
+    }
+
+    private void loadBottomButtons() {
+        wrapper.removeAllViews();
+        for (int i = 0; i < bottomArrayList.size(); i++) {
+            final HomePojos homePojos = bottomArrayList.get(i);
+
+            View view = inflater.inflate(R.layout.item_sub_button, null);
+            ((TextView) view.findViewById(R.id.tv_titleItemSubButton)).setText(homePojos.getTitle());
+
+            if (i == 0) {
+                view.findViewById(R.id.card_itemSubButton).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getApplicationContext(), WaterSafetyAndClimate.class));
+                    }
+                });
+
+
+            } else {
+                final Cursor cursor = MyDB.getData("SELECT * FROM basicInfo GROUP BY generatedId");
+                int count = cursor.getCount();
+                if (count > 0) {
+                    TextView countTextView = view.findViewById(R.id.tv_badgeItemSubButton);
+                    countTextView.setText(count + "");
+                    countTextView.setVisibility(View.VISIBLE);
+                }
+
+                view.findViewById(R.id.card_itemSubButton).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ArrayList<String[]> strings = new ArrayList<>();
+                        while (cursor.moveToNext()) {
+                            strings.add(new String[]{
+                                    cursor.getString(cursor.getColumnIndex("name")),
+                                    cursor.getString(cursor.getColumnIndex("com")),
+                                    cursor.getString(cursor.getColumnIndex("dateTime_")),
+                                    cursor.getString(cursor.getColumnIndex("generatedId"))
+                            });
+                        }
+
+                        final Intent intent = new Intent(getApplicationContext(), EndUserAssessment.class);
+                        if (strings.size() != 0) {
+                            View v = inflater.inflate(R.layout.dialog_which_one, null);
+                            LinearLayout itemsLinearLayout = v.findViewById(R.id.ll_itemsWrapperrDialogWhichOne);
+
+                            final AlertDialog builder = new AlertDialog.Builder(context)
+                                    .setView(v)
+                                    .create();
+
+                            v.findViewById(R.id.btn_addNewDialogWhichOne).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    methods.setSharedPref(context, MyConstants.ACTION_SELECTED_GENERATED_ID, null);
+                                    startActivity(intent);
+                                    builder.dismiss();
+                                }
+                            });
+
+                            for (final String[] array :
+                                    strings) {
+                                View dsdGndView = inflater.inflate(R.layout.item_gnd_dsd_button, null);
+                                ((TextView) dsdGndView.findViewById(R.id.tv_dsdItemGndDsdButton)).setText(array[1]);
+                                ((TextView) dsdGndView.findViewById(R.id.tv_gndItemGndDsdButton)).setText(array[0]);
+                                CardView cardView = dsdGndView.findViewById(R.id.card_dsd_gndItemGndDsdButton);
+                                cardView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        methods.setSharedPref(context, MyConstants.ACTION_SELECTED_GENERATED_ID, array[3]);
+                                        startActivity(intent);
+                                        builder.dismiss();
+                                    }
+                                });
+
+                                ((TextView) dsdGndView.findViewById(R.id.tv_downloadedItemGndDsdButton)).setText(array[2]);
+                                dsdGndView.findViewById(R.id.tv_downloadedItemGndDsdButton).setVisibility(View.VISIBLE);
+
+                                itemsLinearLayout.addView(dsdGndView);
+                            }
+
+                            builder.show();
+                        } else {
+                            methods.setSharedPref(context, MyConstants.ACTION_SELECTED_GENERATED_ID, null);
+                            startActivity(intent);
+                        }
+
+                    }
+                });
+
+            }
+
+            wrapper.addView(view);
+
+        }
     }
 
     @Override

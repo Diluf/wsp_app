@@ -1,18 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EndUserAssessment.EndUserAssessment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_wrapperWaterSafetyAndClimate"
+    <TextView
+        android:id="@+id/tv_fullEndUserAss"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical">
+        android:background="@color/colorPrimaryDark"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/text_size_sub_text"
+        android:padding="@dimen/drawable_padding_with_text"
+        android:text="Full name"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite" />
 
-    </LinearLayout>
+    <TextView
+        android:textSize="@dimen/text_size_sub_text_small"
+        android:id="@+id/tv_comEndUserAss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="@dimen/drawable_padding_with_text"
+        android:text="common name"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite" />
 
-</ScrollView>
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".EndUserAssessment.EndUserAssessment">
+
+
+        <LinearLayout
+            android:id="@+id/ll_wrapperWaterSafetyAndClimate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

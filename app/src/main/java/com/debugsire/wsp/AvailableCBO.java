@@ -23,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.debugsire.wsp.Algos.Adapters.DownloadedCBOAdapter;
@@ -48,6 +49,7 @@ public class AvailableCBO extends AppCompatActivity {
     Context context;
 
     Spinner dsd, cbo;
+    TextView placeHolder;
     ArrayList<String> alDSDs, alCBOs, alCBOsId;
     ArrayList<DownloadedCBOPOJO> offlineCbopojoArrayList;
 
@@ -66,13 +68,18 @@ public class AvailableCBO extends AppCompatActivity {
 
         offlineList = findViewById(R.id.lv_availCBO_AvailableCBO);
         floatingActionButton = findViewById(R.id.floatingActionButton);
+        placeHolder = findViewById(R.id.tvPlaceHolder);
 
-        loadOfflineCBOs();
+        assignAlertView();
         addEventListeners();
 
-        if (offlineCbopojoArrayList.size() == 0) {
-            showCBODialog();
-        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadOfflineCBOs();
+
     }
 
     private void assignAlertView() {
@@ -207,7 +214,15 @@ public class AvailableCBO extends AppCompatActivity {
         }
 
 
-        offlineList.setAdapter(new DownloadedCBOAdapter(context, offlineCbopojoArrayList));
+        offlineList.setAdapter(new DownloadedCBOAdapter(context, offlineCbopojoArrayList, methods));
+
+        if (offlineCbopojoArrayList.size() == 0) {
+            placeHolder.setVisibility(View.VISIBLE);
+        } else {
+            placeHolder.setVisibility(View.GONE);
+
+        }
+
     }
 
     public void loadDSDSpinner() {
@@ -243,14 +258,33 @@ public class AvailableCBO extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_upload_OnAvailable:
-
-
-                return true;
             case R.id.menu_signOut_OnAvailable:
-                ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-                startActivity(new Intent(AvailableCBO.this, SignIn.class));
-                finish();
+
+                AlertDialog dialog = methods.getRequiredAlertDialog(context, MyConstants.SIGNOUT_DIALOG);
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sign out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> allTableNames = methods.getAllTableNames(false);
+                        for (String tableName :
+                                allTableNames) {
+                            MyDB.setData("DELETE FROM " + tableName);
+                        }
+
+                        startActivity(new Intent(AvailableCBO.this, SignIn.class));
+                        finish();
+                    }
+                });
+
+
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
                 return true;
             case R.id.menu_about_OnAvailable:
                 return true;

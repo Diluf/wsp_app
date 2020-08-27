@@ -70,7 +70,7 @@ public class WaterAdequacy extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            methods.removeEntry(context, tableName, dateTime_, true);
         }
         return true;
     }
@@ -78,7 +78,7 @@ public class WaterAdequacy extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, true);
         while (cursor.moveToNext()) {
             methods.setSelectedItemForSpinner(cursor.getInt(cursor.getColumnIndex("doYouG")), valuesDoYouGet, doYouGet);
             methods.setSelectedItemsForMultiSelection(cursor.getString(cursor.getColumnIndex("ifNo")), valuesWhatAre, whatAre);
@@ -173,11 +173,12 @@ public class WaterAdequacy extends AppCompatActivity {
                                     doYouGet.getSelectedItemPosition() == 2 ? methods.getCheckedValues(valuesWhatAre, whatAre) : "",
                                     what.getEditText().getText().toString().trim(),
                                     valuesDoYouUse[doYouUse.getSelectedItemPosition()] + "",
-                                    doYouUse.getSelectedItemPosition() == 1 ? valuesPleaseMention[pleaseMention.getSelectedItemPosition()] + "" : ""
+                                    doYouUse.getSelectedItemPosition() == 1 ? valuesPleaseMention[pleaseMention.getSelectedItemPosition()] + "" : "",
+                                    Methods.getSelectedGenId(context)
 
                             );
 
-                            methods.insertData(context, tableName, dateTime_, strings);
+                            methods.insertData(context, tableName, dateTime_, strings, true);
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

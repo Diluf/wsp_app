@@ -35,12 +35,14 @@ public class DownloadedCBOAdapter extends ArrayAdapter {
 
     ArrayList<DownloadedCBOPOJO> offlineCbopojoArrayList;
     Context context;
+    Methods methods;
     LayoutInflater layoutInflater;
 
-    public DownloadedCBOAdapter(@NonNull Context context, ArrayList<DownloadedCBOPOJO> offlineCbopojoArrayList) {
+    public DownloadedCBOAdapter(@NonNull Context context, ArrayList<DownloadedCBOPOJO> offlineCbopojoArrayList, Methods methods) {
         super(context, R.layout.item_downloaded_cbo, offlineCbopojoArrayList);
         this.context = context;
         this.offlineCbopojoArrayList = offlineCbopojoArrayList;
+        this.methods = methods;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -82,31 +84,42 @@ public class DownloadedCBOAdapter extends ArrayAdapter {
             e.printStackTrace();
         }
 
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Methods methods = new Methods();
-                AlertDialog alertDialog = methods.getRequiredAlertDialog(context, MyConstants.UPLOAD_DIALOG);
-                alertDialog.setMessage("\nAre you sure you need to upload following?\n\n\n" + cboName.getText().toString().trim() + "");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        methods.setSharedPref(context, MyConstants.SHARED_CBO_NUM, downloadedCBOPOJO.getCboNum());
-                       ((AvailableCBO) context).startUpload();
+        if (methods.getCursor("cboBasicDetailsFilled", "CBONum", downloadedCBOPOJO.getCboNum()).getCount() != 0
+                &&
+                methods.getCursor("connectionDFilled", "CBONum", downloadedCBOPOJO.getCboNum()).getCount() != 0
+                &&
+                methods.getCursor("coverageInfoFilled", "CBONum", downloadedCBOPOJO.getCboNum()).getCount() != 0
+                &&
+                methods.getCursor("pop", "CBONum", downloadedCBOPOJO.getCboNum()).getCount() != 0
+        ) {
+            upload.setVisibility(View.VISIBLE);
+            upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog alertDialog = methods.getRequiredAlertDialog(context, MyConstants.UPLOAD_DIALOG);
+                    alertDialog.setMessage("\nAre you sure you need to upload following?\n\n\n" + cboName.getText().toString().trim() + "");
+                    alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            methods.setSharedPref(context, MyConstants.SHARED_CBO_NUM, downloadedCBOPOJO.getCboNum());
+                            ((AvailableCBO) context).startUpload();
 
-                    }
-                });
+                        }
+                    });
 
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
+                        }
+                    });
 
-                alertDialog.show();
-            }
-        });
+                    alertDialog.show();
+                }
+            });
+        } else {
+            upload.setVisibility(View.GONE);
+        }
 
 
         return convertView;

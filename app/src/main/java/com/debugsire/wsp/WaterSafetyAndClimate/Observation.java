@@ -12,9 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 
 import com.debugsire.wsp.Algos.Methods;
 import com.debugsire.wsp.Algos.MyConstants;
@@ -60,7 +58,13 @@ public class Observation extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 0) {
-            methods.removeEntry(context, tableName, dateTime_);
+            if (tableName.equalsIgnoreCase("obsEU")) {
+                methods.removeEntry(context, tableName, dateTime_, true);
+
+            } else {
+                methods.removeEntry(context, tableName, dateTime_, false);
+
+            }
         }
         return true;
     }
@@ -68,7 +72,7 @@ public class Observation extends AppCompatActivity {
 
     private void loadFields() {
         methods.configHeaderBar(context, dateTime_, headerWrapper);
-        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_);
+        Cursor cursor = methods.getCursorFromDateTime(context, tableName, dateTime_, false);
         while (cursor.moveToNext()) {
             textInputLayout.getEditText().setText(cursor.getString(cursor.getColumnIndex("obs")));
         }
@@ -94,9 +98,15 @@ public class Observation extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ArrayList<String> strings = methods.getConfiguredStringForInsert(
-                                    textInputLayout.getEditText().getText().toString().trim()
+                                    textInputLayout.getEditText().getText().toString().trim(),
+                                    Methods.getSelectedGenId(context)
                             );
-                            methods.insertData(context, tableName, dateTime_, strings);
+
+                            if (tableName.equalsIgnoreCase("obsEU")) {
+                                methods.insertData(context, tableName, dateTime_, strings, true);
+                            } else {
+                                methods.insertData(context, tableName, dateTime_, strings, false);
+                            }
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
                             onBackPressed();
 

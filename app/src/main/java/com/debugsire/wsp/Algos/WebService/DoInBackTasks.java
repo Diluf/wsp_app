@@ -473,4 +473,11 @@ public class DoInBackTasks {
         }
     }
 
+    public void updateBasicInfoID(String response) throws JSONException {
+        JSONArray jsonArray = new JSONArray(response);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            MyDB.setData("UPDATE basicInfo SET id = '" + jsonObject.get("id") + "' WHERE generatedId = '" + jsonObject.getString("generatedId") + "'");
+        }
+    }
 }
