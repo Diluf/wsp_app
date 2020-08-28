@@ -54,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_inline_components"
                 android:layout_marginHorizontal="32dp"
-                android:layout_toLeftOf="@+id/image_rightItemGndDsdButton"
                 android:orientation="vertical">
 
                 <TextView

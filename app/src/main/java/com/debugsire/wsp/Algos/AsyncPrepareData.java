@@ -216,7 +216,7 @@ public class AsyncPrepareData extends AsyncTask<String, String, String> {
                         " `male`," +
                         " `female`," +
                         " `less_than_18`," +
-                        " `18_25_years`," +
+                        " `age_8_25_years`," +
                         " `elder_than_25`," +
                         " `disability_peoples`," +
                         " `wsp_implementation`," +

@@ -102,9 +102,11 @@ public class Observation extends AppCompatActivity {
                                     Methods.getSelectedGenId(context)
                             );
 
+
                             if (tableName.equalsIgnoreCase("obsEU")) {
                                 methods.insertData(context, tableName, dateTime_, strings, true);
                             } else {
+                                strings.remove(1);
                                 methods.insertData(context, tableName, dateTime_, strings, false);
                             }
                             methods.showToast(getString(R.string.saved), context, MyConstants.MESSAGE_SUCCESS);
