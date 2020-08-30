@@ -7,8 +7,8 @@ android {
         applicationId "com.debugsire.wsp"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.5"
+        versionCode 4
+        versionName "1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

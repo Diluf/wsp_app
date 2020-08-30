@@ -544,6 +544,14 @@ public class Methods {
         return null;
     }
 
+    public String getSingleStringFromDB(String selectedColumn, String tableName, String where, String value, String where1, String value1) {
+        Cursor data = MyDB.getData("SELECT " + selectedColumn + " FROM " + tableName + " WHERE " + where + " = '" + value + "' AND " + where1 + " = '" + value1 + "'");
+        while (data.moveToNext()) {
+            return data.getString(data.getColumnIndex(selectedColumn));
+        }
+        return "-";
+    }
+
     public String getSingleStringFromDBByCBONum(Context context, String selectedColumn, String tableName) {
         Cursor data = MyDB.getData("SELECT " + selectedColumn + " FROM " + tableName + " WHERE CBONum = '" + Methods.getCBONum(context) + "'");
         while (data.moveToNext()) {

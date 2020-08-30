@@ -33,12 +33,12 @@ import java.util.ArrayList;
 public class Distribution extends AppCompatActivity {
     Context context;
     Integer[] valuesMeter, valuesExpan, valuesInterm, valuesService,
-            valuesIden, valuesRisk, valuesOverall;
+            valuesIden, valuesRisk, valuesOverall, valuesMat, valuesUnit;
     Methods methods;
     LayoutInflater inflater;
 
     TextInputLayout distName, num;
-    Spinner meter, expan, interm, service;
+    Spinner meter, expan, interm, service, mat, unit;
     LinearLayout iden, risk, overall, materialHSV;
     Button meterR, expanR, intermR, serviceR,
             idenR, riskR, overallR, addNewMat, save;
@@ -102,9 +102,9 @@ public class Distribution extends AppCompatActivity {
             Cursor typeCursor = methods.getCursor("distTypes", "uniqueId", uniqueString, "dateTime_", dateTime_);
             while (typeCursor.moveToNext()) {
                 arrayList.add(new MaterialPojos(
-                        typeCursor.getString(typeCursor.getColumnIndex("mat")),
+                        typeCursor.getInt(typeCursor.getColumnIndex("mat")),
                         typeCursor.getString(typeCursor.getColumnIndex("diam")),
-                        typeCursor.getString(typeCursor.getColumnIndex("un")),
+                        typeCursor.getInt(typeCursor.getColumnIndex("un")),
                         typeCursor.getString(typeCursor.getColumnIndex("len"))
                 ));
             }
@@ -235,24 +235,47 @@ public class Distribution extends AppCompatActivity {
 
     private void loadMaterialDialog(final int position) {
         final View view = inflater.inflate(R.layout.dialog_materials, null);
-        final TextInputLayout mat = view.findViewById(R.id.til_matDialogMaterials);
+        mat = view.findViewById(R.id.spinner_matDialog_Distribution);
+        final Button matR = view.findViewById(R.id.btn_resynchMatDialog_Distribution);
         final TextInputLayout dia = view.findViewById(R.id.til_diaDialogMaterials);
-        final TextInputLayout unit = view.findViewById(R.id.til_unitDialogMaterials);
+        unit = view.findViewById(R.id.spinner_unitDialog_Distribution);
+        final Button unitR = view.findViewById(R.id.btn_resynchnUnitDialog_Distribution);
         final TextInputLayout len = view.findViewById(R.id.til_lenDialogMaterials);
         final AlertDialog builder = new AlertDialog.Builder(context).setView(view).setCancelable(false).create();
+
+        valuesMat = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_MATERIAL, valuesMat, mat, false);
+        valuesUnit = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_UNIT, valuesUnit, unit, false);
 
         if (position != -1) {
             ((TextView) view.findViewById(R.id.tv_titleDialogMaterials)).setText("+ Update Existing");
             MaterialPojos materialPojos = arrayList.get(position);
-            mat.getEditText().setText(materialPojos.getMat());
-            unit.getEditText().setText(materialPojos.getUnit());
+            methods.setSelectedItemForSpinner(materialPojos.getMat(), valuesMat, mat);
+            methods.setSelectedItemForSpinner(materialPojos.getUnit(), valuesUnit, unit);
             dia.getEditText().setText(materialPojos.getDia());
             len.getEditText().setText(materialPojos.getLen());
         }
 
+        matR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                methods.setAlertDialogOnResynch(context, MyConstants.DL_DISTRIBUTION_MATERIAL);
+
+            }
+        });
+
+        unitR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                methods.setAlertDialogOnResynch(context, MyConstants.DL_DISTRIBUTION_UNIT);
+
+            }
+        });
+
         view.findViewById(R.id.btn_cancelDialogAddNewDropdown).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mat = null;
+                unit = null;
                 builder.dismiss();
             }
         });
@@ -260,12 +283,12 @@ public class Distribution extends AppCompatActivity {
         view.findViewById(R.id.btn_SaveDialogAddNewDropdown).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean tilFieldsNull = methods.isTILFieldsNull(context, unit);
-                if (!tilFieldsNull) {
+                boolean spinnerNull = methods.isSpinnerNull(context, unit);
+                if (!spinnerNull) {
                     MaterialPojos materialPojos = new MaterialPojos(
-                            mat.getEditText().getText().toString().trim().isEmpty() ? "0" : mat.getEditText().getText().toString().trim(),
+                            valuesMat[mat.getSelectedItemPosition()],
                             dia.getEditText().getText().toString().trim().isEmpty() ? "0" : dia.getEditText().getText().toString().trim(),
-                            unit.getEditText().getText().toString().trim(),
+                            valuesUnit[unit.getSelectedItemPosition()],
                             len.getEditText().getText().toString().trim().isEmpty() ? "0" : len.getEditText().getText().toString().trim()
                     );
 
@@ -296,8 +319,22 @@ public class Distribution extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
             final MaterialPojos materialPojos = arrayList.get(i);
             final View view = inflater.inflate(R.layout.nested_table_type_of_mat, null);
-            ((TextView) view.findViewById(R.id.tv_matItemNested_table_type_of_mat)).setText(materialPojos.getMat());
-            ((TextView) view.findViewById(R.id.tv_unitItemNested_table_type_of_mat)).setText(materialPojos.getUnit());
+            ((TextView) view.findViewById(R.id.tv_matItemNested_table_type_of_mat)).setText(
+                    methods.getSingleStringFromDB(
+                            "display_label",
+                            "wsp_droplist",
+                            "ref_section",
+                            MyConstants.DL_DISTRIBUTION_MATERIAL,
+                            "value", materialPojos.getMat() + "")
+            );
+            ((TextView) view.findViewById(R.id.tv_unitItemNested_table_type_of_mat)).setText(
+                    methods.getSingleStringFromDB(
+                            "display_label",
+                            "wsp_droplist",
+                            "ref_section",
+                            MyConstants.DL_DISTRIBUTION_UNIT,
+                            "value", materialPojos.getUnit() + "")
+            );
             ((TextView) view.findViewById(R.id.tv_diaItemNested_table_type_of_mat)).setText(materialPojos.getDia());
             ((TextView) view.findViewById(R.id.tv_lenItemNested_table_type_of_mat)).setText(materialPojos.getLen());
 
@@ -397,9 +434,14 @@ public class Distribution extends AppCompatActivity {
                     valuesExpan, expan, false);
 
         } else if (tableKey == MyConstants.DL_DISTRIBUTION_MATERIAL) {
-//
+            if (mat != null) {
+                valuesMat = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_MATERIAL, valuesMat, mat, false);
+            }
 
         } else if (tableKey == MyConstants.DL_DISTRIBUTION_UNIT) {
+            if (unit != null) {
+                valuesUnit = methods.setSpinnerThings(context, MyConstants.DL_DISTRIBUTION_UNIT, valuesUnit, unit, false);
+            }
 //
 
         } else if (tableKey == MyConstants.DL_DISTRIBUTION_INTER) {

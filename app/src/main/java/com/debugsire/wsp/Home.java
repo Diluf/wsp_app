@@ -209,7 +209,7 @@ public class Home extends AppCompatActivity {
 
 
             } else {
-                final Cursor cursor = MyDB.getData("SELECT * FROM basicInfo GROUP BY generatedId");
+                final Cursor cursor = MyDB.getData("SELECT * FROM basicInfo WHERE CBONum = '" + Methods.getCBONum(context) + "' GROUP BY generatedId");
                 int count = cursor.getCount();
                 if (count > 0) {
                     TextView countTextView = view.findViewById(R.id.tv_badgeItemSubButton);

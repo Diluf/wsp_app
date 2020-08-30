@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
@@ -32,18 +32,31 @@
             android:orientation="vertical"
             android:padding="@dimen/page_padding_h">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_matDialogMaterials"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_components">
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="Material"
+                android:textSize="@dimen/label_text_size" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Material" />
+            <Spinner
+                android:id="@+id/spinner_matDialog_Distribution"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/btn_resynchMatDialog_Distribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_diaDialogMaterials"
@@ -59,19 +72,31 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_unitDialogMaterials"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_components">
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_between_components"
+                android:text="Unit"
+                android:textSize="@dimen/label_text_size" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberSigned"
-                    android:hint="Unit" />
+            <Spinner
+                android:id="@+id/spinner_unitDialog_Distribution"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/textView8"
+                android:background="@drawable/spinner_back"></Spinner>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/btn_resynchnUnitDialog_Distribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/colorDarkGray"
+                android:drawableLeft="@drawable/ic_resynch"
+                android:drawablePadding="@dimen/drawable_padding_with_text"
+                android:text="Resynchronize"
+                android:textColor="@color/colorWhite" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_lenDialogMaterials"
